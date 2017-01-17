@@ -5,20 +5,21 @@
  */
 package nekoperudo.MJcentral;
 
-
+import java.util.Random;
+import nekoperudo.IfJoueur.Dice;
 
 /**
  *
  * @author Rémi
  */
-public class Nekoperudo {
+public class mainServeurCentral {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        
+        // TODO code application logic here        
+               
     }
-    
+            
 }

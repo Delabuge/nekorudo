@@ -9,15 +9,17 @@ import java.util.Random;
 
 /**
  *
- * @author Rémi
+ * @author Remi
  */
-public class mainJoueur {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here        
-    }
-            
+public class Joueur {
+ 
+  public int nbrDice;
+  public String couleurJoueur;
+    
+  public Joueur(int pNbrDice, String pCouleurJoueur)
+  {
+    nbrDice = pNbrDice;
+    couleurJoueur = pCouleurJoueur;
+  }
+  
 }

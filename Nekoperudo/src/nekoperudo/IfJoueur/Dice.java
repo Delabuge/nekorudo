@@ -17,12 +17,12 @@ public class Dice {
   public String couleurJoueur;
   public int resultat;
     
-  public Dice(int numDice, String couleurJoueur)
-  {
-    //System.out.println("Génération dé avec paramètres");
+  public Dice(int pNumDice, String pCouleurJoueur)
+  { 
+    numDice = pNumDice;
+    couleurJoueur = pCouleurJoueur;   
     resultat = this.rollTheDice();
-  }  
-    
+  }      
     
     /**
      * @return un chiffre aleatoire entre 1 et 6
