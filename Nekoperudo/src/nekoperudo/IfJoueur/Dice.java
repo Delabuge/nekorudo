@@ -5,10 +5,76 @@
  */
 package nekoperudo.IfJoueur;
 
+import java.util.Random;
+
 /**
  *
- * @author Pascal
+ * @author Remi
  */
 public class Dice {
+ 
+  public int numDice;
+  public String couleurJoueur;
+  public int resultat;
     
+  public Dice(int numDice, String couleurJoueur)
+  {
+    //System.out.println("Génération dé avec paramètres");
+    resultat = this.rollTheDice();
+  }  
+    
+    
+    /**
+     * @return un chiffre aleatoire entre 1 et 6
+     */
+  public int rollTheDice()
+  {
+    Random resultatD = new Random(); 
+    int resultatRoll = resultatD.nextInt(6) + 1;
+    return resultatRoll;
+  } 
+
+    /**
+     * @return the numDice
+     */
+    public int getNumDice() {
+        return numDice;
+    }
+
+    /**
+     * @param numDice the numDice to set
+     */
+    public void setNumDice(int numDice) {
+        this.numDice = numDice;
+    }
+
+    /**
+     * @return the couleurJoueur
+     */
+    public String getCouleurJoueur() {
+        return couleurJoueur;
+    }
+
+    /**
+     * @param couleurJoueur the couleurJoueur to set
+     */
+    public void setCouleurJoueur(String couleurJoueur) {
+        this.couleurJoueur = couleurJoueur;
+    }
+
+    /**
+     * @return le resultat du de
+     */
+    public int getResultat() {
+        return resultat;
+    }
+
+    /**
+     * @param resultat the resultat to set
+     */
+    public void setResultat(int resultat) {
+        this.resultat = resultat;
+    }
+  
+  
 }
