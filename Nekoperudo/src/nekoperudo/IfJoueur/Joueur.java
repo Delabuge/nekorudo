@@ -5,21 +5,51 @@
  */
 package nekoperudo.IfJoueur;
 
-import java.util.Random;
-
 /**
  *
  * @author Remi
  */
 public class Joueur {
- 
-  public int nbrDice;
-  public String couleurJoueur;
-    
-  public Joueur(int pNbrDice, String pCouleurJoueur)
-  {
-    nbrDice = pNbrDice;
-    couleurJoueur = pCouleurJoueur;
-  }
-  
+
+    public int nbDice;
+    public String couleurJoueur;
+    int gobelet[] = new int[5];
+
+    public Joueur(int pNbDice, String pCouleurJoueur) {
+        nbDice = pNbDice;
+        couleurJoueur = pCouleurJoueur;
+    }
+
+    public void lancerDice(int NbDice) {
+        int i;
+
+        Dice d1 = new Dice(couleurJoueur);
+
+        for (i = 0; i < nbDice; i++) {
+            gobelet[i] = d1.rollTheDice();
+        }
+    }
+
+    public void actionJoueur(int choixJoueur) {
+
+        switch (choixJoueur) {
+
+            case 1:
+                System.out.println("Surencherir");
+                break;
+
+            case 2:
+                System.out.println("Menteur!");
+                break;
+
+            case 3:
+                System.out.println("Tout-pile");
+                break;
+
+            default:
+                System.out.println("Erreur de choix");
+        }
+
+    }
+
 }

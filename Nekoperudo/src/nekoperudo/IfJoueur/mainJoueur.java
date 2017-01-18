@@ -17,7 +17,10 @@ public class mainJoueur {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here        
+
+        Joueur J1 = new Joueur(5, "orange");
+        J1.lancerDice(5);
+        // Dice d1 = new Dice(J1.couleurJoueur);
     }
-            
+
 }

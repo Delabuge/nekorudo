@@ -12,40 +12,25 @@ import java.util.Random;
  * @author Remi
  */
 public class Dice {
- 
-  public int numDice;
-  public String couleurJoueur;
-  public int resultat;
-    
-  public Dice(int pNumDice, String pCouleurJoueur)
-  { 
-    numDice = pNumDice;
-    couleurJoueur = pCouleurJoueur;   
-    resultat = this.rollTheDice();
-  }      
-    
-    /**
-     * @return un chiffre aleatoire entre 1 et 6
-     */
-  public int rollTheDice()
-  {
-    Random resultatD = new Random(); 
-    int resultatRoll = resultatD.nextInt(6) + 1;
-    return resultatRoll;
-  } 
 
-    /**
-     * @return the numDice
-     */
-    public int getNumDice() {
-        return numDice;
+    //public int numDice;
+    public String couleurJoueur;
+    public int resultat;
+
+//public Dice(int pNumDice, String pCouleurJoueur)  
+    public Dice(String pCouleurJoueur) {
+        // numDice = pNumDice;
+        couleurJoueur = pCouleurJoueur;
+        resultat = this.rollTheDice();
     }
 
     /**
-     * @param numDice the numDice to set
+     * @return un chiffre aleatoire entre 1 et 6
      */
-    public void setNumDice(int numDice) {
-        this.numDice = numDice;
+    public int rollTheDice() {
+        Random resultatD = new Random();
+        int resultatRoll = resultatD.nextInt(6) + 1;
+        return resultatRoll;
     }
 
     /**
@@ -75,6 +60,5 @@ public class Dice {
     public void setResultat(int resultat) {
         this.resultat = resultat;
     }
-  
-  
+
 }
