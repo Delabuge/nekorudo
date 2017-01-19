@@ -21,7 +21,7 @@ public class Dice {
     public Dice(String pCouleurJoueur) {
         // numDice = pNumDice;
         couleurJoueur = pCouleurJoueur;
-        resultat = this.rollTheDice();
+        resultat = rollTheDice();
     }
 
     /**

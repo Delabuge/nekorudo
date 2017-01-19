@@ -14,6 +14,8 @@ public class Joueur {
     public int nbDice;
     public String couleurJoueur;
     int gobelet[] = new int[5];
+    int nbDiceParier = 0;
+    int valDiceParier = 0;
 
     public Joueur(int pNbDice, String pCouleurJoueur) {
         nbDice = pNbDice;
@@ -35,19 +37,54 @@ public class Joueur {
         switch (choixJoueur) {
 
             case 1:
-                System.out.println("Surencherir");
+                terminerManche(choixJoueur);
                 break;
 
             case 2:
-                System.out.println("Menteur!");
+                terminerManche(choixJoueur);
                 break;
 
             case 3:
-                System.out.println("Tout-pile");
+                surencherir(nbDiceParier, valDiceParier);
                 break;
 
             default:
-                System.out.println("Erreur de choix");
+                System.out.println("Erreur dans le choix de l'action du joueur");
+        }
+
+    }
+
+    public void surencherir(int pNbDiceParier, int pValDice) {
+        int nbDiceParier=0;
+        int valDice=0;
+
+        
+        if (nbDiceParier > pNbDiceParier || valDice > pValDice){
+            //Mise1.setNbDiceParier(nbDiceParier);
+            //Mise1.setValDice(valDice);
+        }
+        else {
+            //Erreur : recommencer la saisie ou retourner à la selection de choix
+        }
+        
+    }
+
+    public void terminerManche(int choixJoueur) {
+
+        switch (choixJoueur) {
+
+            //Annonce Menteur
+            case 1:
+
+                break;
+
+            //Annonce Tout-pile
+            case 2:
+
+                break;
+
+            default:
+                System.out.println("Erreur dans le choix de l'action du joueur");
         }
 
     }
