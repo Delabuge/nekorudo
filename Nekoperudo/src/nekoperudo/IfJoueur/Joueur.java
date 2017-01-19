@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 package nekoperudo.IfJoueur;
-
+import java.rmi.RemoteException;
 /**
  *
  * @author Remi
  */
-public class Joueur {
+
+/**La classe Joueur contient l'implémentation des méthodes du Joueur*/
+public class Joueur implements InterfaceJoueur{
 
     public int nbDice;
     public String couleurJoueur;
@@ -17,22 +19,35 @@ public class Joueur {
     int nbDiceParier = 0;
     int valDiceParier = 0;
 
-    public Joueur(int pNbDice, String pCouleurJoueur) {
+    public void Joueur(int pNbDice, String pCouleurJoueur) throws RemoteException{
         nbDice = pNbDice;
         couleurJoueur = pCouleurJoueur;
     }
 
-    public void lancerDice(int NbDice) {
+    
+    //PROBLEME ICI : on lors de l'appel du serveur central on ne parcourt pas le tableau gobelet
+    //RQ : retourner au serveur le contenu du tableau lui permettrait d'avoir une vue globale sur 
+    //la partie, ce qui explique pourquoi les dés ont une couleur. 
+    //Donc le gobelet serait plutot du type Dice.
+    public int lancerDice(int NbDice) throws RemoteException{
+        System.out.println("COUCOUUUUUUUUUUU");
         int i;
-
+        
         Dice d1 = new Dice(couleurJoueur);
-
+        
         for (i = 0; i < nbDice; i++) {
             gobelet[i] = d1.rollTheDice();
+            System.out.println(i);
+            System.out.println(gobelet[i]);//Pour tester RMI
+            if(gobelet[i]==0)
+                return 1;
+            if(gobelet[i]==1)
+                return 2;
         }
+        return 0;
     }
 
-    public void actionJoueur(int choixJoueur) {
+    public void actionJoueur(int choixJoueur) throws RemoteException{
 
         switch (choixJoueur) {
 
@@ -54,7 +69,7 @@ public class Joueur {
 
     }
 
-    public void surencherir(int pNbDiceParier, int pValDice) {
+    public void surencherir(int pNbDiceParier, int pValDice) throws RemoteException{
         int nbDiceParier=0;
         int valDice=0;
 
@@ -69,7 +84,7 @@ public class Joueur {
         
     }
 
-    public void terminerManche(int choixJoueur) {
+    public void terminerManche(int choixJoueur) throws RemoteException{
 
         switch (choixJoueur) {
 

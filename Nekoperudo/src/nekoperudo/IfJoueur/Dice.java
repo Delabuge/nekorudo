@@ -6,6 +6,7 @@
 package nekoperudo.IfJoueur;
 
 import java.util.Random;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Dice {
     public int resultat;
 
 //public Dice(int pNumDice, String pCouleurJoueur)  
-    public Dice(String pCouleurJoueur) {
+    public Dice(String pCouleurJoueur) throws RemoteException{
         // numDice = pNumDice;
         couleurJoueur = pCouleurJoueur;
         resultat = rollTheDice();
@@ -26,8 +27,9 @@ public class Dice {
 
     /**
      * @return un chiffre aleatoire entre 1 et 6
+     * @throws java.rmi.RemoteException
      */
-    public int rollTheDice() {
+    public int rollTheDice() throws RemoteException{
         Random resultatD = new Random();
         int resultatRoll = resultatD.nextInt(6) + 1;
         return resultatRoll;
