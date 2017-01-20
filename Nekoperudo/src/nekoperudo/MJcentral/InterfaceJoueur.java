@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nekoperudo.IfJoueur;
+package nekoperudo.MJcentral;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 /**
@@ -15,7 +15,6 @@ import java.rmi.RemoteException;
 public interface InterfaceJoueur extends Remote {
     public void Joueur(int pNbDice, String pCouleurJoueur) throws RemoteException;
     public int lancerDice(int NbDice) throws RemoteException;
-    public void actionJoueur(int choixJoueur) throws RemoteException;
-    public void surencherir(int pNbDiceParier, int pValDice) throws RemoteException;
+    public int actionJoueur(int choixJoueur) throws RemoteException;
     public void terminerManche(int choixJoueur) throws RemoteException;
 }

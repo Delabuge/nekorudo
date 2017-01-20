@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package nekoperudo.IfJoueur;
+import nekoperudo.MJcentral.InterfaceJoueur;
 import java.rmi.RemoteException;
 /**
  *
@@ -30,24 +31,18 @@ public class Joueur implements InterfaceJoueur{
     //la partie, ce qui explique pourquoi les dés ont une couleur. 
     //Donc le gobelet serait plutot du type Dice.
     public int lancerDice(int NbDice) throws RemoteException{
-        System.out.println("COUCOUUUUUUUUUUU");
         int i;
+        
         
         Dice d1 = new Dice(couleurJoueur);
         
-        for (i = 0; i < nbDice; i++) {
+        for (i = 0; i < NbDice; i++) {
             gobelet[i] = d1.rollTheDice();
-            System.out.println(i);
-            System.out.println(gobelet[i]);//Pour tester RMI
-            if(gobelet[i]==0)
-                return 1;
-            if(gobelet[i]==1)
-                return 2;
         }
         return 0;
     }
 
-    public void actionJoueur(int choixJoueur) throws RemoteException{
+    public int actionJoueur(int choixJoueur) throws RemoteException{
 
         switch (choixJoueur) {
 
@@ -66,10 +61,10 @@ public class Joueur implements InterfaceJoueur{
             default:
                 System.out.println("Erreur dans le choix de l'action du joueur");
         }
-
+        return 0;
     }
 
-    public void surencherir(int pNbDiceParier, int pValDice) throws RemoteException{
+    public void surencherir(int pNbDiceParier, int pValDice) {
         int nbDiceParier=0;
         int valDice=0;
 
