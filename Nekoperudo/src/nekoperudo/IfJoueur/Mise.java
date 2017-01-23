@@ -15,9 +15,9 @@ public class Mise {
     public int valDice;
 
 //public Dice(int pNumDice, String pCouleurJoueur)  
-    public Mise() {
-        // numDice = pNumDice;
-
+    public Mise(int pNbDiceParier, int pValDice) {
+        nbDiceParier= pNbDiceParier;
+        valDice = pValDice;
     }
 
     public int getNbDiceParier() {

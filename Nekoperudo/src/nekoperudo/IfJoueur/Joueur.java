@@ -4,14 +4,20 @@
  * and open the template in the editor.
  */
 package nekoperudo.IfJoueur;
+
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import nekoperudo.IfJoueur.Mise;
+
 /**
  *
  * @author Remi
  */
-
-/**La classe Joueur contient l'implémentation des méthodes du Joueur*/
-public class Joueur implements InterfaceJoueur{
+/**
+ * La classe Joueur contient l'implémentation des méthodes du Joueur
+ */
+public class Joueur {
 
     public int nbDice;
     public String couleurJoueur;
@@ -19,29 +25,27 @@ public class Joueur implements InterfaceJoueur{
     int nbDiceParier = 0;
     int valDiceParier = 0;
 
-    public void Joueur(int pNbDice, String pCouleurJoueur) throws RemoteException{
+    public Joueur(int pNbDice, String pCouleurJoueur) {
         nbDice = pNbDice;
         couleurJoueur = pCouleurJoueur;
     }
 
-    
     //PROBLEME ICI : on lors de l'appel du serveur central on ne parcourt pas le tableau gobelet
     //RQ : retourner au serveur le contenu du tableau lui permettrait d'avoir une vue globale sur 
     //la partie, ce qui explique pourquoi les dés ont une couleur. 
     //Donc le gobelet serait plutot du type Dice.
-    public int lancerDice(int NbDice) throws RemoteException{
+    public int lancerDice(int NbDice) {
         int i;
-        
-        
+
         Dice d1 = new Dice(couleurJoueur);
-        
+
         for (i = 0; i < NbDice; i++) {
             gobelet[i] = d1.rollTheDice();
         }
         return 0;
     }
 
-    public int actionJoueur(int choixJoueur) throws RemoteException{
+    public int actionJoueur(int choixJoueur, Mise m)  {
 
         switch (choixJoueur) {
 
@@ -54,41 +58,47 @@ public class Joueur implements InterfaceJoueur{
                 break;
 
             case 3:
-                surencherir(nbDiceParier, valDiceParier);
+                surencherir(m);
                 break;
 
             default:
                 System.out.println("Erreur dans le choix de l'action du joueur");
         }
-        return 0;
+        return choixJoueur;
     }
 
-    public void surencherir(int pNbDiceParier, int pValDice) {
-        int nbDiceParier=0;
-        int valDice=0;
+    public void surencherir(Mise m) {
+        int nbDiceParier = 4;
+        int valDice = 5;
 
-        
-        if (nbDiceParier > pNbDiceParier || valDice > pValDice){
-            //Mise1.setNbDiceParier(nbDiceParier);
-            //Mise1.setValDice(valDice);
-        }
-        else {
-            //Erreur : recommencer la saisie ou retourner à la selection de choix
+        // Condition ok pour la surenchere :  soit en augmentant le nombre de dés, soit en augmentant la valeur ou bien les deux
+        if (nbDiceParier > m.getNbDiceParier() || valDice > m.getValDice()) {
+            m.setNbDiceParier(nbDiceParier);
+            m.setValDice(valDice);
+            
+        } else {
+            // Erreur : recommencer la saisie ou retourner à la selection de choix
         }
         
     }
 
-    public void terminerManche(int choixJoueur) throws RemoteException{
+    public void terminerManche(int choixJoueur)  {
 
+        
         switch (choixJoueur) {
 
-            //Annonce Menteur
+            // Annonce Menteur
             case 1:
 
                 break;
 
-            //Annonce Tout-pile
+            // Annonce Tout-pile
             case 2:
+
+                break;
+                
+            // Annonce Surenchere
+            case 3:
 
                 break;
 
@@ -98,4 +108,7 @@ public class Joueur implements InterfaceJoueur{
 
     }
 
+    private void terminerTour() {
+         
+    }
 }

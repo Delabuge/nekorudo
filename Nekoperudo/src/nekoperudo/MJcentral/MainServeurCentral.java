@@ -22,6 +22,5 @@ public class MainServeurCentral {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
+    }    
 }
