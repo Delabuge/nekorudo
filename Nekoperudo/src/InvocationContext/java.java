@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testrmi;
-import java.rmi.RemoteException;
+package InvocationContext;
 
 /**
  *
  * @author Pascal
  */
-public class AddImpl implements AddInterface {
-    public Integer add(Integer nb1, Integer nb2) throws RemoteException {
-        return nb1 + nb2;
-    }
+public class java {
+    
 }
