@@ -36,7 +36,7 @@ public class Joueur {
         couleurJoueur = pCouleurJoueur;
     }
 
-    public int lancerDice(int NbDice) {
+    public void lancerDice(int NbDice) {
         int i;
 
         Dice d1 = new Dice(couleurJoueur);
@@ -44,24 +44,22 @@ public class Joueur {
         for (i = 0; i < NbDice; i++) {
             gobelet[i] = d1.rollTheDice();
         }
-        return 0;
     }
 
-    public int actionJoueur(int choixJoueur, Mise m) {
+    public void actionJoueur(int choixJoueur, Mise m) {
 
         switch (choixJoueur) {
 
             // Annonce Menteur
             case 1:
-                terminerTour(choixJoueur);
-                
+
                 break;
 
             // Annonce Tout-pile
             case 2:
-                terminerTour(choixJoueur);
+
                 break;
-                
+
             // Annonce surenchère
             case 3:
                 surencherir(m);
@@ -70,7 +68,57 @@ public class Joueur {
             default:
                 System.out.println("Erreur dans le choix de l'action du joueur");
         }
-        return choixJoueur;
+    }
+        
+         
+    public void compterDes(List<Joueur> listeJoueurs) {
+
+        int nbr1 = 0;
+        int nbr2 = 0;
+        int nbr3 = 0;
+        int nbr4 = 0;
+        int nbr5 = 0;
+        int nbr6 = 0;
+        int i;
+        int k;
+
+        for (i = 0; i < listeJoueurs.size(); i++) {
+            gobelet = listeJoueurs.get(i).getGobelet();
+
+            for (k = 0; k < 5; k++) {
+
+                switch (gobelet[k]) {
+                    case 1:
+                        nbr1 = nbr1 + 1;
+                        break;
+
+                    case 2:
+                        nbr2 = nbr2 + 1;
+                        break;
+
+                    case 3:
+                        nbr3 = nbr3 + 1;
+                        break;
+
+                    case 4:
+                        nbr4 = nbr4 + 1;
+                        break;
+
+                    case 5:
+                        nbr5 = nbr5 + 1;
+                        break;
+
+                    case 6:
+                        nbr6 = nbr6 + 1;
+                        break;
+
+                    default:
+                        System.out.println("Erreur de valeur de dés");
+                }
+
+            }
+        }
+
     }
 
     public void surencherir(Mise m) {
@@ -87,15 +135,14 @@ public class Joueur {
             // Erreur : recommencer la saisie ou retourner à la selection de choix
         }
     }
-    
-    
+
     public void terminerTour(int choixJoueur) {
 
         switch (choixJoueur) {
 
             // Annonce Menteur
             case 1:
-                
+
                 break;
 
             // Annonce Tout-pile
@@ -113,7 +160,6 @@ public class Joueur {
         }
 
     }
-
 
     public void leMain() {
         int nbDice = 5;
@@ -167,14 +213,23 @@ public class Joueur {
     }*/
     public Mise jouerTour(List<Joueur> listeJoueurs, Mise m, int numJoueur) {
         int i;
-        int choixJoueur;
+        int choixJoueur = 1;
         // Joueur choisie son action
-        choixJoueur = listeJoueurs.get(numJoueur).actionJoueur(listeJoueurs.get(numJoueur).nbDice, m);
+        //listeJoueurs.get(numJoueur);
+        actionJoueur(listeJoueurs.get(numJoueur).nbDice, m);
 
         // Joueur valide fin de son tour
         listeJoueurs.get(numJoueur).terminerTour(choixJoueur);
 
         return m;
+    }
+
+    public int[] getGobelet() {
+        return gobelet;
+    }
+
+    public void setGobelet() {
+        this.gobelet = gobelet;
     }
 
 }

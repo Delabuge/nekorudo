@@ -21,15 +21,18 @@ public class MainServeurCentral {
 
     public static void main(String[] argv) {
         int i;
+        int k;
         int nbDice = 5;
-        int choixJoueur = 0;
         int nbJoueur = 2;
         String nomJoueur;
         String test;
+        int gobelet[] = new int[5];
         Mise m = new Mise(0, 2);
         List<Joueur> listeJoueurs = new ArrayList<Joueur>();
         Joueur j = new Joueur(5, "MJ");
         boolean finManche = false;
+
+
 
         // test = (listeJoueurs.get(1).couleurJoueur);
         // System.out.print(test);
@@ -38,14 +41,12 @@ public class MainServeurCentral {
         // System.out.print(test);
 
         j.jetterDes(listeJoueurs);
-        
-        do {            
+
+        do {
             for (i = 0; i < nbJoueur; i++) {
                 j.jouerTour(listeJoueurs, m, i);
             }
         } while (finManche == false);
-        
-        
-                    
+
     }
 }
