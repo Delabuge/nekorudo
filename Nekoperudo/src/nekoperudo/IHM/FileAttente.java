@@ -5,6 +5,8 @@
  */
 package nekoperudo.IHM;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author olivi
@@ -165,11 +167,19 @@ public class FileAttente extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Principale.main();
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        Principale p = new Principale();
+        JFrame f = new JFrame();
+        f.add(p);
+        f.setSize(900, 900);
+        f.setVisible(true);
+        this.setVisible(false);
+        
+       
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**
@@ -202,7 +212,7 @@ public class FileAttente extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FileAttente attente = new FileAttente(new javax.swing.JFrame(), true);
+                FileAttente attente = new FileAttente(new javax.swing.JFrame(), false);
                 attente.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
