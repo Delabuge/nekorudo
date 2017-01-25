@@ -14,12 +14,21 @@ public class Mise {
     public int nbDiceParier;
     public int valDice;
 
+    public Mise(Mise pM) {
+        this.nbDiceParier = pM.nbDiceParier;
+        this.valDice = pM.valDice;
+    }
+
 //public Dice(int pNumDice, String pCouleurJoueur)  
     public Mise(int pNbDiceParier, int pValDice) {
-        nbDiceParier= pNbDiceParier;
+        nbDiceParier = pNbDiceParier;
         valDice = pValDice;
     }
 
+    /**
+     *
+     * @param pM
+     */
     public int getNbDiceParier() {
         return nbDiceParier;
     }

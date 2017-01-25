@@ -6,6 +6,8 @@
 package nekoperudo.IfJoueur;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nekoperudo.IfJoueur.Mise;
@@ -25,15 +27,15 @@ public class Joueur {
     int nbDiceParier = 0;
     int valDiceParier = 0;
 
+    public Joueur() {
+
+    }
+
     public Joueur(int pNbDice, String pCouleurJoueur) {
         nbDice = pNbDice;
         couleurJoueur = pCouleurJoueur;
     }
 
-    //PROBLEME ICI : on lors de l'appel du serveur central on ne parcourt pas le tableau gobelet
-    //RQ : retourner au serveur le contenu du tableau lui permettrait d'avoir une vue globale sur 
-    //la partie, ce qui explique pourquoi les dés ont une couleur. 
-    //Donc le gobelet serait plutot du type Dice.
     public int lancerDice(int NbDice) {
         int i;
 
@@ -45,18 +47,22 @@ public class Joueur {
         return 0;
     }
 
-    public int actionJoueur(int choixJoueur, Mise m)  {
+    public int actionJoueur(int choixJoueur, Mise m) {
 
         switch (choixJoueur) {
 
+            // Annonce Menteur
             case 1:
-                terminerManche(choixJoueur);
+                terminerTour(choixJoueur);
+                
                 break;
 
+            // Annonce Tout-pile
             case 2:
-                terminerManche(choixJoueur);
+                terminerTour(choixJoueur);
                 break;
-
+                
+            // Annonce surenchère
             case 3:
                 surencherir(m);
                 break;
@@ -68,6 +74,7 @@ public class Joueur {
     }
 
     public void surencherir(Mise m) {
+        // Saisie des valeurs de l'utilisateur
         int nbDiceParier = 4;
         int valDice = 5;
 
@@ -75,28 +82,27 @@ public class Joueur {
         if (nbDiceParier > m.getNbDiceParier() || valDice > m.getValDice()) {
             m.setNbDiceParier(nbDiceParier);
             m.setValDice(valDice);
-            
+            terminerTour(3);
         } else {
             // Erreur : recommencer la saisie ou retourner à la selection de choix
         }
-        
     }
+    
+    
+    public void terminerTour(int choixJoueur) {
 
-    public void terminerManche(int choixJoueur)  {
-
-        
         switch (choixJoueur) {
 
             // Annonce Menteur
             case 1:
-
+                
                 break;
 
             // Annonce Tout-pile
             case 2:
 
                 break;
-                
+
             // Annonce Surenchere
             case 3:
 
@@ -108,7 +114,67 @@ public class Joueur {
 
     }
 
-    private void terminerTour() {
-         
+
+    public void leMain() {
+        int nbDice = 5;
+        int choixJoueur = 0;
+        int nbJoueur = 2;
+        String nomJoueur;
+        String test;
+
+        List<Joueur> listeJoueurs = new ArrayList<Joueur>();
+
+        // test = (listeJoueurs.get(1).couleurJoueur);
+        // System.out.print(test);
+        initialiserPartie(nbJoueur);
+        // test = (listeJoueurs.get(1).couleurJoueur);
+        // System.out.print(test);
+
+        Mise m = new Mise(0, 2);
+        //m = jouerManche(listeJoueurs);
     }
+
+    public List<Joueur> initialiserPartie(int pNbJoueur) {
+        String[] couleurJoueur = {"Blanc", "Bleu", "Jaune", "Noir", "Rouge", "Vert"};
+
+        List<Joueur> listeJoueurs = new ArrayList<Joueur>();
+        int i = 0;
+        for (i = 0; i < pNbJoueur; i++) {
+            listeJoueurs.add(new Joueur(5, couleurJoueur[i]));
+        }
+        return listeJoueurs;
+    }
+
+    public void jetterDes(List<Joueur> listeJoueurs) {
+        int i;
+
+        // Début du tour, tout les joueurs jette leurs des
+        for (i = 0; i < listeJoueurs.size(); i++) {
+            listeJoueurs.get(i).lancerDice(listeJoueurs.get(i).nbDice);
+        }
+    }
+
+    /*    public Mise jouerManche(List<Joueur> listeJoueurs, Mise pMise) {
+        int i;
+        int nbJoueur = listeJoueurs.size();
+
+        // Début du tour, tout les joueurs jette leurs des
+        for (i = 0; i < nbJoueur; i++) {
+            listeJoueurs.get(i).lancerDice(listeJoueurs.get(i).nbDice);
+        }
+
+        return m;
+    }*/
+    public Mise jouerTour(List<Joueur> listeJoueurs, Mise m, int numJoueur) {
+        int i;
+        int choixJoueur;
+        // Joueur choisie son action
+        choixJoueur = listeJoueurs.get(numJoueur).actionJoueur(listeJoueurs.get(numJoueur).nbDice, m);
+
+        // Joueur valide fin de son tour
+        listeJoueurs.get(numJoueur).terminerTour(choixJoueur);
+
+        return m;
+    }
+
 }
