@@ -255,13 +255,17 @@ public class Joueur {
 
         return m;
     }*/
-    public Mise jouerTour(List<Joueur> listeJoueurs, Mise m, int numJoueur) {
-        int i;
+    public boolean jouerTour(List<Joueur> listeJoueurs, Mise m, int numJoueur) {
+        boolean finManche = false;
         int choixJoueur = 1;
         // Joueur choisie son action
         actionJoueur(choixJoueur, m, listeJoueurs, numJoueur);
 
-        return m;
+        if (choixJoueur == 1 || choixJoueur == 2){
+            finManche = true;
+        }
+        
+        return finManche;
     }
 
     public int[] getGobelet() {
