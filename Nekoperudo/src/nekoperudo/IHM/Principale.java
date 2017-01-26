@@ -111,8 +111,9 @@ jInternalFrame1.setIconifiable(true); */
         );
 
         jInternalFrame1.setFocusable(false);
-        jInternalFrame1.setMaximumSize(new java.awt.Dimension(200, 200));
+        jInternalFrame1.setMaximumSize(new java.awt.Dimension(500, 300));
         jInternalFrame1.setMinimumSize(new java.awt.Dimension(100, 100));
+        jInternalFrame1.setPreferredSize(new java.awt.Dimension(406, 203));
         jInternalFrame1.setVisible(true);
 
         jButton1.setText("Lancer dice");
@@ -257,7 +258,7 @@ jInternalFrame1.setIconifiable(true); */
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
-                                .addComponent(jInternalFrame1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jInternalFrame1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(34, 34, 34)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,12 +270,6 @@ jInternalFrame1.setIconifiable(true); */
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(90, 90, 90))
         );
-
-        try {
-            jInternalFrame1.setMaximum(true);
-        } catch (java.beans.PropertyVetoException e1) {
-            e1.printStackTrace();
-        }
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
