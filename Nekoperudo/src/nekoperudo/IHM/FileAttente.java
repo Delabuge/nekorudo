@@ -172,13 +172,17 @@ public class FileAttente extends javax.swing.JDialog {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        Principale p = new Principale();
-        JFrame f = new JFrame();
-        f.add(p);
-        f.setSize(900, 900);
-        f.setVisible(true);
-        this.setVisible(false);
-        
+       if  (jRadioButton1.isSelected())
+        {
+            Principale p = new Principale();
+            JFrame f = new JFrame();
+            f.add(p);
+            f.setSize(900, 900);
+            f.setVisible(true);
+            this.setVisible(false);
+           }      
+        else
+           System.out.println("Vous n'êtes pas prêt");
        
     }//GEN-LAST:event_jButton1MouseClicked
 
