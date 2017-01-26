@@ -5,6 +5,9 @@
  */
 package nekoperudo.IHM;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /**
  *
  * @author olivi
@@ -18,6 +21,14 @@ public class Principale extends javax.swing.JPanel {
  public Principale() {
         
         initComponents();
+        
+        
+            ImageIcon icone =  new ImageIcon("C:/Firefox_baby.png"); 
+            JLabel image = new JLabel(icone);        
+            image.setSize(jPanel1.getWidth(),jPanel1.getHeight());
+            jPanel1.add(image);
+            jPanel1.repaint();
+        
          jLabel1.setVisible(false);
          jLabel2.setVisible(false);
          jLabel3.setVisible(false);
@@ -25,12 +36,13 @@ public class Principale extends javax.swing.JPanel {
          jComboBox1.setVisible(false);
          jTextField1.setVisible(false);
          jButton3.setVisible(false);
-         jInternalFrame1.setSize(500,500);
            jButton4.setVisible(false);
            jButton5.setVisible(false);
            jButton6.setVisible(false);
            jLabel5.setVisible(false);
            jLabel7.setVisible(false);
+           
+         
            
  /* Permet à l'utilisateur de fermer la fenêtre 
 jInternalFrame1.setClosable(true);
@@ -51,6 +63,11 @@ jInternalFrame1.setIconifiable(true); */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jLabel6 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -65,11 +82,37 @@ jInternalFrame1.setIconifiable(true); */
         jButton6 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jLabel6 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
 
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Joueur 1", "Joueur 2", "Joueur 3", "Joueur 4", "Joueur 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jLabel6.setText("Joueur connectés :");
+
+        jButton7.setText("Quitter la partie");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 249, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 233, Short.MAX_VALUE)
+        );
+
+        jInternalFrame1.setFocusable(false);
+        jInternalFrame1.setMaximumSize(new java.awt.Dimension(200, 200));
+        jInternalFrame1.setMinimumSize(new java.awt.Dimension(100, 100));
         jInternalFrame1.setVisible(true);
 
         jButton1.setText("Lancer dice");
@@ -150,7 +193,7 @@ jInternalFrame1.setIconifiable(true); */
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel7)))))
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,24 +223,8 @@ jInternalFrame1.setIconifiable(true); */
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jButton6))
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Joueur 1", "Joueur 2", "Joueur 3", "Joueur 4", "Joueur 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
-
-        jLabel6.setText("Joueur connectés :");
-
-        jButton7.setText("Quitter la partie");
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton7MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -205,73 +232,50 @@ jInternalFrame1.setIconifiable(true); */
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                        .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton7)))
-                .addGap(25, 25, 25))
+                        .addGap(10, 10, 10)
+                        .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(150, 150, 150)))
+                .addGap(113, 113, 113))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(309, 309, 309))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(91, 91, 91)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jInternalFrame1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 55, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(90, 90, 90))
         );
+
+        try {
+            jInternalFrame1.setMaximum(true);
+        } catch (java.beans.PropertyVetoException e1) {
+            e1.printStackTrace();
+        }
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-  
-          
-        jLabel1.setText("Vous avez obtenu les dés suivants : ");
-        jLabel1.setVisible(true);
-        jButton1.setVisible(false);
-        jLabel2.setText("Annoncez : ");
-        jLabel2.setVisible(true);
-        jComboBox1.setVisible(true);
-        jLabel3.setVisible(true);
-        jLabel4.setVisible(true);
-        jTextField1.setVisible(true);
-        jButton3.setVisible(true);
-      
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        // Rend Inbisible les boutons précédents:
-         jLabel1.setVisible(false);
-         jLabel2.setVisible(false);
-         jLabel3.setVisible(false);
-         jLabel4.setVisible(false);
-         jComboBox1.setVisible(false);
-         jTextField1.setVisible(false);
-         jButton3.setVisible(false);
-           jButton4.setVisible(true);
-           jButton5.setVisible(true);
-           jButton6.setVisible(true);
-           jLabel5.setVisible(true);
-          jLabel7.setVisible(true);
-          
-           String Valeur;
-           String Face =  (String) jComboBox1.getSelectedItem();
-           
-           Valeur = jTextField1.getText();
-           jLabel7.setText(" Il y a " +Valeur+ " dés de " +Face+ " ! " );
-    }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
@@ -289,6 +293,44 @@ jInternalFrame1.setIconifiable(true); */
         jTextField1.setVisible(true);
         jButton3.setVisible(true);
     }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // Rend Inbisible les boutons précédents:
+        jLabel1.setVisible(false);
+        jLabel2.setVisible(false);
+        jLabel3.setVisible(false);
+        jLabel4.setVisible(false);
+        jComboBox1.setVisible(false);
+        jTextField1.setVisible(false);
+        jButton3.setVisible(false);
+        jButton4.setVisible(true);
+        jButton5.setVisible(true);
+        jButton6.setVisible(true);
+        jLabel5.setVisible(true);
+        jLabel7.setVisible(true);
+
+        String Valeur;
+        String Face =  (String) jComboBox1.getSelectedItem();
+
+        Valeur = jTextField1.getText();
+        jLabel7.setText(" Il y a " +Valeur+ " dés de " +Face+ " ! " );
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+        jLabel1.setText("Vous avez obtenu les dés suivants : ");
+        jLabel1.setVisible(true);
+        jButton1.setVisible(false);
+        jLabel2.setText("Annoncez : ");
+        jLabel2.setVisible(true);
+        jComboBox1.setVisible(true);
+        jLabel3.setVisible(true);
+        jLabel4.setVisible(true);
+        jTextField1.setVisible(true);
+        jButton3.setVisible(true);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
   
     
@@ -309,6 +351,7 @@ jInternalFrame1.setIconifiable(true); */
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
