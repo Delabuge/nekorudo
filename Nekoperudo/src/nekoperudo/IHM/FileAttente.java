@@ -6,6 +6,7 @@
 package nekoperudo.IHM;
 
 import javax.swing.JFrame;
+import nekoperudo.IHM.Bienvenue;
 
 /**
  *
@@ -19,6 +20,13 @@ public class FileAttente extends javax.swing.JDialog {
     public FileAttente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        String pseudoo = null;
+        Bienvenue bvn = new Bienvenue(pseudoo);
+        pseudoo = bvn.getPseudo();
+        
+        jLabel2.setText(""+pseudoo);
+        
     }
 
     /**
