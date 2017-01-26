@@ -36,7 +36,7 @@ public class Principale extends javax.swing.JPanel {
 
         jInternalFrame1.setVisible(true);
 
-        jButton1.setText("Lancer les dés");
+        jButton1.setText("Lancer dice");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -69,7 +69,7 @@ public class Principale extends javax.swing.JPanel {
         );
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Joueur 1", "Joueur 2", "Joueur 3", "Joueur 4", "Joueur 5", "Joueur 6" };
+            String[] strings = { "Joueur 1", "Joueur 2", "Joueur 3", "Joueur 4", "Joueur 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });

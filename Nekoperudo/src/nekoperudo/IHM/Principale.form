@@ -77,7 +77,7 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Lancer les d&#xe9;s"/>
+            <Property name="text" type="java.lang.String" value="Lancer dice"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -100,13 +100,12 @@
         <Component class="javax.swing.JList" name="jList1">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="6">
+              <StringArray count="5">
                 <StringItem index="0" value="Joueur 1"/>
                 <StringItem index="1" value="Joueur 2"/>
                 <StringItem index="2" value="Joueur 3"/>
                 <StringItem index="3" value="Joueur 4"/>
                 <StringItem index="4" value="Joueur 5"/>
-                <StringItem index="5" value="Joueur 6"/>
               </StringArray>
             </Property>
           </Properties>
