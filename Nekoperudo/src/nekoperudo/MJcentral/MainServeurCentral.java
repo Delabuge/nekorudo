@@ -23,13 +23,13 @@ public class MainServeurCentral {
         int i;
         int k;
         int nbDice = 5;
-        int nbJoueur = 2;
+        int nbJoueur = 3;
         String nomJoueur;
         String test;
         int gobelet[] = new int[5];
         Mise m = new Mise(0, 2);
         List<Joueur> listeJoueurs = new ArrayList<Joueur>();
-        Joueur j = new Joueur(5, "MJ");
+        Joueur j = new Joueur(5, "MJ",gobelet);
         boolean finManche = false;
 
 
@@ -44,7 +44,11 @@ public class MainServeurCentral {
 
         do {
             for (i = 0; i < nbJoueur; i++) {
-                j.jouerTour(listeJoueurs, m, i);
+                
+                listeJoueurs.get(i).jouerTour(listeJoueurs, m,i);
+                // Joueur valide fin de son tour
+                // listeJoueurs.get(i).terminerTour(choixJoueur);
+               
             }
         } while (finManche == false);
 

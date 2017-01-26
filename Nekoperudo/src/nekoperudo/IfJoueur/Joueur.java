@@ -31,33 +31,48 @@ public class Joueur {
 
     }
 
-    public Joueur(int pNbDice, String pCouleurJoueur) {
+    public Joueur(int pNbDice, String pCouleurJoueur, int[] pGobelet) {
         nbDice = pNbDice;
         couleurJoueur = pCouleurJoueur;
+        gobelet = pGobelet;
     }
 
-    public void lancerDice(int NbDice) {
+    public int[] lancerDice(int NbDice) {
         int i;
+        int monGobelet[] = new int[5];
 
         Dice d1 = new Dice(couleurJoueur);
 
         for (i = 0; i < NbDice; i++) {
-            gobelet[i] = d1.rollTheDice();
+            monGobelet[i] = d1.rollTheDice();
         }
+        this.setGobelet();
+        return monGobelet;
     }
 
-    public void actionJoueur(int choixJoueur, Mise m) {
-
+    public void actionJoueur(int choixJoueur, Mise m, List<Joueur> listeJoueurs, int numJoueur) {
+        boolean actionReussit = false;
         switch (choixJoueur) {
 
             // Annonce Menteur
             case 1:
+                actionReussit = comparerMiseDes(listeJoueurs, m);
 
+                if (actionReussit == true) {
+                    listeJoueurs.get(numJoueur-1).nbDice = listeJoueurs.get(numJoueur-1).nbDice-1;
+                } else {
+                    this.nbDice = this.nbDice - 1;
+                }
                 break;
-
             // Annonce Tout-pile
             case 2:
+                comparerMiseDes(listeJoueurs, m);
 
+                if (actionReussit == true) {
+                    this.nbDice = this.nbDice + 1;
+                } else {
+                    this.nbDice = this.nbDice - 1;
+                }
                 break;
 
             // Annonce surenchère
@@ -69,10 +84,9 @@ public class Joueur {
                 System.out.println("Erreur dans le choix de l'action du joueur");
         }
     }
-        
-         
-    public void compterDes(List<Joueur> listeJoueurs) {
 
+    public boolean comparerMiseDes(List<Joueur> listeJoueurs, Mise m) {
+        int nbr = 0;
         int nbr1 = 0;
         int nbr2 = 0;
         int nbr3 = 0;
@@ -81,13 +95,15 @@ public class Joueur {
         int nbr6 = 0;
         int i;
         int k;
+        int leGobelet[];
+        boolean miseVrai = false;
 
         for (i = 0; i < listeJoueurs.size(); i++) {
-            gobelet = listeJoueurs.get(i).getGobelet();
+            leGobelet = listeJoueurs.get(i).getGobelet();
 
             for (k = 0; k < 5; k++) {
 
-                switch (gobelet[k]) {
+                switch (leGobelet[k]) {
                     case 1:
                         nbr1 = nbr1 + 1;
                         break;
@@ -115,10 +131,36 @@ public class Joueur {
                     default:
                         System.out.println("Erreur de valeur de dés");
                 }
-
+            }
+            // Compter les 1 comme le valeur de dé de la mise
+            switch (m.getValDice()) {
+                case 2:
+                    nbr = nbr2 + nbr1;
+                    break;
+                case 3:
+                    nbr = nbr3 + nbr1;
+                    break;
+                case 4:
+                    nbr = nbr4 + nbr1;
+                    break;
+                case 5:
+                    nbr = nbr5 + nbr1;
+                    break;
+                case 6:
+                    nbr = nbr6 + nbr1;
+                    break;
+                default:
+                    System.out.println("Erreur de valeur de dés");
             }
         }
+        System.out.println("nbr1 " + nbr1 + " nbr2 " + nbr2 + " nbr3 " + nbr3 + " nbr4 " + nbr4 + " nbr5 " + nbr5 + " nbr6 " + nbr6 + " nbr " + nbr);
 
+        System.out.println("Mise " + m.nbDiceParier + " " + m.valDice);
+        if (m.nbDiceParier == nbr) {
+            miseVrai = true;
+        }
+        System.out.println("Misevrai est a " + miseVrai);
+        return miseVrai;
     }
 
     public void surencherir(Mise m) {
@@ -182,11 +224,11 @@ public class Joueur {
 
     public List<Joueur> initialiserPartie(int pNbJoueur) {
         String[] couleurJoueur = {"Blanc", "Bleu", "Jaune", "Noir", "Rouge", "Vert"};
-
+        int gob[] = new int[5];
         List<Joueur> listeJoueurs = new ArrayList<Joueur>();
         int i = 0;
         for (i = 0; i < pNbJoueur; i++) {
-            listeJoueurs.add(new Joueur(5, couleurJoueur[i]));
+            listeJoueurs.add(new Joueur(5, couleurJoueur[i], gob));
         }
         return listeJoueurs;
     }
@@ -196,8 +238,10 @@ public class Joueur {
 
         // Début du tour, tout les joueurs jette leurs des
         for (i = 0; i < listeJoueurs.size(); i++) {
-            listeJoueurs.get(i).lancerDice(listeJoueurs.get(i).nbDice);
+            listeJoueurs.get(i).gobelet = listeJoueurs.get(i).lancerDice(listeJoueurs.get(i).nbDice);
+            System.out.println(listeJoueurs.get(i).gobelet);
         }
+
     }
 
     /*    public Mise jouerManche(List<Joueur> listeJoueurs, Mise pMise) {
@@ -215,11 +259,7 @@ public class Joueur {
         int i;
         int choixJoueur = 1;
         // Joueur choisie son action
-        //listeJoueurs.get(numJoueur);
-        actionJoueur(listeJoueurs.get(numJoueur).nbDice, m);
-
-        // Joueur valide fin de son tour
-        listeJoueurs.get(numJoueur).terminerTour(choixJoueur);
+        actionJoueur(choixJoueur, m, listeJoueurs, numJoueur);
 
         return m;
     }
@@ -231,5 +271,14 @@ public class Joueur {
     public void setGobelet() {
         this.gobelet = gobelet;
     }
+    
+        public int getNbdice() {
+        return nbDice;
+    }
+
+    public void setNbDice() {
+        this.nbDice = nbDice;
+    }
+    
 
 }
