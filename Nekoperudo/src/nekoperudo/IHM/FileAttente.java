@@ -177,7 +177,7 @@ public class FileAttente extends javax.swing.JDialog {
             Principale p = new Principale();
             JFrame f = new JFrame();
             f.add(p);
-            f.setSize(900, 900);
+            f.setSize(1300, 700);
             f.setVisible(true);
             this.setVisible(false);
            }      
