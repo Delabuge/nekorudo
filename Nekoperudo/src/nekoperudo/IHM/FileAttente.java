@@ -5,7 +5,10 @@
  */
 package nekoperudo.IHM;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import nekoperudo.IHM.Bienvenue;
@@ -19,6 +22,10 @@ public class FileAttente extends javax.swing.JDialog {
     /**
      * Creates new form FileAttente
      */
+    
+   
+    
+    
     public FileAttente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -57,8 +64,9 @@ public class FileAttente extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 600));
 
-        jButton1.setText("Go");
+        jButton1.setText("Faire Pret");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
@@ -70,7 +78,8 @@ public class FileAttente extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Attente de joueur ....");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel1.setText("Attente de joueurs ....");
 
         jLabel2.setText("Joueur 1");
 
@@ -81,6 +90,11 @@ public class FileAttente extends javax.swing.JDialog {
         jLabel5.setText("Joueur 4");
 
         jRadioButton1.setText("Prêt");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         jRadioButton2.setText("Prêt");
 
@@ -140,33 +154,40 @@ public class FileAttente extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel7)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(jRadioButton1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 612, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(349, 349, 349)
+                        .addComponent(jLabel7))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(460, 460, 460)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(112, 112, 112)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(33, 33, 33))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(323, 323, 323))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
+                .addContainerGap(141, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel7)
+                .addGap(42, 42, 42)
+                .addComponent(jButton1)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)
-                        .addGap(25, 25, 25)
+                        .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jRadioButton1))
@@ -190,9 +211,7 @@ public class FileAttente extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addComponent(jButton2)
                 .addContainerGap())
         );
 
@@ -200,8 +219,8 @@ public class FileAttente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-       
+        
+        /*Appel de faire pret*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -210,20 +229,34 @@ public class FileAttente extends javax.swing.JDialog {
         {
             Principale p = new Principale();
             JFrame f = new JFrame();
+            //Panel1 panel1 = new Panel1();
+    //Le bouton qui va changer le panel
+    JButton bChangerPanel = new JButton("Tester changement");
+            
             f.add(p);
-            f.setSize(1300, 700);
+            f.setTitle("Nekorudo");                        
+            f.setLocationRelativeTo(null);
+            f.setSize(1000, 600);
             f.setVisible(true);
             this.setVisible(false);
-           }      
-        else
-           System.out.println("Vous n'êtes pas prêt");
-       
+        } 
+
+        //PagePrincipale.main();
+        
+              
     }//GEN-LAST:event_jButton1MouseClicked
 
+    
+    
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,6 +288,7 @@ public class FileAttente extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+               
                 FileAttente attente = new FileAttente(new javax.swing.JFrame(), false);
                 attente.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -262,6 +296,8 @@ public class FileAttente extends javax.swing.JDialog {
                         System.exit(0);
                     }
                 });
+                attente.setTitle("Nekorudo");
+                attente.setLocationRelativeTo(null);
                 attente.setVisible(true);
             }
         });
@@ -271,7 +307,7 @@ public class FileAttente extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
