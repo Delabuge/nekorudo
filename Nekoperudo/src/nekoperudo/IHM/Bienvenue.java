@@ -1,32 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nekoperudo.IHM;
 
-import static java.lang.Thread.sleep;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-/**
- *
- * @author olivi
- */
 public class Bienvenue extends javax.swing.JDialog {
- 
+
     String pseudo;
     String serveur;
-
-   
-
 
     public Bienvenue() {
         initComponents();
         
-        ImageIcon icone =  new ImageIcon("C:/Firefox_baby.png"); 
-        JLabel image = new JLabel(icone);        
-        image.setSize(jPanel1.getWidth(),jPanel1.getHeight());
+        /*Image*/
+        ImageIcon icone = new ImageIcon("C:/Firefox_baby.png");
+        JLabel image = new JLabel(icone);
+        image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
         jPanel1.add(image);
         jPanel1.repaint();
     }
@@ -187,17 +175,18 @@ public class Bienvenue extends javax.swing.JDialog {
 
     /*  Récupère le pseudo et se connecte au serveur central    */
     private void btnRejoindreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejoindreActionPerformed
-                
-        FileAttente fa = new FileAttente(this.getPseudo());
-        fa.setTitle("Nekorudo : "+getPseudo());
+
+        FileAttente fa = new FileAttente(this.getPseudo(), this.getServeur());
+        fa.setTitle("Nekorudo : " + getPseudo());
         fa.setLocationRelativeTo(null);
         fa.setVisible(true);
-                      
-        
-        /*Connexion au serveur local*/
+
+        /**
+         * **Connexion au serveur local
+         */
         //nom du serveur : getServeur()
         
-        this.setVisible(false); 
+        this.setVisible(false);
     }//GEN-LAST:event_btnRejoindreActionPerformed
 
     /*  Quitte l'application    */
@@ -209,54 +198,20 @@ public class Bienvenue extends javax.swing.JDialog {
     private void btnReglesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReglesActionPerformed
         ReglesJeu rj = new ReglesJeu();
         rj.setTitle("Nekorudo : " + getPseudo());
-        rj.setLocationRelativeTo(null);    
+        rj.setLocationRelativeTo(null);
         rj.setVisible(true);
     }//GEN-LAST:event_btnReglesActionPerformed
 
-    public  String getPseudo() {
+    public String getPseudo() {
         pseudo = txfPseudo.getText();
         return pseudo;
     }
-    
-    public  String getServeur() {
+
+    public String getServeur() {
         serveur = txfServeur.getText();
         return serveur;
     }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Bienvenue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Bienvenue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Bienvenue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Bienvenue.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreerPartie;
