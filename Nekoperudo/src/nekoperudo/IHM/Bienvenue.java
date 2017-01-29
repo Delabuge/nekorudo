@@ -14,28 +14,21 @@ import javax.swing.JLabel;
  * @author olivi
  */
 public class Bienvenue extends javax.swing.JDialog {
-
-    static String getPseudo;
-    
+ 
     String pseudo;
+    String serveur;
 
-    /**
-     * Creates new form Bienvenue
-     */
-    public Bienvenue(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+   
+
+
+    public Bienvenue() {
         initComponents();
         
-            ImageIcon icone =  new ImageIcon("C:/Firefox_baby.png"); 
-            JLabel image = new JLabel(icone);        
-            image.setSize(jPanel1.getWidth(),jPanel1.getHeight());
-            jPanel1.add(image);
-            jPanel1.repaint();
-    }
-
-    Bienvenue(String pseudo) {
-        this.pseudo= pseudo;
-       
+        ImageIcon icone =  new ImageIcon("C:/Firefox_baby.png"); 
+        JLabel image = new JLabel(icone);        
+        image.setSize(jPanel1.getWidth(),jPanel1.getHeight());
+        jPanel1.add(image);
+        jPanel1.repaint();
     }
 
     /**
@@ -49,14 +42,16 @@ public class Bienvenue extends javax.swing.JDialog {
 
         popupMenu1 = new java.awt.PopupMenu();
         popupMenu2 = new java.awt.PopupMenu();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        lblPseudo = new javax.swing.JLabel();
+        txfPseudo = new javax.swing.JTextField();
+        lblNekorudo = new javax.swing.JLabel();
+        btnCreerPartie = new javax.swing.JButton();
+        btnRejoindre = new javax.swing.JButton();
+        btnQuitter = new javax.swing.JButton();
+        btnRegles = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        txfServeur = new javax.swing.JTextField();
+        lblNomServeur = new javax.swing.JLabel();
 
         popupMenu1.setLabel("popupMenu1");
 
@@ -65,40 +60,40 @@ public class Bienvenue extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1000, 600));
 
-        jLabel1.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
-        jLabel1.setText("Votre Pseudo :");
+        lblPseudo.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
+        lblPseudo.setText("Votre Pseudo :");
 
-        jTextField1.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txfPseudo.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
+        txfPseudo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txfPseudoActionPerformed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Cambria", 0, 48)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel2.setText("NEKORUDO");
+        lblNekorudo.setFont(new java.awt.Font("Cambria", 0, 48)); // NOI18N
+        lblNekorudo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblNekorudo.setText("NEKORUDO");
 
-        jButton2.setText("Créer une partie ( non dispo dans la version 1 )");
+        btnCreerPartie.setText("Créer une partie ( non dispo dans la version 1 )");
 
-        jButton3.setText("Rejoindre une partie");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnRejoindre.setText("Rejoindre une partie");
+        btnRejoindre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnRejoindreActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Quitter la partie");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnQuitter.setText("Quitter la partie");
+        btnQuitter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                btnQuitterMouseClicked(evt);
             }
         });
 
-        jButton4.setText("Règles du jeu");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnRegles.setText("Règles du jeu");
+        btnRegles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnReglesActionPerformed(evt);
             }
         });
 
@@ -113,93 +108,119 @@ public class Bienvenue extends javax.swing.JDialog {
             .addGap(0, 203, Short.MAX_VALUE)
         );
 
+        txfServeur.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
+        txfServeur.setText("localhost");
+
+        lblNomServeur.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
+        lblNomServeur.setText("Nom du serveur :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addComponent(jButton2)
+                .addComponent(btnCreerPartie)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnQuitter)
                 .addGap(63, 63, 63))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(245, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(48, 48, 48)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(84, 84, 84))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(56, 56, 56)))
+                        .addComponent(lblNekorudo)
+                        .addGap(56, 56, 56)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(396, 396, 396))))
+                            .addComponent(btnRejoindre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRegles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(396, 396, 396))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNomServeur)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txfServeur, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPseudo)
+                                .addGap(48, 48, 48)
+                                .addComponent(txfPseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(362, 362, 362))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblNekorudo)
+                        .addGap(84, 84, 84))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 95, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addGap(84, 84, 84)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(29, 29, 29)
-                .addComponent(jButton3)
-                .addGap(112, 112, 112)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPseudo, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txfPseudo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4)
-                    .addComponent(jButton1))
+                    .addComponent(txfServeur, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNomServeur))
+                .addGap(29, 29, 29)
+                .addComponent(btnRejoindre)
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreerPartie)
+                    .addComponent(btnRegles)
+                    .addComponent(btnQuitter))
                 .addGap(64, 64, 64))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txfPseudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfPseudoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txfPseudoActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        FileAttente.main();
-       
-        this.setVisible(false);
-        
-        pseudo = jTextField1.getText();
+    /*  Récupère le pseudo et se connecte au serveur central    */
+    private void btnRejoindreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejoindreActionPerformed
+                
+        FileAttente fa = new FileAttente(this.getPseudo());
+        fa.setTitle("Nekorudo : "+getPseudo());
+        fa.setLocationRelativeTo(null);
+        fa.setVisible(true);
+                      
         
         /*Connexion au serveur local*/
+        //nom du serveur : getServeur()
         
-        System.out.println(pseudo);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        this.setVisible(false); 
+    }//GEN-LAST:event_btnRejoindreActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
+    /*  Quitte l'application    */
+    private void btnQuitterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuitterMouseClicked
         System.exit(0);
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_btnQuitterMouseClicked
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Regles.main(pseudo);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    /*  Affiche la page des règles  */
+    private void btnReglesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReglesActionPerformed
+        ReglesJeu rj = new ReglesJeu();
+        rj.setTitle("Nekorudo : " + getPseudo());
+        rj.setLocationRelativeTo(null);    
+        rj.setVisible(true);
+    }//GEN-LAST:event_btnReglesActionPerformed
 
     public  String getPseudo() {
+        pseudo = txfPseudo.getText();
         return pseudo;
+    }
+    
+    public  String getServeur() {
+        serveur = txfServeur.getText();
+        return serveur;
     }
     
     /**
@@ -232,30 +253,23 @@ public class Bienvenue extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Bienvenue dialog = new Bienvenue(new javax.swing.JFrame(), false);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setTitle("Nekorudo");                        
-                dialog.setLocationRelativeTo(null);
-                dialog.setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btnCreerPartie;
+    private javax.swing.JButton btnQuitter;
+    private javax.swing.JButton btnRegles;
+    private javax.swing.JButton btnRejoindre;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblNekorudo;
+    private javax.swing.JLabel lblNomServeur;
+    private javax.swing.JLabel lblPseudo;
     private java.awt.PopupMenu popupMenu1;
     private java.awt.PopupMenu popupMenu2;
+    private javax.swing.JTextField txfPseudo;
+    private javax.swing.JTextField txfServeur;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,22 +19,23 @@ import nekoperudo.IHM.Bienvenue;
  */
 public class FileAttente extends javax.swing.JDialog {
 
-    /**
-     * Creates new form FileAttente
-     */
+    String pseudo = "";
     
    
     
     
-    public FileAttente(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-                
-            ImageIcon icone =  new ImageIcon("C:/Firefox_baby.png"); 
-            JLabel image = new JLabel(icone);        
-            image.setSize(jPanel1.getWidth(),jPanel1.getHeight());
-            jPanel1.add(image);
-            jPanel1.repaint();
+    public FileAttente(String pseudo) {
+       
+        initComponents();        
+        this.pseudo = pseudo;  
+        
+        /*Image*/
+        ImageIcon icone =  new ImageIcon("C:/Firefox_baby.png"); 
+        JLabel image = new JLabel(icone);        
+        image.setSize(jPanel1.getWidth(),jPanel1.getHeight());
+        jPanel1.add(image);
+        jPanel1.repaint();
+        
         
     }
 
@@ -61,10 +62,8 @@ public class FileAttente extends javax.swing.JDialog {
         jRadioButton5 = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         jButton1.setText("Faire Pret");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -119,13 +118,6 @@ public class FileAttente extends javax.swing.JDialog {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jButton2.setText("Quitter la partie");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -161,9 +153,6 @@ public class FileAttente extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(349, 349, 349)
                         .addComponent(jLabel7))
                     .addGroup(layout.createSequentialGroup()
@@ -178,7 +167,7 @@ public class FileAttente extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(141, Short.MAX_VALUE)
+                .addContainerGap(156, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(36, 36, 36)
                 .addComponent(jLabel7)
@@ -206,13 +195,9 @@ public class FileAttente extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jRadioButton5))
-                        .addGap(33, 33, 33))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)))
-                .addComponent(jButton2)
-                .addContainerGap())
+                            .addComponent(jRadioButton5)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(52, 52, 52))
         );
 
         pack();
@@ -221,38 +206,32 @@ public class FileAttente extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         /*Appel de faire pret*/
+                
+        
+         /*page principale*/
+        ChoixAction c1 = new ChoixAction(pseudo);
+        c1.setTitle("Nekorudo : " + pseudo);
+        c1.setLocationRelativeTo(null);    
+        c1.setVisible(true);
+        
+        
+        PopupLancerDice d1 = new PopupLancerDice("Nekorudo",c1);
+        d1.setTitle("Nekorudo : " + pseudo);
+        d1.setLocationRelativeTo(null);  
+        d1.setVisible(true);
+        
+        
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-       if  (jRadioButton1.isSelected())
-        {
-            Principale p = new Principale();
-            JFrame f = new JFrame();
-            //Panel1 panel1 = new Panel1();
-    //Le bouton qui va changer le panel
-    JButton bChangerPanel = new JButton("Tester changement");
-            
-            f.add(p);
-            f.setTitle("Nekorudo");                        
-            f.setLocationRelativeTo(null);
-            f.setSize(1000, 600);
-            f.setVisible(true);
-            this.setVisible(false);
-        } 
-
-        //PagePrincipale.main();
         
+       
               
     }//GEN-LAST:event_jButton1MouseClicked
 
     
     
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jButton2MouseClicked
-
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
         
@@ -288,24 +267,13 @@ public class FileAttente extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               
-                FileAttente attente = new FileAttente(new javax.swing.JFrame(), false);
-                attente.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                attente.setTitle("Nekorudo");
-                attente.setLocationRelativeTo(null);
-                attente.setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
