@@ -5,14 +5,7 @@
  */
 package nekoperudo.IfJoueur;
 
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.rmi.Naming;
 
 /**
  *
@@ -20,7 +13,22 @@ import java.util.logging.Logger;
  */
 public class MainJoueur {
 
-    public static void main(String[] argv) {
-    
+    public static void main(String[] argv) throws Exception {
+
+        Nekoperudo proxy = (Nekoperudo) Naming.lookup("MJ");
+        proxy.letest("je suis un test");
+
+        JoueurNotificationImpl jni = new JoueurNotificationImpl("Bob");
+        proxy.enregistrerNotification("Bob", jni);
+        jni.test("Bob");
+
+        jni = null;
+        //  proxy.enleverNotification("Bob");
+
+        /*
+        
+
+        bni = null;*/
     }
+
 }
