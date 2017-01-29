@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nekoperudo.IfJoueur;
+package nekoperudo.MJcentral;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nekoperudo.IfJoueur.Mise;
+import nekoperudo.IfJoueur.Nekoperudo.JoueurNotification;
 
 /**
  *
@@ -26,6 +26,8 @@ public class Joueur {
     int gobelet[] = new int[5];
     int nbDiceParier = 0;
     int valDiceParier = 0;
+    
+    private JoueurNotification notif;
 
     public Joueur() {
 
@@ -38,6 +40,7 @@ public class Joueur {
     }
 
     public int[] lancerDice(int NbDice) {
+        
         int i;
         int monGobelet[] = new int[5];
 
@@ -284,5 +287,15 @@ public class Joueur {
         this.nbDice = nbDice;
     }
     
+    public void setNotification(JoueurNotification notif) {
+        this.notif = notif;
+    }
+    
+    
+    
+    public void afficherMsg(int somme) throws RemoteException {
+        notif.test("Passage dans afficherMsg "+somme);
+        
+        }
+    }
 
-}
