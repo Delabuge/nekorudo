@@ -13,23 +13,24 @@ public class ChoixAction extends javax.swing.JDialog {
     String mesDice; //Dés du joueur
     Nekoperudo proxy;
     JoueurNotificationImpl notif;
+    
     /**
      * Creates new form ChoixAction
      */
     public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif) {
 
         initComponents();
-
-        pnlJouer.setVisible(false); //Masque le panel "a toi de jouer
         this.pseudo = pPseudo;
         this.serveur = pServeur;
         this.proxy = pProxy;
         this.notif = pNotif;
+                
+        pnlJouer.setVisible(false); //Masque le panel "a toi de jouer"
+        
         popLancerDice(); //Ouvre la popup pour lancer les dés
 
-        lblPartieDe.setText("Partie de " + serveur);
-        try {
-            /*initialise le titre*/
+        lblPartieDe.setText("Partie de " + serveur);//initialise le titre
+        try {            
             notif.test(pseudo+"ohohohoh!");
         } catch (RemoteException ex) {
             Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
@@ -49,22 +50,19 @@ public class ChoixAction extends javax.swing.JDialog {
         txaEnchereEnCours.setText(enchere);
     }
 
-    /*  Affiche les dés */
-    public static void lancerDice() {
-        
-        System.out.println("les dés sont jetés");
-        //actualiserNosDes();
-        /*MAAAAAAAAAARCHE PASSSSS à cause du static qu'on est obligé d'avoir*/
-    }
-    
-    
-    public void actualiserNosDes() {        
-        
+    /*Actualise le champ nos dés */
+    public void actualiserNosDes() {
         mesDice = "5 | 5 | 6 | 2 | 1";
-        txaNosDes.setText(mesDice);
-        
-        System.out.println("les dés sont jetés");
+        txaNosDes.setText(mesDice);        
+        btnLancerDice.setVisible(false); //Masque le bouton "lancer les dés"
     }
+    
+    public void actualiserMise(){
+        String mise = "5 | 5 ";
+        txaEnchereEnCours.setText("mise");
+    }
+    
+    
 
     /*  choix 0 : annoncer menteur  // choix 1 : annoncer tout pile */
     public void annoncer(int choix) {
@@ -100,6 +98,7 @@ public class ChoixAction extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         txaEnchereEnCours = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        btnLancerDice = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -116,6 +115,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
         txaNosDes.setEditable(false);
         txaNosDes.setColumns(20);
+        txaNosDes.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         txaNosDes.setRows(5);
         jScrollPane3.setViewportView(txaNosDes);
 
@@ -227,10 +227,18 @@ public class ChoixAction extends javax.swing.JDialog {
         txaEnchereEnCours.setRows(5);
         jScrollPane2.setViewportView(txaEnchereEnCours);
 
-        jButton1.setText("lancer dés + a toi de jouer");
+        jButton1.setText("pop lancer dés + a toi de jouer");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnLancerDice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnLancerDice.setText("Lancer les dés");
+        btnLancerDice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLancerDiceActionPerformed(evt);
             }
         });
 
@@ -238,50 +246,59 @@ public class ChoixAction extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblPartieDe)
-                .addGap(311, 311, 311))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnLancerDice)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblEnchere))
-                        .addGap(43, 43, 43)
+                        .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNosDes))))
-                .addContainerGap(96, Short.MAX_VALUE))
+                            .addComponent(lblNosDes)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPartieDe)
+                        .addGap(206, 206, 206)))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jButton1)
-                .addGap(124, 124, 124)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(lblPartieDe)
-                .addGap(113, 113, 113)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblEnchere)
-                    .addComponent(lblNosDes))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(lblPartieDe)
+                        .addGap(113, 113, 113)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNosDes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblEnchere)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton1)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnLancerDice)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
@@ -290,6 +307,7 @@ public class ChoixAction extends javax.swing.JDialog {
     /*BOUTON DE TESSSSSTTTT!!!!! */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         popLancerDice();
+        btnLancerDice.setVisible(true);
         pnlJouer.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -322,8 +340,13 @@ public class ChoixAction extends javax.swing.JDialog {
         annoncer(1);
     }//GEN-LAST:event_btnToutPileActionPerformed
 
+    private void btnLancerDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLancerDiceActionPerformed
+        actualiserNosDes();
+    }//GEN-LAST:event_btnLancerDiceActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnLancerDice;
     private javax.swing.JButton btnMenteur;
     private javax.swing.JButton btnSurencherir;
     private javax.swing.JButton btnToutPile;

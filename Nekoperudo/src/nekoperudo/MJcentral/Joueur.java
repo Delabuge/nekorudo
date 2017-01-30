@@ -276,6 +276,11 @@ public class Joueur {
 
         return finManche;
     }
+    
+    /*Affichage du joueur dans la liste de joueurs*/
+    public String toString(){
+        return (pseudo + " Dé(" +miseJ.getValDice()+ ") x" + miseJ.getNbDiceParier());
+    }
 
     public int[] getGobelet() {
         return gobelet;

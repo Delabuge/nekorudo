@@ -38,7 +38,7 @@ public class FileAttente extends javax.swing.JDialog {
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
         c1.setVisible(true);
-
+        
         this.setVisible(false);
 
         return pCouleur;
