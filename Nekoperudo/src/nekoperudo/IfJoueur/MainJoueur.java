@@ -16,7 +16,7 @@ public class MainJoueur {
     public static void main(String[] argv) throws Exception {
 
         Nekoperudo proxy = (Nekoperudo) Naming.lookup("MJ");
-        proxy.letest("je suis un test");
+        //proxy.letest("je suis un test");
 
         JoueurNotificationImpl jni = new JoueurNotificationImpl("Bob");
         proxy.enregistrerNotification("Bob", jni);

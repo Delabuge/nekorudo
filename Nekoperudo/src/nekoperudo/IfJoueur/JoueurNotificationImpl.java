@@ -7,6 +7,8 @@ package nekoperudo.IfJoueur;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import nekoperudo.IHM.ChoixAction;
+import nekoperudo.IHM.FileAttente;
 import nekoperudo.IfJoueur.Nekoperudo.JoueurNotification;
 
 /**
@@ -17,6 +19,7 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
         implements JoueurNotification {
 
     private String id;
+    FileAttente fAttente;
 
     public JoueurNotificationImpl(String id) throws RemoteException {
         super();
@@ -26,5 +29,13 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
     public void test(String text) throws RemoteException {
         System.out.println(text + " Joueur Notif");
     }
+
+    public String initialiserPartie(String pCouleur) throws RemoteException {
+
+        fAttente.frameInitialiserPartie(pCouleur);
+        
+        return pCouleur;
+    }        
+
 
 }

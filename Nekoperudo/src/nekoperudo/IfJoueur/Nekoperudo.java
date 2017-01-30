@@ -17,16 +17,15 @@ import java.rmi.RemoteException;
  */
 public interface Nekoperudo extends java.rmi.Remote {
 
-    public void letest(String id) throws java.rmi.RemoteException;
+    public boolean rejoindrePartie(String pseudo, JoueurNotification b) throws java.rmi.RemoteException;
 
-    
-    
+    public boolean JoueurPret(String pseudo, JoueurNotification b) throws java.rmi.RemoteException;
+
     public void enregistrerNotification(String id, JoueurNotification b) throws java.rmi.RemoteException;
 
     public interface JoueurNotification extends Remote {
 
-        public void test(String texte)
-                throws RemoteException;
+        public String initialiserPartie(String texte) throws RemoteException;
 
     }
 }

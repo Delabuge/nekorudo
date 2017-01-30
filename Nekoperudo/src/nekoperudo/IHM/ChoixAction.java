@@ -1,26 +1,39 @@
 package nekoperudo.IHM;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import nekoperudo.IfJoueur.JoueurNotificationImpl;
+import nekoperudo.IfJoueur.Nekoperudo;
+
 public class ChoixAction extends javax.swing.JDialog {
 
     String pseudo;
     String serveur;
     String mesDice; //Dés du joueur
-
+    Nekoperudo proxy;
+    JoueurNotificationImpl notif;
     /**
      * Creates new form ChoixAction
      */
-    public ChoixAction(String pseudo, String serveur) {
+    public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif) {
 
         initComponents();
 
         pnlJouer.setVisible(false); //Masque le panel "a toi de jouer
-        this.pseudo = pseudo;
-        this.serveur = serveur;
+        this.pseudo = pPseudo;
+        this.serveur = pServeur;
+        this.proxy = pProxy;
+        this.notif = pNotif;
         popLancerDice(); //Ouvre la popup pour lancer les dés
 
         lblPartieDe.setText("Partie de " + serveur);
-        /*initialise le titre*/
-
+        try {
+            /*initialise le titre*/
+            notif.test(pseudo+"ohohohoh!");
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /*  Ouvre la popup de lancement des dés  */

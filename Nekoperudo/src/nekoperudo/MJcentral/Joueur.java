@@ -24,23 +24,31 @@ public class Joueur {
     public int nbDice;
     public String couleurJoueur;
     int gobelet[] = new int[5];
+    String pseudo;
+    boolean JoueurPret = false;
     int nbDiceParier = 0;
     int valDiceParier = 0;
-    
-    private JoueurNotification notif;
+    public JoueurNotification notif;
+    Mise miseJ = new Mise(0, 2);
+    boolean AToiDeJouer = false;
 
     public Joueur() {
 
     }
 
-    public Joueur(int pNbDice, String pCouleurJoueur, int[] pGobelet) {
+    public Joueur(int pNbDice, String pCouleurJoueur, int[] pGobelet, String pPseudo, boolean pJoueurPret, JoueurNotification pNotif, Mise pMiseJ, boolean pAToiDeJouer) {
         nbDice = pNbDice;
         couleurJoueur = pCouleurJoueur;
         gobelet = pGobelet;
+        pseudo = pPseudo;
+        JoueurPret = pJoueurPret;
+        notif = pNotif;
+        miseJ = pMiseJ;
+        AToiDeJouer = pAToiDeJouer;
     }
 
     public int[] lancerDice(int NbDice) {
-        
+
         int i;
         int monGobelet[] = new int[5];
 
@@ -62,7 +70,7 @@ public class Joueur {
                 actionReussit = comparerMiseDes(listeJoueurs, m);
 
                 if (actionReussit == true) {
-                    listeJoueurs.get(numJoueur-1).nbDice = listeJoueurs.get(numJoueur-1).nbDice-1;
+                    listeJoueurs.get(numJoueur - 1).nbDice = listeJoueurs.get(numJoueur - 1).nbDice - 1;
                 } else {
                     this.nbDice = this.nbDice - 1;
                 }
@@ -217,25 +225,23 @@ public class Joueur {
 
         // test = (listeJoueurs.get(1).couleurJoueur);
         // System.out.print(test);
-        initialiserPartie(nbJoueur);
+        //   initialiserPartie(nbJoueur);
         // test = (listeJoueurs.get(1).couleurJoueur);
         // System.out.print(test);
-
-        Mise m = new Mise(0, 2);
         //m = jouerManche(listeJoueurs);
     }
 
-    public List<Joueur> initialiserPartie(int pNbJoueur) {
+    /*    public List<Joueur> initialiserPartie(int pNbJoueur) {
         String[] couleurJoueur = {"Blanc", "Bleu", "Jaune", "Noir", "Rouge", "Vert"};
         int gob[] = new int[5];
         List<Joueur> listeJoueurs = new ArrayList<Joueur>();
         int i = 0;
         for (i = 0; i < pNbJoueur; i++) {
-            listeJoueurs.add(new Joueur(5, couleurJoueur[i], gob));
+            listeJoueurs.add(new Joueur(5, couleurJoueur[i], gob,pseudo,false));
         }
         return listeJoueurs;
     }
-
+     */
     public void jetterDes(List<Joueur> listeJoueurs) {
         int i;
 
@@ -264,10 +270,10 @@ public class Joueur {
         // Joueur choisie son action
         actionJoueur(choixJoueur, m, listeJoueurs, numJoueur);
 
-        if (choixJoueur == 1 || choixJoueur == 2){
+        if (choixJoueur == 1 || choixJoueur == 2) {
             finManche = true;
         }
-        
+
         return finManche;
     }
 
@@ -278,24 +284,17 @@ public class Joueur {
     public void setGobelet() {
         this.gobelet = gobelet;
     }
-    
-        public int getNbdice() {
+
+    public int getNbdice() {
         return nbDice;
     }
 
     public void setNbDice() {
         this.nbDice = nbDice;
     }
-    
+
     public void setNotification(JoueurNotification notif) {
         this.notif = notif;
     }
-    
-    
-    
-    public void afficherMsg(int somme) throws RemoteException {
-        notif.test("Passage dans afficherMsg "+somme);
-        
-        }
-    }
 
+}

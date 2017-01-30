@@ -1,18 +1,27 @@
 package nekoperudo.IHM;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import nekoperudo.IfJoueur.JoueurNotificationImpl;
+import nekoperudo.IfJoueur.Nekoperudo;
 
 public class FileAttente extends javax.swing.JDialog {
 
     String pseudo;
     String serveur;
+    Nekoperudo proxy;
+    JoueurNotificationImpl notif;
 
-    public FileAttente(String pseudo, String serveur) {
+    public FileAttente(String pseudo, String serveur, Nekoperudo pProxy, JoueurNotificationImpl pNotif) {
 
         initComponents();
         this.pseudo = pseudo;
         this.serveur = serveur;
+        this.proxy = pProxy;
+        this.notif = pNotif;
 
         /*Image*/
         ImageIcon icone = new ImageIcon("C:/Firefox_baby.png");
@@ -21,6 +30,18 @@ public class FileAttente extends javax.swing.JDialog {
         jPanel1.add(image);
         jPanel1.repaint();
 
+    }
+
+    public String frameInitialiserPartie(String pCouleur) throws RemoteException {
+
+        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif);
+        c1.setTitle("Nekorudo : " + pseudo);
+        c1.setLocationRelativeTo(null);
+        c1.setVisible(true);
+
+        this.setVisible(false);
+
+        return pCouleur;
     }
 
     /**
@@ -189,8 +210,14 @@ public class FileAttente extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        /*page principale*/
-        ChoixAction c1 = new ChoixAction(pseudo, serveur);
+        try {
+            /*page principale*/
+            proxy.JoueurPret(pseudo, notif);
+        } catch (RemoteException ex) {
+            Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif);
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
         c1.setVisible(true);

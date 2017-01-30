@@ -13,7 +13,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
 
@@ -23,7 +26,12 @@ import nekoperudo.IfJoueur.Nekoperudo;
  */
 public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
-    List<Joueur> listeJoueurs = new ArrayList<Joueur>();
+    Map<String, JoueurNotification> listeCoJoueurs = new HashMap<String, JoueurNotification>(6);
+    Map<String, Joueur> listeJoueurs = new HashMap<String, Joueur>(6);
+
+    //List<Joueur> listeJoueurs = new ArrayList<Joueur>();
+    String[] couleurJoueur = {"Blanc", "Bleu", "Jaune", "Noir", "Rouge", "Vert"};
+    int gob[] = new int[5];
 
     public MainServeurImpl() throws RemoteException {
         super();
@@ -33,7 +41,7 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
         LocateRegistry.createRegistry(1099);
         Naming.rebind("MJ", new MainServeurImpl());
-        System.out.println("MJ est enregistré");
+        System.out.println("Registre RMI OK");
 
         /*  
         int i;
@@ -71,12 +79,56 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         cpt.setNotification(b);
     }
 
+    public boolean rejoindrePartie(String pPseudo, JoueurNotification pNotif) throws RemoteException {
+        boolean joueurAjouteOk = false;
+        Mise miseJ = new Mise(0, 2);
 
-    public void letest(String id) throws RemoteException {
-       /* Joueur cptttt = new Joueur();
-        int i =2;
-        cptttt.afficherMsg(i);*/
-        System.out.println(id + " est aware");
+        if (listeJoueurs.size() < 6) {
+            if (listeJoueurs.isEmpty()) {
+                listeJoueurs.put(pPseudo, new Joueur(5, couleurJoueur[1], gob, pPseudo, false, pNotif, miseJ, false));
+                listeCoJoueurs.put(pPseudo, pNotif);
+                System.out.println("Joueur " + pPseudo + " créé");
+                joueurAjouteOk = true;
+            } else {
+                listeJoueurs.put(pPseudo, new Joueur(5, couleurJoueur[listeJoueurs.size() + 1], gob, pPseudo, false, pNotif, miseJ, false));
+                listeCoJoueurs.put(pPseudo, pNotif);
+                System.out.println("Joueur " + pPseudo + " créé");
+                joueurAjouteOk = true;
+            }
+        }
+        return joueurAjouteOk;
+    }
+
+    public boolean JoueurPret(String pPseudo, JoueurNotification pNotif) throws RemoteException {
+        boolean JoueurPretOk = false;
+        int i;
+        int nbrJoueurPret = 0;
+        NotifInitialisation ntfI = new NotifInitialisation("", false);
+
+        if (listeJoueurs.containsKey(pPseudo)) {
+            listeJoueurs.get(pPseudo).JoueurPret = true;
+            JoueurPretOk = true;
+        }
+
+        for (i = 0; i < listeJoueurs.size(); i++) {
+            if (listeJoueurs.get(i).JoueurPret = true) {
+                nbrJoueurPret = nbrJoueurPret + 1;
+            }
+        }
+
+        if (nbrJoueurPret == listeJoueurs.size()) {
+
+            Random joueurRandom = new Random();
+            int numJoueurRandom = joueurRandom.nextInt(listeJoueurs.size()) + 1;
+            
+            listeJoueurs.get(numJoueurRandom).AToiDeJouer = true;
+            
+            for (i = 0; i < listeJoueurs.size(); i++){
+                listeCoJoueurs.get(i).initialiserPartie("");
+            }            
+        }
+
+        return JoueurPretOk;
     }
 
 }

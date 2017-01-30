@@ -1,7 +1,15 @@
 package nekoperudo.IHM;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import nekoperudo.IfJoueur.JoueurNotificationImpl;
+import nekoperudo.IfJoueur.Nekoperudo;
 
 public class Bienvenue extends javax.swing.JDialog {
 
@@ -10,7 +18,7 @@ public class Bienvenue extends javax.swing.JDialog {
 
     public Bienvenue() {
         initComponents();
-        
+
         /*Image*/
         ImageIcon icone = new ImageIcon("C:/Firefox_baby.png");
         JLabel image = new JLabel(icone);
@@ -176,17 +184,34 @@ public class Bienvenue extends javax.swing.JDialog {
     /*  Récupère le pseudo et se connecte au serveur central    */
     private void btnRejoindreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejoindreActionPerformed
 
-        FileAttente fa = new FileAttente(this.getPseudo(), this.getServeur());
-        fa.setTitle("Nekorudo : " + getPseudo());
-        fa.setLocationRelativeTo(null);
-        fa.setVisible(true);
+        Nekoperudo proxy;
+        try {
+            proxy = (Nekoperudo) Naming.lookup("MJ");
+
+            JoueurNotificationImpl notif = new JoueurNotificationImpl("Bob");
+            proxy.enregistrerNotification("Bob", notif);
+            
+            proxy.rejoindrePartie(this.getPseudo(),notif);
+
+            FileAttente fa = new FileAttente(this.getPseudo(), this.getServeur(), this.getRMIObject(proxy), this.getNotif(notif));
+            fa.setTitle("Nekorudo : " + getPseudo());
+            fa.setLocationRelativeTo(null);
+            fa.setVisible(true);
+            this.setVisible(false);
+
+        } catch (NotBoundException ex) {
+            Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         /**
          * **Connexion au serveur local
          */
         //nom du serveur : getServeur()
-        
-        this.setVisible(false);
+
     }//GEN-LAST:event_btnRejoindreActionPerformed
 
     /*  Quitte l'application    */
@@ -227,4 +252,13 @@ public class Bienvenue extends javax.swing.JDialog {
     private javax.swing.JTextField txfPseudo;
     private javax.swing.JTextField txfServeur;
     // End of variables declaration//GEN-END:variables
+
+    public Nekoperudo getRMIObject(Nekoperudo pProxy) {
+        return pProxy;
+    }
+
+    public JoueurNotificationImpl getNotif(JoueurNotificationImpl pNotif) {
+        return pNotif;
+    }
+
 }
