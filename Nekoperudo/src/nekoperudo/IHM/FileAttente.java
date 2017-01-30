@@ -209,14 +209,14 @@ public class FileAttente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+/*
         try {
-            /*page principale*/
+            
             proxy.JoueurPret(pseudo, notif);
         } catch (RemoteException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+*/
         ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif);
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
