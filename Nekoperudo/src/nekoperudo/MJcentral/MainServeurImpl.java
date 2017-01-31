@@ -112,8 +112,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         boolean JoueurPretOk = false;
         int i;
 
-        NotifInitialisation ntfI = new NotifInitialisation("", false);
-
         if (listeJoueurs.containsKey(pPseudo)) {
             listeJoueurs.get(pPseudo).JoueurPret = true;
 
@@ -155,7 +153,7 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         return JoueurPretOk;
     }
 
-    public void actionJoueur(int pChoixJoueur, String pPseudo) {
+    public void actionJoueur(int pChoixJoueur, String pPseudo) throws RemoteException {
         boolean actionReussit = false;
         switch (pChoixJoueur) {
 
@@ -185,7 +183,9 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
             // Annonce surenchère
             case 3:
-                surencherir(miseMax);
+                //surencherir(miseMax);
+                System.out.println("case 3 Surenchere");
+                finTour();
                 break;
 
             default:
@@ -342,4 +342,40 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
         return finManche;
     }*/
+    public void surencherJoueur(int chiffre, int quantite) throws RemoteException {
+        int i;
+
+        miseMax.valDice = chiffre;
+        miseMax.nbDiceParier = quantite;
+        System.out.println("Mise max mis à jour");
+
+        for (i = 0; i < listeJoueurs.size(); i++) {
+            listeCoJoueurs.get(indexPseudoJoueurs.get(i)).notifSurencherNbr(miseMax.nbDiceParier);
+            listeCoJoueurs.get(indexPseudoJoueurs.get(i)).notifSurencherNbr(miseMax.valDice);
+            System.out.println("Mise max envoyé à " + indexPseudoJoueurs.get(i));
+        }
+
+    }
+
+    public void finTour() throws RemoteException {
+        System.out.println("fin tour");
+        int i;
+        
+        if (numAToiDeJouer + 1 < indexPseudoJoueurs.size()) {
+            numAToiDeJouer = numAToiDeJouer + 1;
+        } else {
+            numAToiDeJouer = 0;
+        }
+
+        numTour = numTour + 1;
+
+        for (i = 0; i < listeJoueurs.size(); i++) {
+            if (i != numAToiDeJouer) {
+                listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(false);
+            } else {
+                listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(true);
+            }
+
+        }
+    }
 }

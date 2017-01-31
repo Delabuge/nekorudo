@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
+import nekoperudo.MJcentral.Mise;
 
 public class ChoixAction extends javax.swing.JDialog {
 
@@ -16,6 +17,8 @@ public class ChoixAction extends javax.swing.JDialog {
     JoueurNotificationImpl notif;
     boolean aToiDeJouer;
     boolean premierTour = true;
+    public int nbDiceParier = 0;
+    public int valDice = 2;
 
     /**
      * Creates new form ChoixAction
@@ -41,10 +44,10 @@ public class ChoixAction extends javax.swing.JDialog {
          */
 
         if (aToiDeJouer == false) {
-           // pNotif.actualiserJoueur();
+            // pNotif.actualiserJoueur();
             lblAVotreTour.setText("Un autre joueur joue...");
             lblAVotreTour.setEnabled(true);
-          /*  while (aToiDeJouer == false) {
+            /*  while (aToiDeJouer == false) {
                 sleep(5000);
             }*/
         }
@@ -64,9 +67,10 @@ public class ChoixAction extends javax.swing.JDialog {
 
     public void setaToiDeJouer(boolean paToiDeJouer) {
         this.aToiDeJouer = paToiDeJouer;
+ 
     }
-    
-        public void setpremierTour(boolean ppremierTour) {
+
+    public void setpremierTour(boolean ppremierTour) {
         this.premierTour = ppremierTour;
     }
 
@@ -89,7 +93,7 @@ public class ChoixAction extends javax.swing.JDialog {
         txaEnchereEnCours.setText("mise");
     }
 
-    /*  choix 1 : annoncer menteur  // choix 2 : annoncer tout pile */
+    /*  choix 1 : annoncer menteur  // choix 2 : annoncer tout pile // choix 3 : surencher*/
     public void annoncer(int choix) throws RemoteException {
         pnlJouer.setVisible(false);//Masque le panel jouer
         proxy.actionJoueur(choix, pseudo);
@@ -349,12 +353,31 @@ public class ChoixAction extends javax.swing.JDialog {
         chiffre = Integer.parseInt(txfChiffeMise.getText());
         quantite = Integer.parseInt(txfNombreDes.getText());
 
+        if (premierTour == true) {
+            if (chiffre > 1 && chiffre < 6 && quantite > 0) {
+                try {
+                    proxy.surencherJoueur(chiffre, quantite);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                lblAVotreTour.setText("Erreur : veuillez saisir un chiffre entre 2 et 6 et une quantité > 0");
+            }
+        }
+
+        if (premierTour == false) {
+            try {
+                proxy.surencherJoueur(chiffre, quantite);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         System.out.println("chiffre " + chiffre);
         System.out.println("quantite " + quantite);
 
         pnlJouer.setVisible(false);//Masque le panel jouer
-        
-        
+
+
     }//GEN-LAST:event_btnSurencherirActionPerformed
 
     /*  Annoncer menteur    */
@@ -378,6 +401,34 @@ public class ChoixAction extends javax.swing.JDialog {
     private void btnLancerDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLancerDiceActionPerformed
         actualiserNosDes();
     }//GEN-LAST:event_btnLancerDiceActionPerformed
+
+    public String frameNotifSurencherNbr(int pmiseNbr) throws RemoteException, InterruptedException {
+
+        try {
+            sleep(250);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.nbDiceParier = pmiseNbr;
+        return "";
+    }
+
+    public String frameNotifSurencherVal(int pmiseVal) throws RemoteException, InterruptedException {
+
+        try {
+            sleep(250);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.valDice = pmiseVal;
+
+        // lblEnchere.setText("Enchère en cours : " + pmiseOk.nbDiceParier + " " + pmiseOk.valDice);
+        lblEnchere.setText("Enchère en cours : " + nbDiceParier + "d" + valDice);
+        lblEnchere.setEnabled(true);
+
+        annoncer(3);
+        return "";
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -231,6 +231,7 @@ public class FileAttente extends javax.swing.JDialog {
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
         c1.setVisible(true);
+        notif.setChoixAction(c1); 
 
         return "";
     }

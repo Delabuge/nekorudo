@@ -7,6 +7,7 @@ package nekoperudo.IfJoueur;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import nekoperudo.MJcentral.Mise;
 
 /**
  *
@@ -25,11 +26,15 @@ public interface Nekoperudo extends java.rmi.Remote {
 
     public void actionJoueur(int choix, String pseudo) throws java.rmi.RemoteException;
 
-   
+    public void surencherJoueur(int chiffre, int quantite) throws java.rmi.RemoteException;
 
     public interface JoueurNotification extends Remote {
 
         public String initialiserPartie(boolean pAtoiDeJouer) throws RemoteException;
+        
+        public String notifSurencherNbr(int nbrDice) throws RemoteException;
+        
+        public String notifSurencherVal(int valDice) throws RemoteException;
 
     }
 }
