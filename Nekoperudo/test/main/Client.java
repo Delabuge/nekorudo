@@ -5,6 +5,7 @@
  */
 package main;
 
+import java.util.Random;
 import micrormi.Registry;
 import service.AddInterface;
 
@@ -14,12 +15,20 @@ import service.AddInterface;
  */
 public class Client {
     public static void main(String[] argv) {
-        Registry r = new Registry().connect("localhost", 10000);
+        /*Registry r = new Registry().connect("localhost", 10000);
         Registry r1 = new Registry().connect("STRI-PC", 12345);
         AddInterface cs = r.get("Add", AddInterface.class);
         AddInterface cs1 = r.get("Add", AddInterface.class);
         System.out.println(cs.add(2, 3));
-        System.out.println(cs1.add(2, 3));
+        System.out.println(cs1.add(2, 3));*/
+        Random joueurRandom = new Random();
+        
+        
+        for (int i=0;i<100;i++){
+                    
+            int num1erJoueurRandom = joueurRandom.nextInt(6);
+            System.out.println(num1erJoueurRandom);
+        }
         
     }
 }

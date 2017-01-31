@@ -1,5 +1,6 @@
 package nekoperudo.IHM;
 
+import static java.lang.Thread.sleep;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,18 +33,6 @@ public class FileAttente extends javax.swing.JDialog {
 
     }
 
-    public String frameInitialiserPartie(String pCouleur) throws RemoteException {
-
-        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif);
-        c1.setTitle("Nekorudo : " + pseudo);
-        c1.setLocationRelativeTo(null);
-        c1.setVisible(true);
-        
-        this.setVisible(false);
-
-        return pCouleur;
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +42,7 @@ public class FileAttente extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        jButtonPret = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -70,15 +59,15 @@ public class FileAttente extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText("Faire Pret");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButtonPret.setText("Pret");
+        jButtonPret.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                jButtonPretMouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonPret.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonPretActionPerformed(evt);
             }
         });
 
@@ -162,7 +151,7 @@ public class FileAttente extends javax.swing.JDialog {
                         .addComponent(jLabel7))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(460, 460, 460)
-                        .addComponent(jButton1)))
+                        .addComponent(jButtonPret)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -177,7 +166,7 @@ public class FileAttente extends javax.swing.JDialog {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel7)
                 .addGap(42, 42, 42)
-                .addComponent(jButton1)
+                .addComponent(jButtonPret)
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -208,35 +197,46 @@ public class FileAttente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-/*
+    private void jButtonPretActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretActionPerformed
+
         try {
-            
             proxy.JoueurPret(pseudo, notif);
         } catch (RemoteException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/
-        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif);
-        c1.setTitle("Nekorudo : " + pseudo);
-        c1.setLocationRelativeTo(null);
-        c1.setVisible(true);
 
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    }//GEN-LAST:event_jButtonPretActionPerformed
 
-    }//GEN-LAST:event_jButton1MouseClicked
+    private void jButtonPretMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonPretMouseClicked
+
+    }//GEN-LAST:event_jButtonPretMouseClicked
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
 
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
+    public String frameInitialiserPartie(boolean pAToiDeJouer) throws RemoteException, InterruptedException {
+        this.setVisible(false);
+        //runFrameInitialiserPartie(pAToiDeJouer);
+
+        try {
+            sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, pAToiDeJouer);
+        c1.setTitle("Nekorudo : " + pseudo);
+        c1.setLocationRelativeTo(null);
+        c1.setVisible(true);
+
+        return "";
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    public javax.swing.JButton jButtonPret;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -1,5 +1,6 @@
 package nekoperudo.IHM;
 
+import static java.lang.Thread.sleep;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,61 +14,85 @@ public class ChoixAction extends javax.swing.JDialog {
     String mesDice; //Dés du joueur
     Nekoperudo proxy;
     JoueurNotificationImpl notif;
-    
+    boolean aToiDeJouer;
+    boolean premierTour = true;
+
     /**
      * Creates new form ChoixAction
      */
-    public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif) {
+    public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif, boolean pAToiDeJouer) throws RemoteException, InterruptedException {
 
         initComponents();
         this.pseudo = pPseudo;
         this.serveur = pServeur;
         this.proxy = pProxy;
         this.notif = pNotif;
-                
-        pnlJouer.setVisible(false); //Masque le panel "a toi de jouer"
-        
-        popLancerDice(); //Ouvre la popup pour lancer les dés
+        this.aToiDeJouer = pAToiDeJouer;
 
+        pnlJouer.setVisible(false); //Masque le panel "a toi de jouer"
+
+        // popLancerDice(); //Ouvre la popup pour lancer les dés
         lblPartieDe.setText("Partie de " + serveur);//initialise le titre
-        try {            
+        /*try {            
             notif.test(pseudo+"ohohohoh!");
         } catch (RemoteException ex) {
             Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
         }
+         */
+
+        if (aToiDeJouer == false) {
+           // pNotif.actualiserJoueur();
+            lblAVotreTour.setText("Un autre joueur joue...");
+            lblAVotreTour.setEnabled(true);
+          /*  while (aToiDeJouer == false) {
+                sleep(5000);
+            }*/
+        }
+        if (aToiDeJouer == true) {
+            pnlJouer.setVisible(true);
+            lblAVotreTour.setText("A toi de jouer !");
+            if (premierTour == true) {
+                btnMenteur.setVisible(false);
+                btnToutPile.setVisible(false);
+            }
+        }
+
+        /*    if (premierTour == true) {
+            premierTour = proxy.testPremierTour();
+        }*/
     }
 
-    /*  Ouvre la popup de lancement des dés  */
-    public void popLancerDice() {
-        PopupLancerDice d1 = new PopupLancerDice(pseudo);
-        d1.setLocationRelativeTo(null);
-        d1.setVisible(true);
+    public void setaToiDeJouer(boolean paToiDeJouer) {
+        this.aToiDeJouer = paToiDeJouer;
+    }
+    
+        public void setpremierTour(boolean ppremierTour) {
+        this.premierTour = ppremierTour;
     }
 
     /*  Actualise la mise et le joueur en cours*/
     public void actualiser() {
         String enchere = "";
-        txaEnchereEnCours.setText(enchere);
+        //  txaEnchereEnCours.setText(enchere);
+        lblEnchere.setText("Enchère :");
     }
 
     /*Actualise le champ nos dés */
     public void actualiserNosDes() {
         mesDice = "5 | 5 | 6 | 2 | 1";
-        txaNosDes.setText(mesDice);        
+        txaNosDes.setText(mesDice);
         btnLancerDice.setVisible(false); //Masque le bouton "lancer les dés"
     }
-    
-    public void actualiserMise(){
+
+    public void actualiserMise() {
         String mise = "5 | 5 ";
         txaEnchereEnCours.setText("mise");
     }
-    
-    
 
-    /*  choix 0 : annoncer menteur  // choix 1 : annoncer tout pile */
-    public void annoncer(int choix) {
+    /*  choix 1 : annoncer menteur  // choix 2 : annoncer tout pile */
+    public void annoncer(int choix) throws RemoteException {
         pnlJouer.setVisible(false);//Masque le panel jouer
-        
+        proxy.actionJoueur(choix, pseudo);
     }
 
     /**
@@ -306,7 +331,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /*BOUTON DE TESSSSSTTTT!!!!! */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        popLancerDice();
+
         btnLancerDice.setVisible(true);
         pnlJouer.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -328,16 +353,26 @@ public class ChoixAction extends javax.swing.JDialog {
         System.out.println("quantite " + quantite);
 
         pnlJouer.setVisible(false);//Masque le panel jouer
+        
+        
     }//GEN-LAST:event_btnSurencherirActionPerformed
 
     /*  Annoncer menteur    */
     private void btnMenteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenteurActionPerformed
-        annoncer(0);
+        try {
+            annoncer(1);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnMenteurActionPerformed
 
     /*  Annoncer tout pile  */
     private void btnToutPileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToutPileActionPerformed
-        annoncer(1);
+        try {
+            annoncer(2);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnToutPileActionPerformed
 
     private void btnLancerDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLancerDiceActionPerformed

@@ -194,10 +194,12 @@ public class Bienvenue extends javax.swing.JDialog {
             proxy.rejoindrePartie(this.getPseudo(),notif);
 
             FileAttente fa = new FileAttente(this.getPseudo(), this.getServeur(), this.getRMIObject(proxy), this.getNotif(notif));
+            
             fa.setTitle("Nekorudo : " + getPseudo());
             fa.setLocationRelativeTo(null);
             fa.setVisible(true);
             this.setVisible(false);
+            notif.setFileAttente(fa); 
 
         } catch (NotBoundException ex) {
             Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);

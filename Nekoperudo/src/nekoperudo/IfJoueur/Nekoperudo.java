@@ -23,9 +23,13 @@ public interface Nekoperudo extends java.rmi.Remote {
 
     public void enregistrerNotification(String id, JoueurNotification b) throws java.rmi.RemoteException;
 
+    public void actionJoueur(int choix, String pseudo) throws java.rmi.RemoteException;
+
+   
+
     public interface JoueurNotification extends Remote {
 
-        public String initialiserPartie(String texte) throws RemoteException;
+        public String initialiserPartie(boolean pAtoiDeJouer) throws RemoteException;
 
     }
 }
