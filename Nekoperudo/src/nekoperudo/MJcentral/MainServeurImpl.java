@@ -48,36 +48,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         LocateRegistry.createRegistry(1099);
         Naming.rebind("MJ", new MainServeurImpl());
         System.out.println("Registre RMI OK");
-
-        /*  
-        int i;
-        int nbJoueur = 3;
-        int gobelet[] = new int[5];
-        Mise m = new Mise(0, 2);
-        List<Joueur> listeJoueurs = new ArrayList<Joueur>();
-        Joueur j = new Joueur(5, "MJ", gobelet);
-        boolean finManche = false;
-
-        listeJoueurs = proxy.initialiserPartie(nbJoueur);
-
-        proxy.jetterDes(listeJoueurs);
-
-        do {
-            for (i = 0; i < nbJoueur; i++) {
-
-                finManche = listeJoueurs.get(i).jouerTour(listeJoueurs, m, i);
-                // Joueur valide fin de son tour
-
-                if (finManche = true) {
-                    break;
-                }
-            }
-        } while (finManche == false);
-    }*/
-    }
-
-    public synchronized void afficherMsg(String id, int somme) throws RemoteException {
-
     }
 
     public synchronized void enregistrerNotification(String id, JoueurNotification b) throws RemoteException {
@@ -191,9 +161,10 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice - 1;
                 }
 
-                finTour();
-                finManche();
                 
+                finManche();
+                finTour();
+
                 break;
 
             // Annonce Tout-pile
@@ -212,15 +183,14 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     System.out.println(listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
                     System.out.println("222222222222");
                 }
-
-                 finTour();
+              
                 finManche();
-               
+                finTour();
+
                 break;
 
             // Annonce surenchère
             case 3:
-                //surencherir(miseMax);
                 System.out.println(pPseudo + " fait une Surenchere");
                 finTour();
 
@@ -363,13 +333,11 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         int j;
         String notifAtoiJouerGobelet;
         boolean gagnant = false;
-        String emploieFictif ="d";
-        
+        String emploieFictif = "d";
 
-        
         miseMax.nbDiceParier = 0;
         miseMax.valDice = 2;
-        
+
         // Permet de connaitre le numero du joueur qui aurait perdu à la fin de cette manche
         for (i = 0; i < listeJoueurs.size(); i++) {
             if (listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice == 0) {
@@ -430,9 +398,9 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                 numJoueurGagnant = 1;
             }
 
-            System.out.println("pré envoie notif victoire a "+numJoueurGagnant);
+            System.out.println("pré envoie notif victoire a " + numJoueurGagnant);
             listeCoJoueurs.get(indexPseudoJoueurs.get(numJoueurGagnant)).notifVictoire(emploieFictif);
-            listeCoJoueurs.get(indexPseudoJoueurs.get(numJoueurGagnant)).notifLoose(emploieFictif);
+
         }
 
         if (numJoueurPerdu != -1) {

@@ -4,6 +4,9 @@ import static java.lang.Thread.sleep;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
 import nekoperudo.MJcentral.Mise;
@@ -27,6 +30,13 @@ public class ChoixAction extends javax.swing.JDialog {
     public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif, boolean pAToiDeJouer, int[] pGobeletJoueur) throws RemoteException, InterruptedException {
 
         initComponents();
+
+        ImageIcon icone = new ImageIcon("C:/Firefox_baby.png");
+        JLabel image = new JLabel(icone);
+        image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
+        jPanel1.add(image);
+        jPanel1.repaint();
+
         this.pseudo = pPseudo;
         this.serveur = pServeur;
         this.proxy = pProxy;
@@ -36,21 +46,10 @@ public class ChoixAction extends javax.swing.JDialog {
 
         pnlJouer.setVisible(false); //Masque le panel "a toi de jouer"
 
-        // popLancerDice(); //Ouvre la popup pour lancer les dés
         lblPartieDe.setText("Partie de " + serveur);//initialise le titre
 
         mainDuJoueur();
 
-        /*try {            
-            notif.test(pseudo+"ohohohoh!");
-        } catch (RemoteException ex) {
-            Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
-
- /*    if (premierTour == true) {
-            premierTour = proxy.testPremierTour();
-        }*/
     }
 
     public void mainDuJoueur() {
@@ -114,7 +113,7 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     public void actualiserMise() {
-        lblEnchere.setText(nbDiceParier + "d" + valDice);
+        lblEnchere.setText("Mise en cours : " + nbDiceParier + "d" + valDice);
     }
 
     /*  choix 1 : annoncer menteur  // choix 2 : annoncer tout pile // choix 3 : surencher*/
@@ -151,6 +150,7 @@ public class ChoixAction extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         txaEnchereEnCours = new javax.swing.JTextArea();
         btnLancerDice = new javax.swing.JToggleButton();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -281,6 +281,17 @@ public class ChoixAction extends javax.swing.JDialog {
             }
         });
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 246, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 191, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -298,12 +309,15 @@ public class ChoixAction extends javax.swing.JDialog {
                             .addComponent(lblEnchere))
                         .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNosDes)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNosDes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblPartieDe)
@@ -312,18 +326,24 @@ public class ChoixAction extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(lblPartieDe)
-                .addGap(123, 123, 123)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNosDes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(lblPartieDe)
+                        .addGap(123, 123, 123)
                         .addComponent(lblEnchere)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(180, 180, 180)
+                                .addComponent(lblNosDes))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73))
@@ -344,41 +364,57 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /*  Récupère la mise    */ ////Manque l'exception de miser 0 dés
     private void btnSurencherirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSurencherirActionPerformed
+        //txfNombreDes.setText("");
+
         int chiffre;
         int quantite;
+        try {
+            /*Récupère la mise et conversion char->int*/
+            chiffre = (cbxChiffreMise.getSelectedIndex() + 2);
+            quantite = Integer.parseInt(txfNombreDes.getText());
+            if (quantite == 0) {
+                throw new NullException();
+            }
+            if ((valDice < chiffre && nbDiceParier <= quantite) || (valDice <= chiffre && nbDiceParier < quantite)) {
 
-        /*Récupère la mise et conversion char->int*/
-        chiffre = (cbxChiffreMise.getSelectedIndex() + 2);
-        quantite = Integer.parseInt(txfNombreDes.getText());
+            } else {
+                throw new PetiteMiseException();
+            }
 
-        if (premierTour == true) {
-            if (chiffre > 1 && chiffre < 6 && quantite > 0) {
+            if (premierTour == true) {
+                if (chiffre > 1 && chiffre < 6 && quantite > 0) {
+                    try {
+                        proxy.surencherJoueur(chiffre, quantite);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    lblAVotreTour.setText("Erreur : veuillez saisir un chiffre entre 2 et 6 et une quantité > 0");
+                }
+            }
+
+            if (premierTour == false) {
                 try {
                     proxy.surencherJoueur(chiffre, quantite);
                 } catch (RemoteException ex) {
                     Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                lblAVotreTour.setText("Erreur : veuillez saisir un chiffre entre 2 et 6 et une quantité > 0");
             }
-        }
-
-        if (premierTour == false) {
+            System.out.println("chiffre " + chiffre);
+            System.out.println("quantite " + quantite);
             try {
-                proxy.surencherJoueur(chiffre, quantite);
+                proxy.actionJoueur(3, pseudo);
             } catch (RemoteException ex) {
                 Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        System.out.println("chiffre " + chiffre);
-        System.out.println("quantite " + quantite);
-        try {
-            proxy.actionJoueur(3, pseudo);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        pnlJouer.setVisible(false);//Masque le panel jouer
+            pnlJouer.setVisible(false);//Masque le panel jouer
+
+        } catch (NullException ex) {
+            Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PetiteMiseException ex) {
+            JOptionPane.showMessageDialog(this, "Veuillez entrer une mise suppérieure à la mise actuelle.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
 
 
     }//GEN-LAST:event_btnSurencherirActionPerformed
@@ -420,6 +456,7 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JButton btnSurencherir;
     private javax.swing.JButton btnToutPile;
     private javax.swing.JComboBox<String> cbxChiffreMise;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -441,6 +478,13 @@ public class ChoixAction extends javax.swing.JDialog {
         //this.setVisible(false);
         //runFrameInitialiserPartie(pAToiDeJouer);
 
+        nbDiceParier = 0;
+        valDice = 2;
+
+        actualiserMise();
+        
+        
+
         try {
             sleep(250);
         } catch (InterruptedException ex) {
@@ -455,7 +499,9 @@ public class ChoixAction extends javax.swing.JDialog {
         String[] stringDecoupeGobelet = pAToiDeJouer.split(" ");
         int[] intDecoupeGobelet = new int[stringDecoupeGobelet.length];
 
-        for (i = 0; i < stringDecoupeGobelet.length; i++) {
+        for (i = 0;
+                i < stringDecoupeGobelet.length;
+                i++) {
             intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
         }
 
@@ -466,11 +512,6 @@ public class ChoixAction extends javax.swing.JDialog {
         return "";
     }
 
-    /*    public String frameNotifVictoire() {
-
-        return "";
-    }
-     */
     public void frameNotifVictoire(String fddds) {
         lblPartieDe.setText("VICTOIRE!!!!");
     }

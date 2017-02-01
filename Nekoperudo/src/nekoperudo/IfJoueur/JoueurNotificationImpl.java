@@ -84,13 +84,6 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
         chAction.setaToiDeJouer(b);
     }
 
-    /*  public void notifSurencher(int pmiseOk) throws RemoteException {        
-        try {
-            chAction.frameNotifSurencher(pmiseOk);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(JoueurNotificationImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
     public String notifSurencherNbr(String nbrDice) throws RemoteException {
 
         try {
@@ -103,15 +96,6 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
         return "";
     }
 
-    /*   public String notifSurencherVal(int valDice) throws RemoteException {
-        try {
-            chAction.frameNotifSurencherVal(valDice);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(JoueurNotificationImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
-     */
     public String notifVictoire(String fddds) throws RemoteException {
 
         chAction.frameNotifVictoire(fddds);
