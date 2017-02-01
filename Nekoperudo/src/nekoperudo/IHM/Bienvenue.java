@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
 
@@ -25,6 +26,8 @@ public class Bienvenue extends javax.swing.JDialog {
         image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
         jPanel1.add(image);
         jPanel1.repaint();
+        
+        
     }
 
     /**
@@ -54,7 +57,6 @@ public class Bienvenue extends javax.swing.JDialog {
         popupMenu2.setLabel("popupMenu2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         lblPseudo.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
         lblPseudo.setText("Votre Pseudo :");
@@ -121,13 +123,13 @@ public class Bienvenue extends javax.swing.JDialog {
                 .addComponent(btnQuitter)
                 .addGap(63, 63, 63))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(245, Short.MAX_VALUE)
+                .addContainerGap(326, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblNekorudo)
-                        .addGap(56, 56, 56)
+                        .addGap(80, 80, 80)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))
+                        .addGap(38, 38, 38))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnRejoindre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -143,20 +145,16 @@ public class Bienvenue extends javax.swing.JDialog {
                                 .addComponent(lblPseudo)
                                 .addGap(48, 48, 48)
                                 .addComponent(txfPseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(362, 362, 362))))
+                        .addGap(281, 281, 281))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(0, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblNekorudo)
-                        .addGap(84, 84, 84))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)))
+                    .addComponent(lblNekorudo, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblPseudo, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txfPseudo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -164,7 +162,7 @@ public class Bienvenue extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txfServeur, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNomServeur))
-                .addGap(29, 29, 29)
+                .addGap(69, 69, 69)
                 .addComponent(btnRejoindre)
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -186,10 +184,16 @@ public class Bienvenue extends javax.swing.JDialog {
 
         Nekoperudo proxy;
         try {
+            
             proxy = (Nekoperudo) Naming.lookup("MJ");
-
+           // proxy = (Nekoperudo) Naming.lookup("rmi://STRI-PC:1099/MJ");
+            //proxy = (Nekoperudo) Naming.lookup("rmi://192.168.1.1:1099/MJ");
+            
             JoueurNotificationImpl notif = new JoueurNotificationImpl("Bob");
             proxy.enregistrerNotification("Bob", notif);
+            if (txfPseudo.getText().isEmpty()) {
+                throw new ChampVideException();
+            }
             
             proxy.rejoindrePartie(this.getPseudo(),notif);
 
@@ -207,6 +211,8 @@ public class Bienvenue extends javax.swing.JDialog {
             Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
             Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ChampVideException ex) {
+            JOptionPane.showMessageDialog(this,"Veuillez renseigner le pseudo.","Erreur",JOptionPane.ERROR_MESSAGE);
         }
 
         /**
@@ -223,14 +229,22 @@ public class Bienvenue extends javax.swing.JDialog {
 
     /*  Affiche la page des règles  */
     private void btnReglesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReglesActionPerformed
+        
         ReglesJeu rj = new ReglesJeu();
-        rj.setTitle("Nekorudo : " + getPseudo());
-        rj.setLocationRelativeTo(null);
-        rj.setVisible(true);
+        try {
+            rj.setTitle("Nekorudo : " + getPseudo());        
+            rj.setLocationRelativeTo(null);
+            rj.setVisible(true);
+        } catch (ChampVideException ex) {
+            JOptionPane.showMessageDialog(this,"Veuillez renseigner le pseudo.","Erreur",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnReglesActionPerformed
 
-    public String getPseudo() {
+    public String getPseudo() throws ChampVideException {
         pseudo = txfPseudo.getText();
+        if (txfPseudo.getText().isEmpty()) {
+            throw new ChampVideException();
+        }
         return pseudo;
     }
 
