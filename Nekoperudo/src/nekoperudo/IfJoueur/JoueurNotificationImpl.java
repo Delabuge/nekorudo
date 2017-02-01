@@ -112,8 +112,17 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
         return "";
     }
      */
-    public String notifVictoire() throws RemoteException {
-        chAction.frameNotifVictoire();
+    public String notifVictoire(String fddds) throws RemoteException {
+
+        chAction.frameNotifVictoire(fddds);
+
         return "";
     }
+
+    public String notifLoose(String dsg) throws RemoteException {
+        chAction.frameNotifLoose(dsg);
+
+        return "";
+    }
+
 }

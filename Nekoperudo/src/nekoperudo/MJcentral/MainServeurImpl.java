@@ -174,24 +174,26 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
             // Annonce Menteur
             case 1:
                 System.out.println(pPseudo + " annonce menteur");
+
                 actionReussit = comparerMiseDes();
 
                 if (actionReussit == 2) {
-
-                    if (numAToiDeJouer - 1 < 0) {
-                        numprecedent = numAToiDeJouer - 1;
+                    if (numAToiDeJouer == 0) {
+                        numprecedent = indexPseudoJoueurs.size() - 1;
                     } else {
-                        numprecedent = indexPseudoJoueurs.size();
+                        numprecedent = numAToiDeJouer - 1;
                     }
-
+                    System.out.println("numAToiDeJouer " + numAToiDeJouer);
+                    System.out.println("A cause de " + listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + ", " + listeJoueurs.get(indexPseudoJoueurs.get(numprecedent)).pseudo + " perd 1d");
                     listeJoueurs.get(indexPseudoJoueurs.get(numprecedent)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numprecedent)).nbDice - 1;
-                    System.out.println("A cause de " + listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + ", " + listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer - 1)).pseudo + " perd 1d");
                 } else {
-                    listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice - 1;
                     System.out.println(listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
+                    listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice - 1;
                 }
 
+                finTour();
                 finManche();
+                
                 break;
 
             // Annonce Tout-pile
@@ -201,14 +203,19 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
                 if (actionReussit == 1) {
                     if (listeJoueurs.get(pPseudo).nbDice < 5) {
-                        listeJoueurs.get(pPseudo).nbDice = listeJoueurs.get(pPseudo).nbDice + 1;
+                        //     listeJoueurs.get(pPseudo).nbDice = listeJoueurs.get(pPseudo).nbDice + 1;
+                        listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice + 1;
+                        System.out.println("111111111111");
                     }
                 } else {
                     listeJoueurs.get(pPseudo).nbDice = listeJoueurs.get(pPseudo).nbDice - 1;
                     System.out.println(listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
+                    System.out.println("222222222222");
                 }
 
+                 finTour();
                 finManche();
+               
                 break;
 
             // Annonce surenchère
@@ -356,13 +363,20 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         int j;
         String notifAtoiJouerGobelet;
         boolean gagnant = false;
+        String emploieFictif ="d";
+        
 
+        
+        miseMax.nbDiceParier = 0;
+        miseMax.valDice = 2;
+        
         // Permet de connaitre le numero du joueur qui aurait perdu à la fin de cette manche
         for (i = 0; i < listeJoueurs.size(); i++) {
             if (listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice == 0) {
                 numJoueurPerdu = i;
                 if (listeJoueurs.size() == 2) {
                     gagnant = true;
+                    System.out.println("On a un gagnant!");
                 }
             }
         }
@@ -416,7 +430,9 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                 numJoueurGagnant = 1;
             }
 
-            listeCoJoueurs.get(indexPseudoJoueurs.get(numJoueurGagnant)).notifVictoire();
+            System.out.println("pré envoie notif victoire a "+numJoueurGagnant);
+            listeCoJoueurs.get(indexPseudoJoueurs.get(numJoueurGagnant)).notifVictoire(emploieFictif);
+            listeCoJoueurs.get(indexPseudoJoueurs.get(numJoueurGagnant)).notifLoose(emploieFictif);
         }
 
         if (numJoueurPerdu != -1) {

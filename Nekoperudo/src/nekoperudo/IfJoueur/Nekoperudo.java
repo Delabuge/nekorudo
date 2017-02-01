@@ -32,7 +32,9 @@ public interface Nekoperudo extends java.rmi.Remote {
 
         public String initialiserPartie(String pAtoiDeJouer) throws RemoteException;
 
-        public String notifVictoire() throws RemoteException;
+        public String notifVictoire(String dsg) throws RemoteException;
+        
+        public String notifLoose(String dsg) throws RemoteException;
 
         public String prochainTour(String pAtoiDeJouer) throws RemoteException;
 

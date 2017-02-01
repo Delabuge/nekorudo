@@ -54,7 +54,6 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     public void mainDuJoueur() {
-
         actualiserMise();
         actualiserNosDes();
 
@@ -65,9 +64,9 @@ public class ChoixAction extends javax.swing.JDialog {
         if (aToiDeJouer == true) {
             pnlJouer.setVisible(true);
             btnMenteur.setVisible(true);
-            btnToutPile.setVisible(true);   
+            btnToutPile.setVisible(true);
             lblAVotreTour.setText("A toi de jouer!");
-            
+
             System.out.println("C'est a moi de jouer!");
             if (premierTour == true) {
                 btnMenteur.setVisible(false);
@@ -75,17 +74,14 @@ public class ChoixAction extends javax.swing.JDialog {
             }
         }
     }
-    
-   
-    
+
     /* Popup de fin de manche avec résultats */
-    public void popFinManche(){
+    public void popFinManche() {
         PopFinManche pf = new PopFinManche();
-        pf.setTitle("Nekorudo : " + pseudo);                          
-        pf.setLocationRelativeTo(null);                               
+        pf.setTitle("Nekorudo : " + pseudo);
+        pf.setLocationRelativeTo(null);
         pf.setVisible(true);
     }
-    
 
     public void setaToiDeJouer(boolean paToiDeJouer) {
         this.aToiDeJouer = paToiDeJouer;
@@ -118,9 +114,7 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     public void actualiserMise() {
-        //  String mise = "5 | 5 ";
         lblEnchere.setText(nbDiceParier + "d" + valDice);
-        //txaEnchereEnCours.setText("mise");
     }
 
     /*  choix 1 : annoncer menteur  // choix 2 : annoncer tout pile // choix 3 : surencher*/
@@ -174,7 +168,8 @@ public class ChoixAction extends javax.swing.JDialog {
         txaNosDes.setEditable(false);
         txaNosDes.setColumns(20);
         txaNosDes.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
-        txaNosDes.setRows(5);
+        txaNosDes.setRows(15);
+        txaNosDes.setTabSize(15);
         jScrollPane3.setViewportView(txaNosDes);
 
         pnlJouer.setForeground(new java.awt.Color(153, 153, 153));
@@ -353,7 +348,7 @@ public class ChoixAction extends javax.swing.JDialog {
         int quantite;
 
         /*Récupère la mise et conversion char->int*/
-        chiffre = (cbxChiffreMise.getSelectedIndex()+2);
+        chiffre = (cbxChiffreMise.getSelectedIndex() + 2);
         quantite = Integer.parseInt(txfNombreDes.getText());
 
         if (premierTour == true) {
@@ -441,11 +436,6 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JTextField txfNombreDes;
     // End of variables declaration//GEN-END:variables
 
-    public void frameNotifVictoire() {
-        lblAVotreTour.setText("VICTOIRE!!!!");
-        lblAVotreTour.setEnabled(true);
-    }
-
     public String frameNouvelleManche(String pAToiDeJouer) {
         int i;
         //this.setVisible(false);
@@ -468,12 +458,24 @@ public class ChoixAction extends javax.swing.JDialog {
         for (i = 0; i < stringDecoupeGobelet.length; i++) {
             intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
         }
-        
+
         gobeletJoueur = intDecoupeGobelet;
-        
+
         mainDuJoueur();
 
         return "";
     }
 
+    /*    public String frameNotifVictoire() {
+
+        return "";
+    }
+     */
+    public void frameNotifVictoire(String fddds) {
+        lblPartieDe.setText("VICTOIRE!!!!");
+    }
+
+    public void frameNotifLoose(String dsg) {
+        lblPartieDe.setText("Vous avez PERDU");
+    }
 }
