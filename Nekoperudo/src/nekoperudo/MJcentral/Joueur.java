@@ -49,14 +49,16 @@ public class Joueur {
     }
 
     public int[] lancerDice(int NbDice) {
-
+        
         int i;
-        int monGobelet[] = new int[0];
+        int monGobelet[] = new int[5];
 
         Dice d1 = new Dice(couleurJoueur);
 
         for (i = 0; i < NbDice; i++) {
+            System.out.println("i="+i);
             monGobelet[i] = d1.rollTheDice();
+            System.out.println("gobelet="+monGobelet[i]);
         }
         this.setGobelet();
         return monGobelet;

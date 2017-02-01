@@ -19,11 +19,12 @@ public class ChoixAction extends javax.swing.JDialog {
     boolean premierTour = true;
     public int nbDiceParier = 0;
     public int valDice = 2;
+    public int[] gobeletJoueur;
 
     /**
      * Creates new form ChoixAction
      */
-    public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif, boolean pAToiDeJouer) throws RemoteException, InterruptedException {
+    public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif, boolean pAToiDeJouer, int[] pGobeletJoueur) throws RemoteException, InterruptedException {
 
         initComponents();
         this.pseudo = pPseudo;
@@ -31,11 +32,15 @@ public class ChoixAction extends javax.swing.JDialog {
         this.proxy = pProxy;
         this.notif = pNotif;
         this.aToiDeJouer = pAToiDeJouer;
+        this.gobeletJoueur = pGobeletJoueur;
 
         pnlJouer.setVisible(false); //Masque le panel "a toi de jouer"
 
         // popLancerDice(); //Ouvre la popup pour lancer les dés
         lblPartieDe.setText("Partie de " + serveur);//initialise le titre
+
+        mainDuJoueur();
+
         /*try {            
             notif.test(pseudo+"ohohohoh!");
         } catch (RemoteException ex) {
@@ -43,31 +48,37 @@ public class ChoixAction extends javax.swing.JDialog {
         }
          */
 
+ /*    if (premierTour == true) {
+            premierTour = proxy.testPremierTour();
+        }*/
+    }
+
+    public void mainDuJoueur() {
+
+        actualiserMise();
+        actualiserNosDes();
+
         if (aToiDeJouer == false) {
-            // pNotif.actualiserJoueur();
             lblAVotreTour.setText("Un autre joueur joue...");
             lblAVotreTour.setEnabled(true);
-            /*  while (aToiDeJouer == false) {
-                sleep(5000);
-            }*/
         }
         if (aToiDeJouer == true) {
             pnlJouer.setVisible(true);
+            btnMenteur.setVisible(true);
+            btnToutPile.setVisible(true);
             lblAVotreTour.setText("A toi de jouer !");
+            System.out.println("C'est a moi de jouer!");
             if (premierTour == true) {
                 btnMenteur.setVisible(false);
                 btnToutPile.setVisible(false);
             }
         }
-
-        /*    if (premierTour == true) {
-            premierTour = proxy.testPremierTour();
-        }*/
     }
 
     public void setaToiDeJouer(boolean paToiDeJouer) {
         this.aToiDeJouer = paToiDeJouer;
- 
+        premierTour = false;
+        mainDuJoueur();
     }
 
     public void setpremierTour(boolean ppremierTour) {
@@ -83,14 +94,21 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /*Actualise le champ nos dés */
     public void actualiserNosDes() {
-        mesDice = "5 | 5 | 6 | 2 | 1";
+        mesDice = "";
+        int i;
+
+        for (i = 0; i < gobeletJoueur.length; i++) {
+            mesDice = mesDice + gobeletJoueur[i] + " ";
+        }
+        // mesDice = mesDice.substring(0, mesDice.length() - 3);
         txaNosDes.setText(mesDice);
         btnLancerDice.setVisible(false); //Masque le bouton "lancer les dés"
     }
 
     public void actualiserMise() {
-        String mise = "5 | 5 ";
-        txaEnchereEnCours.setText("mise");
+        //  String mise = "5 | 5 ";
+        lblEnchere.setText(nbDiceParier + "d" + valDice);
+        //txaEnchereEnCours.setText("mise");
     }
 
     /*  choix 1 : annoncer menteur  // choix 2 : annoncer tout pile // choix 3 : surencher*/
@@ -374,6 +392,11 @@ public class ChoixAction extends javax.swing.JDialog {
         }
         System.out.println("chiffre " + chiffre);
         System.out.println("quantite " + quantite);
+        try {
+            proxy.actionJoueur(3, pseudo);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         pnlJouer.setVisible(false);//Masque le panel jouer
 
@@ -402,34 +425,14 @@ public class ChoixAction extends javax.swing.JDialog {
         actualiserNosDes();
     }//GEN-LAST:event_btnLancerDiceActionPerformed
 
-    public String frameNotifSurencherNbr(int pmiseNbr) throws RemoteException, InterruptedException {
+    public String frameNotifSurencherNbr(String pmiseNbr) throws RemoteException, InterruptedException {
 
-        try {
-            sleep(250);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.nbDiceParier = pmiseNbr;
+        String[] decoupe = pmiseNbr.split(" ");
+
+        this.nbDiceParier = Integer.parseInt(decoupe[0]);
+        this.valDice = Integer.parseInt(decoupe[1]);
         return "";
     }
-
-    public String frameNotifSurencherVal(int pmiseVal) throws RemoteException, InterruptedException {
-
-        try {
-            sleep(250);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.valDice = pmiseVal;
-
-        // lblEnchere.setText("Enchère en cours : " + pmiseOk.nbDiceParier + " " + pmiseOk.valDice);
-        lblEnchere.setText("Enchère en cours : " + nbDiceParier + "d" + valDice);
-        lblEnchere.setEnabled(true);
-
-        annoncer(3);
-        return "";
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnLancerDice;
@@ -453,4 +456,40 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JTextField txfChiffeMise;
     private javax.swing.JTextField txfNombreDes;
     // End of variables declaration//GEN-END:variables
+
+    public void frameNotifVictoire() {
+        lblAVotreTour.setText("VICTOIRE!!!!");
+        lblAVotreTour.setEnabled(true);
+    }
+
+    public String frameNouvelleManche(String pAToiDeJouer) {
+        int i;
+        //this.setVisible(false);
+        //runFrameInitialiserPartie(pAToiDeJouer);
+
+        try {
+            sleep(250);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String[] stringDecoupepAToiDeJouer = pAToiDeJouer.split(",");
+        boolean baToiDeJouer = Boolean.parseBoolean(stringDecoupepAToiDeJouer[1]);
+
+        pAToiDeJouer = pAToiDeJouer.replace(",false", "");
+        pAToiDeJouer = pAToiDeJouer.replace(",true", "");
+        String[] stringDecoupeGobelet = pAToiDeJouer.split(" ");
+        int[] intDecoupeGobelet = new int[stringDecoupeGobelet.length];
+
+        for (i = 0; i < stringDecoupeGobelet.length; i++) {
+            intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
+        }
+        
+        gobeletJoueur = intDecoupeGobelet;
+        
+        mainDuJoueur();
+
+        return "";
+    }
+
 }

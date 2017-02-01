@@ -30,11 +30,17 @@ public interface Nekoperudo extends java.rmi.Remote {
 
     public interface JoueurNotification extends Remote {
 
-        public String initialiserPartie(boolean pAtoiDeJouer) throws RemoteException;
-        
-        public String notifSurencherNbr(int nbrDice) throws RemoteException;
-        
-        public String notifSurencherVal(int valDice) throws RemoteException;
+        public String initialiserPartie(String pAtoiDeJouer) throws RemoteException;
 
+        public String notifVictoire() throws RemoteException;
+
+        public String prochainTour(String pAtoiDeJouer) throws RemoteException;
+
+        public String nouveauTour(boolean pAtoiDeJouer) throws RemoteException;
+
+        public String notifSurencherNbr(String nbrDice) throws RemoteException;
+
+        //  public String notifSurencherVal(int valDice) throws RemoteException;
+        public String nouvelleManche(String pAtoiDeJouer) throws RemoteException;       
     }
 }

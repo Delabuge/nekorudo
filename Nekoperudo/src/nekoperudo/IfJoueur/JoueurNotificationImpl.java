@@ -36,7 +36,18 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
         System.out.println(text + " Joueur Notif");
     }
 
-    public String initialiserPartie(boolean pAToiDeJouer) throws RemoteException {
+    public String initialiserPartie(String pAToiDeJouer) throws RemoteException {
+        try {
+
+            fAttente.frameInitialiserPartie(pAToiDeJouer);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(JoueurNotificationImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "";
+    }
+
+    public String prochainTour(String pAToiDeJouer) throws RemoteException {
         try {
 
             fAttente.frameInitialiserPartie(pAToiDeJouer);
@@ -49,6 +60,11 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
 
     public String nouveauTour(boolean pAToiDeJouer) throws RemoteException {
         chAction.setaToiDeJouer(pAToiDeJouer);
+        return "";
+    }
+
+    public String nouvelleManche(String pAToiDeJouer) throws RemoteException {
+        chAction.frameNouvelleManche(pAToiDeJouer);
         return "";
     }
 
@@ -75,17 +91,19 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
             Logger.getLogger(JoueurNotificationImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }*/
-    public String notifSurencherNbr(int nbrDice) throws RemoteException {
+    public String notifSurencherNbr(String nbrDice) throws RemoteException {
 
         try {
             chAction.frameNotifSurencherNbr(nbrDice);
+
         } catch (InterruptedException ex) {
-            Logger.getLogger(JoueurNotificationImpl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JoueurNotificationImpl.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
 
-    public String notifSurencherVal(int valDice) throws RemoteException {
+    /*   public String notifSurencherVal(int valDice) throws RemoteException {
         try {
             chAction.frameNotifSurencherVal(valDice);
         } catch (InterruptedException ex) {
@@ -93,5 +111,9 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
         }
         return "";
     }
-
+     */
+    public String notifVictoire() throws RemoteException {
+        chAction.frameNotifVictoire();
+        return "";
+    }
 }

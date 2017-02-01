@@ -111,6 +111,8 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
     public boolean JoueurPret(String pPseudo, JoueurNotification pNotif) throws RemoteException {
         boolean JoueurPretOk = false;
         int i;
+        int j;
+        String notifAtoiJouerGobelet;
 
         if (listeJoueurs.containsKey(pPseudo)) {
             listeJoueurs.get(pPseudo).JoueurPret = true;
@@ -141,10 +143,19 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
             int nbrJoueurPret = 0;
 
             for (i = 0; i < listeJoueurs.size(); i++) {
+                listeJoueurs.get(indexPseudoJoueurs.get(i)).gobelet = listeJoueurs.get(indexPseudoJoueurs.get(i)).lancerDice(listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice);
+                notifAtoiJouerGobelet = "";
+                for (j = 0; j < listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice; j++) {
+                    notifAtoiJouerGobelet = notifAtoiJouerGobelet + listeJoueurs.get(indexPseudoJoueurs.get(i)).gobelet[j];
+                }
+                notifAtoiJouerGobelet = notifAtoiJouerGobelet.substring(0, notifAtoiJouerGobelet.length() - 1);
+
                 if (i != numAToiDeJouer) {
-                    listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(false);
+                    notifAtoiJouerGobelet = notifAtoiJouerGobelet + ",false";
+                    listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(notifAtoiJouerGobelet);
                 } else {
-                    listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(true);
+                    notifAtoiJouerGobelet = notifAtoiJouerGobelet + ",true";
+                    listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(notifAtoiJouerGobelet);
                 }
 
             }
@@ -154,38 +165,58 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
     }
 
     public void actionJoueur(int pChoixJoueur, String pPseudo) throws RemoteException {
-        boolean actionReussit = false;
+        System.out.println("Action Joueur :");
+        int actionReussit = 0;
+        int numprecedent = 0;
+
         switch (pChoixJoueur) {
 
             // Annonce Menteur
             case 1:
+                System.out.println(pPseudo + " annonce menteur");
                 actionReussit = comparerMiseDes();
 
-                if (actionReussit == true) {
-                    listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer - 1)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer - 1)).nbDice - 1;
+                if (actionReussit == 2) {
+
+                    if (numAToiDeJouer - 1 < 0) {
+                        numprecedent = numAToiDeJouer - 1;
+                    } else {
+                        numprecedent = indexPseudoJoueurs.size();
+                    }
+
+                    listeJoueurs.get(indexPseudoJoueurs.get(numprecedent)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numprecedent)).nbDice - 1;
                     System.out.println("A cause de " + listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + ", " + listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer - 1)).pseudo + " perd 1d");
                 } else {
                     listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice - 1;
                     System.out.println(listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
                 }
+
+                finManche();
                 break;
+
             // Annonce Tout-pile
             case 2:
+                System.out.println(pPseudo + " annonce tout-pile");
                 actionReussit = comparerMiseDes();
 
-                if (actionReussit == true) {
-                    this.nbDice = this.nbDice + 1;
+                if (actionReussit == 1) {
+                    if (listeJoueurs.get(pPseudo).nbDice < 5) {
+                        listeJoueurs.get(pPseudo).nbDice = listeJoueurs.get(pPseudo).nbDice + 1;
+                    }
                 } else {
-                    listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice - 1;
+                    listeJoueurs.get(pPseudo).nbDice = listeJoueurs.get(pPseudo).nbDice - 1;
                     System.out.println(listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
                 }
+
+                finManche();
                 break;
 
             // Annonce surenchère
             case 3:
                 //surencherir(miseMax);
-                System.out.println("case 3 Surenchere");
+                System.out.println(pPseudo + " fait une Surenchere");
                 finTour();
+
                 break;
 
             default:
@@ -193,7 +224,7 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         }
     }
 
-    public boolean comparerMiseDes() {
+    public int comparerMiseDes() {
         int nbr = 0;
         int nbr1 = 0;
         int nbr2 = 0;
@@ -204,10 +235,8 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         int i;
         int k;
         int leGobelet[];
-        boolean miseVrai = false;
+        int miseVrai = 0;
 
-        //   indexPseudoJoueurs = new ArrayList<String>();
-        //   Map<String, Joueur> listeJoueurs = new HashMap<String, Joueur>(6);
         for (i = 0; i < listeJoueurs.size(); i++) {
             leGobelet = listeJoueurs.get(indexPseudoJoueurs.get(i)).getGobelet();
 
@@ -263,119 +292,137 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     System.out.println("Erreur de valeur de dés");
             }
         }
-        System.out.println("nbr1 " + nbr1 + " nbr2 " + nbr2 + " nbr3 " + nbr3 + " nbr4 " + nbr4 + " nbr5 " + nbr5 + " nbr6 " + nbr6 + " nbr " + nbr);
+        //    System.out.println("nbr1 " + nbr1 + " nbr2 " + nbr2 + " nbr3 " + nbr3 + " nbr4 " + nbr4 + " nbr5 " + nbr5 + " nbr6 " + nbr6 + " nbr " + nbr);
 
-        System.out.println("Mise " + miseMax.nbDiceParier + " " + miseMax.valDice);
+        // System.out.println("Mise " + miseMax.nbDiceParier + " " + miseMax.valDice);
+        // Tout-pile validé
         if (miseMax.nbDiceParier == nbr) {
-            miseVrai = true;
+            miseVrai = 1;
         }
+        // Menteur validé
+        if (miseMax.nbDiceParier > nbr) {
+            miseVrai = 2;
+        }
+
         System.out.println("Misevrai est a " + miseVrai);
         return miseVrai;
     }
 
-    public void surencherir(Mise m) {
-        // Saisie des valeurs de l'utilisateur
-        int nbDiceParier = 4;
-        int valDice = 5;
-
-        // Condition ok pour la surenchere :  soit en augmentant le nombre de dés, soit en augmentant la valeur ou bien les deux
-        if (nbDiceParier > m.getNbDiceParier() || valDice > m.getValDice()) {
-            m.setNbDiceParier(nbDiceParier);
-            m.setValDice(valDice);
-            terminerTour(3);
-        } else {
-            // Erreur : recommencer la saisie ou retourner à la selection de choix
-        }
-    }
-
-    public void terminerTour(int choixJoueur) {
-
-        switch (choixJoueur) {
-
-            // Annonce Menteur
-            case 1:
-
-                break;
-
-            // Annonce Tout-pile
-            case 2:
-
-                break;
-
-            // Annonce Surenchere
-            case 3:
-
-                break;
-
-            default:
-                System.out.println("Erreur dans le choix de l'action du joueur");
-        }
-
-    }
-
-    public void leMain() {
-        int nbDice = 5;
-        int choixJoueur = 0;
-        int nbJoueur = 2;
-        String nomJoueur;
-        String test;
-
-        List<Joueur> listeJoueurs = new ArrayList<Joueur>();
-
-        // test = (listeJoueurs.get(1).couleurJoueur);
-        // System.out.print(test);
-        //   initialiserPartie(nbJoueur);
-        // test = (listeJoueurs.get(1).couleurJoueur);
-        // System.out.print(test);
-        //m = jouerManche(listeJoueurs);
-    }
-
-    /*   public boolean jouerTour(List<Joueur> listeJoueurs, Mise m, int numJoueur) {
-        boolean finManche = false;
-        int choixJoueur = 1;
-        // Joueur choisie son action
-        actionJoueur(choixJoueur, m, listeJoueurs, numJoueur);
-
-        if (choixJoueur == 1 || choixJoueur == 2) {
-            finManche = true;
-        }
-
-        return finManche;
-    }*/
-    public void surencherJoueur(int chiffre, int quantite) throws RemoteException {
-        int i;
-
-        miseMax.valDice = chiffre;
-        miseMax.nbDiceParier = quantite;
-        System.out.println("Mise max mis à jour");
-
-        for (i = 0; i < listeJoueurs.size(); i++) {
-            listeCoJoueurs.get(indexPseudoJoueurs.get(i)).notifSurencherNbr(miseMax.nbDiceParier);
-            listeCoJoueurs.get(indexPseudoJoueurs.get(i)).notifSurencherNbr(miseMax.valDice);
-            System.out.println("Mise max envoyé à " + indexPseudoJoueurs.get(i));
-        }
-
-    }
-
     public void finTour() throws RemoteException {
-        System.out.println("fin tour");
         int i;
-        
+        System.out.println("fin tour");
+
+        System.out.println("numAToiDeJouer " + numAToiDeJouer);
         if (numAToiDeJouer + 1 < indexPseudoJoueurs.size()) {
             numAToiDeJouer = numAToiDeJouer + 1;
         } else {
             numAToiDeJouer = 0;
         }
-
+        System.out.println("numAToiDeJouer " + numAToiDeJouer);
+        System.out.println("ca va être a " + indexPseudoJoueurs.get(numAToiDeJouer));
         numTour = numTour + 1;
 
         for (i = 0; i < listeJoueurs.size(); i++) {
             if (i != numAToiDeJouer) {
-                listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(false);
+                listeCoJoueurs.get(indexPseudoJoueurs.get(i)).nouveauTour(false);
             } else {
-                listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(true);
+                listeCoJoueurs.get(indexPseudoJoueurs.get(i)).nouveauTour(true);
             }
 
         }
+    }
+
+    public void surencherJoueur(int chiffre, int quantite) throws RemoteException {
+        int i;
+        String miseRenvoyer;
+
+        miseMax.valDice = chiffre;
+        miseMax.nbDiceParier = quantite;
+        miseRenvoyer = (quantite + " " + chiffre);
+        System.out.println("Mise max mis à jour");
+
+        for (i = 0; i < listeJoueurs.size(); i++) {
+            listeCoJoueurs.get(indexPseudoJoueurs.get(i)).notifSurencherNbr(miseRenvoyer);
+            // listeCoJoueurs.get(indexPseudoJoueurs.get(i)).notifSurencherNbr(miseMax.valDice);
+            System.out.println("Mise max envoyé à " + indexPseudoJoueurs.get(i));
+        }
+
+    }
+
+    public void finManche() throws RemoteException {
+        int i;
+        int numJoueurPerdu = -1;
+        int numJoueurGagnant;
+        int j;
+        String notifAtoiJouerGobelet;
+        boolean gagnant = false;
+
+        // Permet de connaitre le numero du joueur qui aurait perdu à la fin de cette manche
+        for (i = 0; i < listeJoueurs.size(); i++) {
+            if (listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice == 0) {
+                numJoueurPerdu = i;
+                if (listeJoueurs.size() == 2) {
+                    gagnant = true;
+                }
+            }
+        }
+
+        if (gagnant == false) {
+            System.out.println("numAToiDeJouer " + numAToiDeJouer);
+
+            if (numJoueurPerdu == numAToiDeJouer) {
+                if (indexPseudoJoueurs.size() > 2) {
+                    if (numAToiDeJouer + 1 < indexPseudoJoueurs.size()) {
+                        numAToiDeJouer = numAToiDeJouer + 1;
+                    } else {
+                        numAToiDeJouer = 0;
+                    }
+                } else {
+                    if (numAToiDeJouer + 1 < indexPseudoJoueurs.size()) {
+                        numAToiDeJouer = numAToiDeJouer + 1;
+                    } else {
+                        numAToiDeJouer = 0;
+                    }
+                }
+            }
+
+            System.out.println("ca va être a " + indexPseudoJoueurs.get(numAToiDeJouer));
+
+            for (i = 0; i < listeJoueurs.size(); i++) {
+                if (numJoueurPerdu != i) {
+                    System.out.println("numJoueurPerdu ! = i");
+                    listeJoueurs.get(indexPseudoJoueurs.get(i)).gobelet = listeJoueurs.get(indexPseudoJoueurs.get(i)).lancerDice(listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice);
+                    notifAtoiJouerGobelet = "";
+                    for (j = 0; j < listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice; j++) {
+                        notifAtoiJouerGobelet = notifAtoiJouerGobelet + listeJoueurs.get(indexPseudoJoueurs.get(i)).gobelet[j];
+                    }
+                    notifAtoiJouerGobelet = notifAtoiJouerGobelet.substring(0, notifAtoiJouerGobelet.length() - 1);
+
+                    if (i != numAToiDeJouer) {
+                        notifAtoiJouerGobelet = notifAtoiJouerGobelet + ",false";
+                        listeCoJoueurs.get(indexPseudoJoueurs.get(i)).nouvelleManche(notifAtoiJouerGobelet);
+                    } else {
+                        notifAtoiJouerGobelet = notifAtoiJouerGobelet + ",true";
+                        listeCoJoueurs.get(indexPseudoJoueurs.get(i)).nouvelleManche(notifAtoiJouerGobelet);
+                    }
+                } else {
+                    //Envoie tu as perdu!
+                }
+            }
+        } else {
+            if (numJoueurPerdu + 1 == 2) {
+                numJoueurGagnant = 0;
+            } else {
+                numJoueurGagnant = 1;
+            }
+
+            listeCoJoueurs.get(indexPseudoJoueurs.get(numJoueurGagnant)).notifVictoire();
+        }
+
+        if (numJoueurPerdu != -1) {
+            listeJoueurs.remove(indexPseudoJoueurs.get(numJoueurPerdu));
+            indexPseudoJoueurs.remove(numJoueurPerdu);
+        }
+
     }
 }

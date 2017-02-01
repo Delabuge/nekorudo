@@ -217,21 +217,34 @@ public class FileAttente extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    public String frameInitialiserPartie(boolean pAToiDeJouer) throws RemoteException, InterruptedException {
+    public String frameInitialiserPartie(String pAToiDeJouer) throws RemoteException, InterruptedException {
+        int i;
         this.setVisible(false);
         //runFrameInitialiserPartie(pAToiDeJouer);
 
         try {
-            sleep(1000);
+            sleep(250);
         } catch (InterruptedException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, pAToiDeJouer);
+        String[] stringDecoupepAToiDeJouer = pAToiDeJouer.split(",");
+        boolean baToiDeJouer = Boolean.parseBoolean(stringDecoupepAToiDeJouer[1]);
+
+        pAToiDeJouer = pAToiDeJouer.replace(",false", "");
+        pAToiDeJouer = pAToiDeJouer.replace(",true", "");
+        String[] stringDecoupeGobelet = pAToiDeJouer.split(" ");
+        int[] intDecoupeGobelet = new int[stringDecoupeGobelet.length];
+
+        for (i = 0; i < stringDecoupeGobelet.length; i++) {
+                intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
+        }
+ 
+        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, baToiDeJouer, intDecoupeGobelet);
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
         c1.setVisible(true);
-        notif.setChoixAction(c1); 
+        notif.setChoixAction(c1);
 
         return "";
     }
