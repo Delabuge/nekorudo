@@ -65,8 +65,9 @@ public class ChoixAction extends javax.swing.JDialog {
         if (aToiDeJouer == true) {
             pnlJouer.setVisible(true);
             btnMenteur.setVisible(true);
-            btnToutPile.setVisible(true);            
-            popAToiDeJouer();
+            btnToutPile.setVisible(true);   
+            lblAVotreTour.setText("A toi de jouer!");
+            
             System.out.println("C'est a moi de jouer!");
             if (premierTour == true) {
                 btnMenteur.setVisible(false);
