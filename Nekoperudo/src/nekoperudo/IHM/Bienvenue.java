@@ -17,6 +17,9 @@ public class Bienvenue extends javax.swing.JDialog {
     String pseudo;
     String serveur;
 
+    /**
+     * Constructeur
+     */
     public Bienvenue() {
         initComponents();
 
@@ -26,8 +29,7 @@ public class Bienvenue extends javax.swing.JDialog {
         image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
         jPanel1.add(image);
         jPanel1.repaint();
-        
-        
+
     }
 
     /**
@@ -179,31 +181,33 @@ public class Bienvenue extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfPseudoActionPerformed
 
-    /*  Récupère le pseudo et se connecte au serveur central    */
+    /*  Récupère le pseudo, se connecte au serveur central puis passe à la page fileAttente    */
     private void btnRejoindreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejoindreActionPerformed
 
         Nekoperudo proxy;
-        try {
+        try {           
             
-            proxy = (Nekoperudo) Naming.lookup("MJ");
-           // proxy = (Nekoperudo) Naming.lookup("rmi://STRI-PC:1099/MJ");
+            proxy = (Nekoperudo) Naming.lookup("MJ");   //Connexion au serveur central         
             //proxy = (Nekoperudo) Naming.lookup("rmi://192.168.1.1:1099/MJ");
-            
+
+            //Crée un nouveau joueur
             JoueurNotificationImpl notif = new JoueurNotificationImpl("Bob");
             proxy.enregistrerNotification("Bob", notif);
             if (txfPseudo.getText().isEmpty()) {
                 throw new ChampVideException();
             }
             
-            proxy.rejoindrePartie(this.getPseudo(),notif);
+            //Ajoute le joueur à la liste de participants sur le serveur
+            proxy.rejoindrePartie(this.getPseudo(), notif);
 
+            //Création et ouverture de la page fileAttente
             FileAttente fa = new FileAttente(this.getPseudo(), this.getServeur(), this.getRMIObject(proxy), this.getNotif(notif));
-            
             fa.setTitle("Nekorudo : " + getPseudo());
             fa.setLocationRelativeTo(null);
             fa.setVisible(true);
+            
             this.setVisible(false);
-            notif.setFileAttente(fa); 
+            notif.setFileAttente(fa);
 
         } catch (NotBoundException ex) {
             Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
@@ -212,14 +216,8 @@ public class Bienvenue extends javax.swing.JDialog {
         } catch (RemoteException ex) {
             Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ChampVideException ex) {
-            JOptionPane.showMessageDialog(this,"Veuillez renseigner le pseudo.","Erreur",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le pseudo.", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
-
-        /**
-         * **Connexion au serveur local
-         */
-        //nom du serveur : getServeur()
-
     }//GEN-LAST:event_btnRejoindreActionPerformed
 
     /*  Quitte l'application    */
@@ -229,29 +227,16 @@ public class Bienvenue extends javax.swing.JDialog {
 
     /*  Affiche la page des règles  */
     private void btnReglesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReglesActionPerformed
-        
+
         ReglesJeu rj = new ReglesJeu();
         try {
-            rj.setTitle("Nekorudo : " + getPseudo());        
+            rj.setTitle("Nekorudo : " + getPseudo());
             rj.setLocationRelativeTo(null);
             rj.setVisible(true);
         } catch (ChampVideException ex) {
-            JOptionPane.showMessageDialog(this,"Veuillez renseigner le pseudo.","Erreur",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le pseudo.", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnReglesActionPerformed
-
-    public String getPseudo() throws ChampVideException {
-        pseudo = txfPseudo.getText();
-        if (txfPseudo.getText().isEmpty()) {
-            throw new ChampVideException();
-        }
-        return pseudo;
-    }
-
-    public String getServeur() {
-        serveur = txfServeur.getText();
-        return serveur;
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -269,12 +254,47 @@ public class Bienvenue extends javax.swing.JDialog {
     private javax.swing.JTextField txfServeur;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Récupère le pseudo entré
+     *
+     * @return String pseudo
+     * @throws ChampVideException
+     */
+    public String getPseudo() throws ChampVideException {
+        pseudo = txfPseudo.getText();
+        if (txfPseudo.getText().isEmpty()) { //Si le champ est vide
+            throw new ChampVideException();
+        }
+        return pseudo;
+    }
+
+    /**
+     * Récupère le serveur entré
+     *
+     * @return String serveur
+     */
+    public String getServeur() {
+        serveur = txfServeur.getText();
+        return serveur;
+    }
+
+    /**
+     * Retourne le proxy
+     *
+     * @param pProxy
+     * @return Nekoperudo
+     */
     public Nekoperudo getRMIObject(Nekoperudo pProxy) {
         return pProxy;
     }
 
+    /**
+     * Retourne la notif
+     *
+     * @param pNotif
+     * @return JoueurNotificationImpl
+     */
     public JoueurNotificationImpl getNotif(JoueurNotificationImpl pNotif) {
         return pNotif;
     }
-
 }

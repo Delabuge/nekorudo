@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package nekoperudo.MJcentral;
 
 import java.rmi.RemoteException;
@@ -12,16 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import nekoperudo.IfJoueur.Nekoperudo.JoueurNotification;
 
-/**
- *
- * @author Remi
- */
+
 /**
  * La classe Joueur contient l'implémentation des méthodes du Joueur
  */
 public class Joueur {
 
     public int nbDice;
+
     public String couleurJoueur;
     int gobelet[] = new int[5];
     String pseudo;
@@ -29,6 +23,7 @@ public class Joueur {
     int nbDiceParier = 0;
     int valDiceParier = 0;
     int numJoueur = 0;
+
     public JoueurNotification notif;
     Mise miseJ = new Mise(0, 2);
     boolean AToiDeJouer = false;
@@ -37,6 +32,17 @@ public class Joueur {
 
     }
 
+    /**
+     * Initialise le joueur
+     * @param pNbDice
+     * @param pCouleurJoueur
+     * @param pGobelet
+     * @param pPseudo
+     * @param pJoueurPret
+     * @param pNotif
+     * @param pMiseJ
+     * @param pAToiDeJouer
+     */
     public Joueur(int pNbDice, String pCouleurJoueur, int[] pGobelet, String pPseudo, boolean pJoueurPret, JoueurNotification pNotif, Mise pMiseJ, boolean pAToiDeJouer) {
         nbDice = pNbDice;
         couleurJoueur = pCouleurJoueur;
@@ -48,6 +54,11 @@ public class Joueur {
         AToiDeJouer = pAToiDeJouer;
     }
 
+    /**
+     * Génère aléatoirement des valeurs pour nombre de dés
+     * @param NbDice
+     * @return
+     */
     public int[] lancerDice(int NbDice) {
         
         int i;
@@ -57,7 +68,7 @@ public class Joueur {
 
         for (i = 0; i < NbDice; i++) {
             System.out.println("i="+i);
-            monGobelet[i] = d1.rollTheDice();
+            monGobelet[i] = d1.rollTheDice(); //Génère aléatoirement une valeur
             System.out.println("gobelet="+monGobelet[i]);
         }
         this.setGobelet();
@@ -77,6 +88,12 @@ public class Joueur {
         return listeJoueurs;
     }
      */
+
+    /**
+     * Jette les dés de tous les joueurs
+     * @param listeJoueurs
+     */
+
     public void jetterDes(List<Joueur> listeJoueurs) {
         int i;
 
@@ -106,6 +123,10 @@ public class Joueur {
         return (pseudo + " Dé(" +miseJ.getValDice()+ ") x" + miseJ.getNbDiceParier());
     }
 
+    /**
+     * Récupère le gobelet
+     * @return
+     */
     public int[] getGobelet() {
         return gobelet;
     }

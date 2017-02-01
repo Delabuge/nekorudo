@@ -20,17 +20,30 @@ public class ChoixAction extends javax.swing.JDialog {
     JoueurNotificationImpl notif;
     boolean aToiDeJouer;
     boolean premierTour = true;
+
     public int nbDiceParier = 0;
+
     public int valDice = 2;
+
     public int[] gobeletJoueur;
 
     /**
-     * Creates new form ChoixAction
+     * Constructeur, initialise et appelle mainDuJoueur()
+     * 
+     * @param pPseudo
+     * @param pServeur
+     * @param pProxy
+     * @param pNotif
+     * @param pAToiDeJouer
+     * @param pGobeletJoueur
+     * @throws RemoteException
+     * @throws InterruptedException
      */
     public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif, boolean pAToiDeJouer, int[] pGobeletJoueur) throws RemoteException, InterruptedException {
 
         initComponents();
 
+        /*Image*/
         ImageIcon icone = new ImageIcon("C:/Firefox_baby.png");
         JLabel image = new JLabel(icone);
         image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
@@ -49,9 +62,11 @@ public class ChoixAction extends javax.swing.JDialog {
         lblPartieDe.setText("Partie de " + serveur);//initialise le titre
 
         mainDuJoueur();
-
     }
 
+    /**
+     * Permet à un joueur de jouer (ou non) et actualise la mise et les nos dés
+     */
     public void mainDuJoueur() {
         actualiserMise();
         actualiserNosDes();
@@ -74,7 +89,11 @@ public class ChoixAction extends javax.swing.JDialog {
         }
     }
 
-    /* Popup de fin de manche avec résultats */
+    /**
+     * Popup de fin de manche avec résultats 
+     * A implémenter
+     */
+
     public void popFinManche() {
         PopFinManche pf = new PopFinManche();
         pf.setTitle("Nekorudo : " + pseudo);
@@ -82,41 +101,58 @@ public class ChoixAction extends javax.swing.JDialog {
         pf.setVisible(true);
     }
 
+    /**
+     * Autorise un joueur à jouer son tour
+     * @param paToiDeJouer
+     */
     public void setaToiDeJouer(boolean paToiDeJouer) {
         this.aToiDeJouer = paToiDeJouer;
         premierTour = false;
         mainDuJoueur();
     }
 
+    /**
+     * Définit le 1er tour (on ne peut qu'enchérir)
+     * @param ppremierTour
+     */
     public void setpremierTour(boolean ppremierTour) {
         this.premierTour = ppremierTour;
     }
 
-    /*  Actualise la mise et le joueur en cours*/
-    public void actualiser() {
-        String enchere = "";
-        //  txaEnchereEnCours.setText(enchere);
-        lblEnchere.setText("Enchère :");
-    }
+   
 
-    /*Actualise le champ nos dés */
+    /**
+     * Actualise le champ nos dés
+     */
     public void actualiserNosDes() {
+        
         mesDice = "";
         int i;
-
+        
+        //Met chaque dé du gobelet dans un String pour affichage
         for (i = 0; i < gobeletJoueur.length; i++) {
             mesDice = mesDice + gobeletJoueur[i] + " ";
         }
-        // mesDice = mesDice.substring(0, mesDice.length() - 3);
+        // mesDice = mesDice.substring(0, mesDice.length() - 3);////////////////////////////////////////////////////////////////////////////////
         txaNosDes.setText(mesDice);
         btnLancerDice.setVisible(false); //Masque le bouton "lancer les dés"
     }
 
+    /**
+     * Actualise la mise en cours
+     */
     public void actualiserMise() {
         lblEnchere.setText("Mise en cours : " + nbDiceParier + "d" + valDice);
     }
 
-    /*  choix 1 : annoncer menteur  // choix 2 : annoncer tout pile // choix 3 : surencher*/
+    
+
+    /**
+     * Effectue l'action choisie et masque le pannel
+     * @param choix choix 1 : annoncer menteur  // choix 2 : annoncer tout pile // choix 3 : surenchere
+     * @throws RemoteException
+     */
+
     public void annoncer(int choix) throws RemoteException {
         pnlJouer.setVisible(false);//Masque le panel jouer
         proxy.actionJoueur(choix, pseudo);
@@ -362,35 +398,33 @@ public class ChoixAction extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfNombreDesActionPerformed
 
-    /*  Récupère la mise    */ ////Manque l'exception de miser 0 dés
+    /*  Récupère la mise    */ 
     private void btnSurencherirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSurencherirActionPerformed
-        //txfNombreDes.setText("");
-
+        
         int chiffre;
         int quantite;
+        
         try {
             /*Récupère la mise et conversion char->int*/
             chiffre = (cbxChiffreMise.getSelectedIndex() + 2);
             quantite = Integer.parseInt(txfNombreDes.getText());
-            if (quantite == 0) {
+            
+            //Si le nombre de dés misé est nul : on prend pas en compte
+            if (quantite == 0) { 
                 throw new NullException();
             }
-            if ((valDice < chiffre && nbDiceParier <= quantite) || (valDice <= chiffre && nbDiceParier < quantite)) {
-
-            } else {
+            
+            //On ne peut pas miser moins ou pareil que la mise actuelle
+            if (!((valDice < chiffre && nbDiceParier <= quantite) || (valDice <= chiffre && nbDiceParier < quantite))) {
                 throw new PetiteMiseException();
-            }
+            }         
 
-            if (premierTour == true) {
-                if (chiffre > 1 && chiffre < 6 && quantite > 0) {
-                    try {
-                        proxy.surencherJoueur(chiffre, quantite);
-                    } catch (RemoteException ex) {
-                        Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    lblAVotreTour.setText("Erreur : veuillez saisir un chiffre entre 2 et 6 et une quantité > 0");
-                }
+            if (premierTour == true) {////////////////////////////////////////////////////////////////////////////////// Je ne vois la la différence entre le true et le false                
+                try {
+                    proxy.surencherJoueur(chiffre, quantite);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
+                }                
             }
 
             if (premierTour == false) {
@@ -441,6 +475,13 @@ public class ChoixAction extends javax.swing.JDialog {
         actualiserNosDes();
     }//GEN-LAST:event_btnLancerDiceActionPerformed
 
+    /**
+     *
+     * @param pmiseNbr
+     * @return String 
+     * @throws RemoteException
+     * @throws InterruptedException
+     */
     public String frameNotifSurencherNbr(String pmiseNbr) throws RemoteException, InterruptedException {
 
         String[] decoupe = pmiseNbr.split(" ");
@@ -473,17 +514,18 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JTextField txfNombreDes;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Lance une nouvelle manche
+     * @param pAToiDeJouer
+     * @return
+     */
     public String frameNouvelleManche(String pAToiDeJouer) {
         int i;
-        //this.setVisible(false);
-        //runFrameInitialiserPartie(pAToiDeJouer);
 
         nbDiceParier = 0;
         valDice = 2;
 
         actualiserMise();
-        
-        
 
         try {
             sleep(250);
@@ -499,9 +541,7 @@ public class ChoixAction extends javax.swing.JDialog {
         String[] stringDecoupeGobelet = pAToiDeJouer.split(" ");
         int[] intDecoupeGobelet = new int[stringDecoupeGobelet.length];
 
-        for (i = 0;
-                i < stringDecoupeGobelet.length;
-                i++) {
+        for (i = 0; i < stringDecoupeGobelet.length; i++) {
             intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
         }
 
@@ -512,10 +552,18 @@ public class ChoixAction extends javax.swing.JDialog {
         return "";
     }
 
+    /**
+     * Pas implémenté
+     * @param fddds Paramètre inutile
+     */
     public void frameNotifVictoire(String fddds) {
         lblPartieDe.setText("VICTOIRE!!!!");
     }
 
+    /**
+     * Pas implémenté
+     * @param dsg
+     */
     public void frameNotifLoose(String dsg) {
         lblPartieDe.setText("Vous avez PERDU");
     }

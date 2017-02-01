@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nekoperudo.MJcentral;
 
 import static java.lang.Thread.sleep;
@@ -20,10 +15,7 @@ import java.util.Random;
 import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
 
-/**
- *
- * @author Rémi
- */
+
 public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
     List<String> indexPseudoJoueurs = new ArrayList<String>();

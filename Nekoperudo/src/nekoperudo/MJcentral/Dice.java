@@ -1,25 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package nekoperudo.MJcentral;
 
 import java.util.Random;
 
-/**
- *
- * @author Remi
- */
 public class Dice {
 
-    //public int numDice;
     public String couleurJoueur;
     public int resultat;
 
-//public Dice(int pNumDice, String pCouleurJoueur)  
     public Dice(String pCouleurJoueur) {
-        // numDice = pNumDice;
         couleurJoueur = pCouleurJoueur;
         resultat = rollTheDice();
     }
@@ -49,7 +38,7 @@ public class Dice {
     }
 
     /**
-     * @return le resultat du de
+     * @return le resultat du dé
      */
     public int getResultat() {
         return resultat;

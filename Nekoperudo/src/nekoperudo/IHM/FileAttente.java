@@ -10,14 +10,14 @@ import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
 
 public class FileAttente extends javax.swing.JDialog {
-    
+
     String pseudo;
     String serveur;
     Nekoperudo proxy;
     JoueurNotificationImpl notif;
-    
+
     public FileAttente(String pseudo, String serveur, Nekoperudo pProxy, JoueurNotificationImpl pNotif) {
-        
+
         initComponents();
         this.pseudo = pseudo;
         this.serveur = serveur;
@@ -30,7 +30,7 @@ public class FileAttente extends javax.swing.JDialog {
         image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
         jPanel1.add(image);
         jPanel1.repaint();
-        
+
     }
 
     /**
@@ -118,21 +118,29 @@ public class FileAttente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*Bouton permettant de faire pret*/
     private void jButtonPretActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretActionPerformed
-        
+
         try {
             proxy.JoueurPret(pseudo, notif);
         } catch (RemoteException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
 
     }//GEN-LAST:event_jButtonPretActionPerformed
 
     private void jButtonPretMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonPretMouseClicked
-     //   jButtonPret.setEnabled(false);
+        //   jButtonPret.setEnabled(false);
     }//GEN-LAST:event_jButtonPretMouseClicked
-    
+
+    /**
+     * Initialise la partie
+     * @param pAToiDeJouer
+     * @return
+     * @throws RemoteException
+     * @throws InterruptedException
+     */
     public String frameInitialiserPartie(String pAToiDeJouer) throws RemoteException, InterruptedException {
         int i;
         this.setVisible(false);
@@ -143,25 +151,25 @@ public class FileAttente extends javax.swing.JDialog {
         } catch (InterruptedException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         String[] stringDecoupepAToiDeJouer = pAToiDeJouer.split(",");
         boolean baToiDeJouer = Boolean.parseBoolean(stringDecoupepAToiDeJouer[1]);
-        
+
         pAToiDeJouer = pAToiDeJouer.replace(",false", "");
         pAToiDeJouer = pAToiDeJouer.replace(",true", "");
         String[] stringDecoupeGobelet = pAToiDeJouer.split(" ");
         int[] intDecoupeGobelet = new int[stringDecoupeGobelet.length];
-        
+
         for (i = 0; i < stringDecoupeGobelet.length; i++) {
             intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
         }
-        
+
         ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, baToiDeJouer, intDecoupeGobelet);
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
         c1.setVisible(true);
         notif.setChoixAction(c1);
-        
+
         return "";
     }
 
