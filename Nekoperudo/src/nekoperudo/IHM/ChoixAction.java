@@ -76,13 +76,7 @@ public class ChoixAction extends javax.swing.JDialog {
         }
     }
     
-    /* Popup signalant le début de tour */
-    public void popAToiDeJouer(){
-        PopAToiDeJouer pj = new PopAToiDeJouer();
-        pj.setTitle("Nekorudo : " + pseudo);                          
-        pj.setLocationRelativeTo(null);                               
-        pj.setVisible(true);
-    }
+   
     
     /* Popup de fin de manche avec résultats */
     public void popFinManche(){
