@@ -1,5 +1,5 @@
 
-package nekoperudo.MJcentral;
+package nekoperudo.ServeurCentral;
 
 import java.util.Random;
 

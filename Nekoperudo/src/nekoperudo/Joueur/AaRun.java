@@ -1,5 +1,5 @@
 
-package nekoperudo.IHM;
+package nekoperudo.Joueur;
 
 import javax.swing.SwingUtilities;
 
@@ -14,6 +14,11 @@ public class AaRun {
                                 bvn.setTitle("Nekorudo");                        
                                 bvn.setLocationRelativeTo(null);                               
 				bvn.setVisible(true);
+                                
+                                Bienvenue bvn1 = new Bienvenue();                                
+                                bvn1.setTitle("Nekorudo");                        
+                                bvn1.setLocationRelativeTo(null);                               
+				bvn1.setVisible(true);
 			}
 		});
 	}

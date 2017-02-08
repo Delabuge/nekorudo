@@ -1,4 +1,4 @@
-package nekoperudo.MJcentral;
+package nekoperudo.ServeurCentral;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import nekoperudo.IfJoueur.Nekoperudo;
+import nekoperudo.Interface.Nekoperudo;
 
 public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 

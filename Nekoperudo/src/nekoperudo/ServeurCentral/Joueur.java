@@ -1,8 +1,8 @@
 
-package nekoperudo.MJcentral;
+package nekoperudo.ServeurCentral;
 
 import java.util.List;
-import nekoperudo.IfJoueur.Nekoperudo.JoueurNotification;
+import nekoperudo.Interface.Nekoperudo.JoueurNotification;
 
 
 /**

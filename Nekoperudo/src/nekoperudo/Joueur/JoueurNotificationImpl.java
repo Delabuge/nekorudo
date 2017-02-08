@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nekoperudo.IfJoueur;
+package nekoperudo.Joueur;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nekoperudo.IHM.ChoixAction;
-import nekoperudo.IHM.FileAttente;
-import nekoperudo.IfJoueur.Nekoperudo.JoueurNotification;
-import nekoperudo.MJcentral.Joueur;
+import nekoperudo.Joueur.ChoixAction;
+import nekoperudo.Joueur.FileAttente;
+import nekoperudo.Interface.Nekoperudo.JoueurNotification;
+import nekoperudo.ServeurCentral.Joueur;
 
 /**
  *

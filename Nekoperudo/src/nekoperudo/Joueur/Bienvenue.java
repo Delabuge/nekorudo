@@ -1,4 +1,4 @@
-package nekoperudo.IHM;
+package nekoperudo.Joueur;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -9,8 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import nekoperudo.IfJoueur.JoueurNotificationImpl;
-import nekoperudo.IfJoueur.Nekoperudo;
+import nekoperudo.Interface.Nekoperudo;
 
 public class Bienvenue extends javax.swing.JDialog {
 
@@ -172,8 +171,8 @@ public class Bienvenue extends javax.swing.JDialog {
         Nekoperudo proxy;
         try {
 
-            proxy = (Nekoperudo) Naming.lookup("MJ");   //Connexion au serveur central         
-            //proxy = (Nekoperudo) Naming.lookup("rmi://192.168.1.1:1099/MJ");
+            //proxy = (Nekoperudo) Naming.lookup("MJ");   //Connexion au serveur central         
+            proxy = (Nekoperudo) Naming.lookup("rmi://" + getServeur() + ":1099/MJ");
 
             //Crée un nouveau joueur
             JoueurNotificationImpl notif = new JoueurNotificationImpl("Bob");
@@ -195,11 +194,11 @@ public class Bienvenue extends javax.swing.JDialog {
             notif.setFileAttente(fa);
 
         } catch (NotBoundException ex) {
-            Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Registre incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
         } catch (MalformedURLException ex) {
-            Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Format de l'adresse incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
         } catch (RemoteException ex) {
-            Logger.getLogger(Bienvenue.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Serveur inexistant.", "Erreur", JOptionPane.ERROR_MESSAGE);
         } catch (ChampVideException ex) {
             JOptionPane.showMessageDialog(this, "Veuillez renseigner le pseudo.", "Erreur", JOptionPane.ERROR_MESSAGE);
         }

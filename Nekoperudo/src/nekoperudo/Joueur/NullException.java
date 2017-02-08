@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nekoperudo.IHM;
+package nekoperudo.Joueur;
 
 /**
  *
  * @author stri
  */
-class PetiteMiseException extends Exception {
+class NullException extends Exception {
     
 }

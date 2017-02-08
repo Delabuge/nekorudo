@@ -1,4 +1,4 @@
-package nekoperudo.IHM;
+package nekoperudo.Joueur;
 
 import static java.lang.Thread.sleep;
 import java.rmi.RemoteException;
@@ -6,8 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import nekoperudo.IfJoueur.JoueurNotificationImpl;
-import nekoperudo.IfJoueur.Nekoperudo;
+import nekoperudo.Interface.Nekoperudo;
 
 public class FileAttente extends javax.swing.JDialog {
 
