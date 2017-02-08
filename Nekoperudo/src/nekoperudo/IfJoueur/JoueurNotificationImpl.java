@@ -13,7 +13,6 @@ import nekoperudo.IHM.ChoixAction;
 import nekoperudo.IHM.FileAttente;
 import nekoperudo.IfJoueur.Nekoperudo.JoueurNotification;
 import nekoperudo.MJcentral.Joueur;
-import nekoperudo.MJcentral.Mise;
 
 /**
  *

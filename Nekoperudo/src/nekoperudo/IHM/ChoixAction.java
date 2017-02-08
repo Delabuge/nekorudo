@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
-import nekoperudo.MJcentral.Mise;
 
 public class ChoixAction extends javax.swing.JDialog {
 
@@ -29,7 +28,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /**
      * Constructeur, initialise et appelle mainDuJoueur()
-     * 
+     *
      * @param pPseudo
      * @param pServeur
      * @param pProxy
@@ -43,13 +42,6 @@ public class ChoixAction extends javax.swing.JDialog {
 
         initComponents();
 
-        /*Image*/
-        ImageIcon icone = new ImageIcon("C:/Firefox_baby.png");
-        JLabel image = new JLabel(icone);
-        image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
-        jPanel1.add(image);
-        jPanel1.repaint();
-
         this.pseudo = pPseudo;
         this.serveur = pServeur;
         this.proxy = pProxy;
@@ -57,9 +49,13 @@ public class ChoixAction extends javax.swing.JDialog {
         this.aToiDeJouer = pAToiDeJouer;
         this.gobeletJoueur = pGobeletJoueur;
 
-        pnlJouer.setVisible(false); //Masque le panel "a toi de jouer"
-
         lblPartieDe.setText("Partie de " + serveur);//initialise le titre
+
+        pnlJouer.setVisible(true);
+        lblAVotreTour.setVisible(true);
+        btnSurencherir.setVisible(true);
+        btnMenteur.setVisible(true);
+        btnToutPile.setVisible(true);
 
         mainDuJoueur();
     }
@@ -70,30 +66,39 @@ public class ChoixAction extends javax.swing.JDialog {
     public void mainDuJoueur() {
         actualiserMise();
         actualiserNosDes();
+        
+        pnlJouer.setVisible(true);
+        lblAVotreTour.setVisible(true);
+        btnSurencherir.setVisible(true);
+        btnMenteur.setVisible(true);
+        btnToutPile.setVisible(true);
 
         if (aToiDeJouer == false) {
             lblAVotreTour.setText("Un autre joueur joue...");
-            lblAVotreTour.setEnabled(true);
+
+            btnSurencherir.setEnabled(false);
+            btnMenteur.setEnabled(false);
+            btnToutPile.setEnabled(false);
         }
         if (aToiDeJouer == true) {
-            pnlJouer.setVisible(true);
-            btnMenteur.setVisible(true);
-            btnToutPile.setVisible(true);
+
             lblAVotreTour.setText("A toi de jouer!");
 
-            System.out.println("C'est a moi de jouer!");
+            btnSurencherir.setEnabled(true);
+            btnMenteur.setEnabled(true);
+            btnToutPile.setEnabled(true);
+
             if (premierTour == true) {
-                btnMenteur.setVisible(false);
-                btnToutPile.setVisible(false);
+                btnSurencherir.setEnabled(true);
+                btnMenteur.setEnabled(false);
+                btnToutPile.setEnabled(false);
             }
         }
     }
 
     /**
-     * Popup de fin de manche avec résultats 
-     * A implémenter
+     * Popup de fin de manche avec résultats A implémenter
      */
-
     public void popFinManche() {
         PopFinManche pf = new PopFinManche();
         pf.setTitle("Nekorudo : " + pseudo);
@@ -103,6 +108,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /**
      * Autorise un joueur à jouer son tour
+     *
      * @param paToiDeJouer
      */
     public void setaToiDeJouer(boolean paToiDeJouer) {
@@ -113,29 +119,26 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /**
      * Définit le 1er tour (on ne peut qu'enchérir)
+     *
      * @param ppremierTour
      */
     public void setpremierTour(boolean ppremierTour) {
         this.premierTour = ppremierTour;
     }
 
-   
-
     /**
      * Actualise le champ nos dés
      */
     public void actualiserNosDes() {
-        
         mesDice = "";
         int i;
-        
+
         //Met chaque dé du gobelet dans un String pour affichage
         for (i = 0; i < gobeletJoueur.length; i++) {
             mesDice = mesDice + gobeletJoueur[i] + " ";
         }
-        // mesDice = mesDice.substring(0, mesDice.length() - 3);////////////////////////////////////////////////////////////////////////////////
+        mesDice = mesDice.substring(0, mesDice.length() - 1);////////////////////////////////////////////////////////////////////////////////
         txaNosDes.setText(mesDice);
-        btnLancerDice.setVisible(false); //Masque le bouton "lancer les dés"
     }
 
     /**
@@ -145,17 +148,16 @@ public class ChoixAction extends javax.swing.JDialog {
         lblEnchere.setText("Mise en cours : " + nbDiceParier + "d" + valDice);
     }
 
-    
-
     /**
      * Effectue l'action choisie et masque le pannel
-     * @param choix choix 1 : annoncer menteur  // choix 2 : annoncer tout pile // choix 3 : surenchere
+     *
+     * @param choix choix 1 : annoncer menteur // choix 2 : annoncer tout pile
+     * // choix 3 : surenchere
      * @throws RemoteException
      */
-
     public void annoncer(int choix) throws RemoteException {
-        pnlJouer.setVisible(false);//Masque le panel jouer
-        proxy.actionJoueur(choix, pseudo);
+        //pnlJouer.setVisible(false);//Masque le panel jouer
+        proxy.actionJoueur(choix, pseudo);        
     }
 
     /**
@@ -168,8 +170,6 @@ public class ChoixAction extends javax.swing.JDialog {
     private void initComponents() {
 
         lblPartieDe = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstJoueurs = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         txaNosDes = new javax.swing.JTextArea();
         pnlJouer = new javax.swing.JPanel();
@@ -185,21 +185,12 @@ public class ChoixAction extends javax.swing.JDialog {
         lblNosDes = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txaEnchereEnCours = new javax.swing.JTextArea();
-        btnLancerDice = new javax.swing.JToggleButton();
-        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblPartieDe.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         lblPartieDe.setText("Partie de ---------");
-
-        lstJoueurs.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lstJoueurs.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(lstJoueurs);
 
         txaNosDes.setEditable(false);
         txaNosDes.setColumns(20);
@@ -309,55 +300,35 @@ public class ChoixAction extends javax.swing.JDialog {
         txaEnchereEnCours.setRows(5);
         jScrollPane2.setViewportView(txaEnchereEnCours);
 
-        btnLancerDice.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnLancerDice.setText("Lancer les dés");
-        btnLancerDice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLancerDiceActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 246, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 191, Short.MAX_VALUE)
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
+        jLabel1.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnLancerDice)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblEnchere))
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNosDes)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(223, 223, 223)
+                        .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(21, 21, 21))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblPartieDe)
-                .addGap(329, 329, 329))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(247, 247, 247)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblEnchere))
+                                .addGap(45, 45, 45)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblNosDes)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblPartieDe)
+                                .addGap(126, 126, 126)))
+                        .addComponent(jLabel1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,24 +342,18 @@ public class ChoixAction extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(180, 180, 180)
-                                .addComponent(lblNosDes))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                                .addComponent(lblNosDes)
+                                .addGap(18, 18, 18))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(36, 36, 36)))
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                 .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(99, 99, 99)
-                .addComponent(btnLancerDice)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 255, Short.MAX_VALUE))
         );
 
         pack();
@@ -398,33 +363,33 @@ public class ChoixAction extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfNombreDesActionPerformed
 
-    /*  Récupère la mise    */ 
+    /*  Récupère la mise    */
     private void btnSurencherirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSurencherirActionPerformed
-        
+
         int chiffre;
         int quantite;
-        
+
         try {
             /*Récupère la mise et conversion char->int*/
             chiffre = (cbxChiffreMise.getSelectedIndex() + 2);
             quantite = Integer.parseInt(txfNombreDes.getText());
-            
+
             //Si le nombre de dés misé est nul : on prend pas en compte
-            if (quantite == 0) { 
+            if (quantite == 0) {
                 throw new NullException();
             }
-            
+
             //On ne peut pas miser moins ou pareil que la mise actuelle
             if (!((valDice < chiffre && nbDiceParier <= quantite) || (valDice <= chiffre && nbDiceParier < quantite))) {
                 throw new PetiteMiseException();
-            }         
+            }
 
             if (premierTour == true) {////////////////////////////////////////////////////////////////////////////////// Je ne vois la la différence entre le true et le false                
                 try {
                     proxy.surencherJoueur(chiffre, quantite);
                 } catch (RemoteException ex) {
                     Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
-                }                
+                }
             }
 
             if (premierTour == false) {
@@ -442,8 +407,7 @@ public class ChoixAction extends javax.swing.JDialog {
                 Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            pnlJouer.setVisible(false);//Masque le panel jouer
-
+            //  pnlJouer.setVisible(false);//Masque le panel jouer
         } catch (NullException ex) {
             Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PetiteMiseException ex) {
@@ -455,6 +419,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /*  Annoncer menteur    */
     private void btnMenteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenteurActionPerformed
+   
         try {
             annoncer(1);
         } catch (RemoteException ex) {
@@ -471,14 +436,10 @@ public class ChoixAction extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnToutPileActionPerformed
 
-    private void btnLancerDiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLancerDiceActionPerformed
-        actualiserNosDes();
-    }//GEN-LAST:event_btnLancerDiceActionPerformed
-
     /**
      *
      * @param pmiseNbr
-     * @return String 
+     * @return String
      * @throws RemoteException
      * @throws InterruptedException
      */
@@ -492,13 +453,11 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnLancerDice;
     private javax.swing.JButton btnMenteur;
     private javax.swing.JButton btnSurencherir;
     private javax.swing.JButton btnToutPile;
     private javax.swing.JComboBox<String> cbxChiffreMise;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblAVotreTour;
@@ -506,7 +465,6 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JLabel lblNombreDes;
     private javax.swing.JLabel lblNosDes;
     private javax.swing.JLabel lblPartieDe;
-    private javax.swing.JList<String> lstJoueurs;
     private javax.swing.JLabel lvlChiffre;
     private javax.swing.JPanel pnlJouer;
     private javax.swing.JTextArea txaEnchereEnCours;
@@ -516,6 +474,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /**
      * Lance une nouvelle manche
+     *
      * @param pAToiDeJouer
      * @return
      */
@@ -523,7 +482,8 @@ public class ChoixAction extends javax.swing.JDialog {
         int i;
 
         nbDiceParier = 0;
-        valDice = 2;
+        valDice = 2;   
+        
 
         actualiserMise();
 
@@ -546,6 +506,8 @@ public class ChoixAction extends javax.swing.JDialog {
         }
 
         gobeletJoueur = intDecoupeGobelet;
+        
+        premierTour = true;
 
         mainDuJoueur();
 
@@ -554,7 +516,8 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /**
      * Pas implémenté
-     * @param fddds Paramètre inutile
+     *
+     * @param fddds Paramètre "fictif" pour RMI
      */
     public void frameNotifVictoire(String fddds) {
         lblPartieDe.setText("VICTOIRE!!!!");
@@ -562,7 +525,8 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /**
      * Pas implémenté
-     * @param dsg
+     *
+     * @param dsg Paramètre "fictif" pour RMI
      */
     public void frameNotifLoose(String dsg) {
         lblPartieDe.setText("Vous avez PERDU");

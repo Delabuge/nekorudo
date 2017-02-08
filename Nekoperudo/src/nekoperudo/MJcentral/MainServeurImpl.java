@@ -1,20 +1,15 @@
 package nekoperudo.MJcentral;
 
-import static java.lang.Thread.sleep;
 import java.rmi.Naming;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import nekoperudo.IfJoueur.JoueurNotificationImpl;
 import nekoperudo.IfJoueur.Nekoperudo;
-
 
 public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
@@ -110,7 +105,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                 for (j = 0; j < listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice; j++) {
                     notifAtoiJouerGobelet = notifAtoiJouerGobelet + listeJoueurs.get(indexPseudoJoueurs.get(i)).gobelet[j];
                 }
-                notifAtoiJouerGobelet = notifAtoiJouerGobelet.substring(0, notifAtoiJouerGobelet.length() - 1);
 
                 if (i != numAToiDeJouer) {
                     notifAtoiJouerGobelet = notifAtoiJouerGobelet + ",false";
@@ -119,7 +113,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     notifAtoiJouerGobelet = notifAtoiJouerGobelet + ",true";
                     listeCoJoueurs.get(indexPseudoJoueurs.get(i)).initialiserPartie(notifAtoiJouerGobelet);
                 }
-
             }
         }
 
@@ -153,7 +146,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice = listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).nbDice - 1;
                 }
 
-                
                 finManche();
                 finTour();
 
@@ -175,7 +167,7 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     System.out.println(listeJoueurs.get(indexPseudoJoueurs.get(numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
                     System.out.println("222222222222");
                 }
-              
+
                 finManche();
                 finTour();
 
@@ -261,9 +253,7 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     System.out.println("Erreur de valeur de dés");
             }
         }
-        //    System.out.println("nbr1 " + nbr1 + " nbr2 " + nbr2 + " nbr3 " + nbr3 + " nbr4 " + nbr4 + " nbr5 " + nbr5 + " nbr6 " + nbr6 + " nbr " + nbr);
 
-        // System.out.println("Mise " + miseMax.nbDiceParier + " " + miseMax.valDice);
         // Tout-pile validé
         if (miseMax.nbDiceParier == nbr) {
             miseVrai = 1;
@@ -297,7 +287,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
             } else {
                 listeCoJoueurs.get(indexPseudoJoueurs.get(i)).nouveauTour(true);
             }
-
         }
     }
 
@@ -315,7 +304,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
             // listeCoJoueurs.get(indexPseudoJoueurs.get(i)).notifSurencherNbr(miseMax.valDice);
             System.out.println("Mise max envoyé à " + indexPseudoJoueurs.get(i));
         }
-
     }
 
     public void finManche() throws RemoteException {
@@ -326,6 +314,8 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         String notifAtoiJouerGobelet;
         boolean gagnant = false;
         String emploieFictif = "d";
+
+        System.out.println("FinManche in");
 
         miseMax.nbDiceParier = 0;
         miseMax.valDice = 2;
@@ -370,7 +360,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     for (j = 0; j < listeJoueurs.get(indexPseudoJoueurs.get(i)).nbDice; j++) {
                         notifAtoiJouerGobelet = notifAtoiJouerGobelet + listeJoueurs.get(indexPseudoJoueurs.get(i)).gobelet[j];
                     }
-                    notifAtoiJouerGobelet = notifAtoiJouerGobelet.substring(0, notifAtoiJouerGobelet.length() - 1);
 
                     if (i != numAToiDeJouer) {
                         notifAtoiJouerGobelet = notifAtoiJouerGobelet + ",false";
@@ -392,13 +381,12 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
             System.out.println("pré envoie notif victoire a " + numJoueurGagnant);
             listeCoJoueurs.get(indexPseudoJoueurs.get(numJoueurGagnant)).notifVictoire(emploieFictif);
-
         }
 
         if (numJoueurPerdu != -1) {
             listeJoueurs.remove(indexPseudoJoueurs.get(numJoueurPerdu));
             indexPseudoJoueurs.remove(numJoueurPerdu);
         }
-
+        System.out.println("FinManche out");
     }
 }

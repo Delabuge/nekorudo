@@ -7,7 +7,6 @@ package nekoperudo.IfJoueur;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import nekoperudo.MJcentral.Mise;
 
 /**
  *

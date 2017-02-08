@@ -22,14 +22,6 @@ public class Bienvenue extends javax.swing.JDialog {
      */
     public Bienvenue() {
         initComponents();
-
-        /*Image*/
-        ImageIcon icone = new ImageIcon("C:/Firefox_baby.png");
-        JLabel image = new JLabel(icone);
-        image.setSize(jPanel1.getWidth(), jPanel1.getHeight());
-        jPanel1.add(image);
-        jPanel1.repaint();
-
     }
 
     /**
@@ -50,9 +42,9 @@ public class Bienvenue extends javax.swing.JDialog {
         btnRejoindre = new javax.swing.JButton();
         btnQuitter = new javax.swing.JButton();
         btnRegles = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         txfServeur = new javax.swing.JTextField();
         lblNomServeur = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         popupMenu1.setLabel("popupMenu1");
 
@@ -97,41 +89,31 @@ public class Bienvenue extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 232, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 203, Short.MAX_VALUE)
-        );
-
         txfServeur.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
         txfServeur.setText("localhost");
 
         lblNomServeur.setFont(new java.awt.Font("Cambria", 0, 24)); // NOI18N
         lblNomServeur.setText("Nom du serveur :");
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
+        jLabel1.setFocusable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(btnCreerPartie)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnQuitter)
-                .addGap(63, 63, 63))
+                .addGap(104, 104, 104))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(326, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblNekorudo)
-                        .addGap(80, 80, 80)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38))
+                        .addGap(350, 350, 350))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnRejoindre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -147,15 +129,18 @@ public class Bienvenue extends javax.swing.JDialog {
                                 .addComponent(lblPseudo)
                                 .addGap(48, 48, 48)
                                 .addComponent(txfPseudo, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(281, 281, 281))))
+                        .addGap(281, 281, 281))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 27, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblNekorudo, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addComponent(lblNekorudo)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblPseudo, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -185,8 +170,8 @@ public class Bienvenue extends javax.swing.JDialog {
     private void btnRejoindreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejoindreActionPerformed
 
         Nekoperudo proxy;
-        try {           
-            
+        try {
+
             proxy = (Nekoperudo) Naming.lookup("MJ");   //Connexion au serveur central         
             //proxy = (Nekoperudo) Naming.lookup("rmi://192.168.1.1:1099/MJ");
 
@@ -196,7 +181,7 @@ public class Bienvenue extends javax.swing.JDialog {
             if (txfPseudo.getText().isEmpty()) {
                 throw new ChampVideException();
             }
-            
+
             //Ajoute le joueur à la liste de participants sur le serveur
             proxy.rejoindrePartie(this.getPseudo(), notif);
 
@@ -205,7 +190,7 @@ public class Bienvenue extends javax.swing.JDialog {
             fa.setTitle("Nekorudo : " + getPseudo());
             fa.setLocationRelativeTo(null);
             fa.setVisible(true);
-            
+
             this.setVisible(false);
             notif.setFileAttente(fa);
 
@@ -244,7 +229,7 @@ public class Bienvenue extends javax.swing.JDialog {
     private javax.swing.JButton btnQuitter;
     private javax.swing.JButton btnRegles;
     private javax.swing.JButton btnRejoindre;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblNekorudo;
     private javax.swing.JLabel lblNomServeur;
     private javax.swing.JLabel lblPseudo;
