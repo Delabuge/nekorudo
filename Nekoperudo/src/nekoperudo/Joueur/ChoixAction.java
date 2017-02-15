@@ -187,6 +187,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
         txtRetourManche = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jLabelBulle = new javax.swing.JLabel();
         jLabelNomDePartie = new javax.swing.JLabel();
         lblPartieDe = new javax.swing.JLabel();
         pnlJouer = new javax.swing.JPanel();
@@ -218,26 +219,41 @@ public class ChoixAction extends javax.swing.JDialog {
                 formWindowClosed(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        txtRetourManche.setBorder(null);
         txtRetourManche.setFocusable(false);
         txtRetourManche.setWheelScrollingEnabled(false);
 
-        jTextArea1.setColumns(15);
+        jTextArea1.setColumns(10);
+        jTextArea1.setFont(new java.awt.Font("Monospaced", 1, 13)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(3);
+        jTextArea1.setText("Bienvenue dans le Nekoperudo!");
+        jTextArea1.setToolTipText("");
         jTextArea1.setWrapStyleWord(true);
         jTextArea1.setAutoscrolls(false);
+        jTextArea1.setBorder(null);
         jTextArea1.setFocusable(false);
         txtRetourManche.setViewportView(jTextArea1);
 
+        getContentPane().add(txtRetourManche, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 100, 160, -1));
+
+        jLabelBulle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bulle.png"))); // NOI18N
+        jLabelBulle.setText("jLabel7");
+        getContentPane().add(jLabelBulle, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, 250, 130));
+
+        jLabelNomDePartie.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabelNomDePartie.setText("Vous êtes dans la partie : ");
+        getContentPane().add(jLabelNomDePartie, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 230, -1));
 
         lblPartieDe.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         lblPartieDe.setText("Partie de ---------");
+        getContentPane().add(lblPartieDe, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 11, -1, -1));
 
         pnlJouer.setBackground(new java.awt.Color(255, 255, 255));
-        pnlJouer.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
         pnlJouer.setForeground(new java.awt.Color(153, 153, 153));
+        pnlJouer.setOpaque(false);
 
         btnSurencherir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnSurencherir.setText("Surencherir");
@@ -317,7 +333,7 @@ public class ChoixAction extends javax.swing.JDialog {
                     .addComponent(btnSurencherir)
                     .addComponent(btnMenteur)
                     .addComponent(btnToutPile))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(pnlJouerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombreDes)
                     .addComponent(txfNombreDes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -326,17 +342,21 @@ public class ChoixAction extends javax.swing.JDialog {
                 .addGap(20, 20, 20))
         );
 
+        getContentPane().add(pnlJouer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, -1));
+
         lblEnchere.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblEnchere.setText("Enchère en cours :");
+        getContentPane().add(lblEnchere, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
 
         lblNosDes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblNosDes.setText("Vos dés :");
+        getContentPane().add(lblNosDes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
 
         imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
         imageChat.setFocusable(false);
+        getContentPane().add(imageChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 60, -1, -1));
 
         jPanelDice.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelDice.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
         jPanelDice.setOpaque(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
@@ -379,67 +399,14 @@ public class ChoixAction extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background-game.jpg"))); // NOI18N
+        getContentPane().add(jPanelDice, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background-gamev2.jpg"))); // NOI18N
         jLabel6.setText("jLabel6");
         jLabel6.setMaximumSize(new java.awt.Dimension(800, 600));
         jLabel6.setMinimumSize(new java.awt.Dimension(800, 600));
         jLabel6.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(270, 270, 270)
-                .addComponent(lblPartieDe))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNosDes)
-                        .addGap(416, 416, 416)
-                        .addComponent(imageChat))
-                    .addComponent(lblEnchere)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jPanelDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(330, 330, 330)
-                        .addComponent(txtRetourManche, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(272, 272, 272)
-                .addComponent(jLabelNomDePartie))
-            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(lblPartieDe)
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(lblNosDes))
-                    .addComponent(imageChat)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(lblEnchere))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(jPanelDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20)
-                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jLabelNomDePartie)
-                .addGap(51, 51, 51)
-                .addComponent(txtRetourManche, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1050, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -553,6 +520,7 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabelBulle;
     private javax.swing.JLabel jLabelNomDePartie;
     private javax.swing.JPanel jPanelDice;
     private javax.swing.JTextArea jTextArea1;
@@ -775,6 +743,9 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     public void frameNotifManche(String pNotifResultatManche) {
+        jLabelBulle.setVisible(true);
+        txtRetourManche.setVisible(true);
+        jTextArea1.setVisible(true);
         jTextArea1.setText(pNotifResultatManche);
     }
 }

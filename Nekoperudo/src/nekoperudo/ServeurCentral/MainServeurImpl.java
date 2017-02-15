@@ -13,14 +13,6 @@ import nekoperudo.Interface.Nekoperudo;
 
 public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
-    /*    List<String> indexPseudoJoueurs = new ArrayList<String>();
-    Map<String, JoueurNotification> listeCoJoueurs = new HashMap<String, JoueurNotification>(6);
-    Map<String, Joueur> listeJoueurs = new HashMap<String, Joueur>(6);
-    int nbrJoueurPret = 0;
-    int numAToiDeJouer = 0;
-    int numTour = 0;
-    int nbDice = 0;
-    int valDiceParier = 0;*/
     Mise miseMax = new Mise(0, 2);
 
     String[] couleurJoueur = {"Blanc", "Bleu", "Jaune", "Noir", "Rouge", "Vert"};
@@ -46,30 +38,27 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
     }
 
+    /**
+     *
+     * @param id
+     * @param b
+     * @throws RemoteException
+     */
+    @Override
     public synchronized void enregistrerNotification(String id, JoueurNotification b) throws RemoteException {
         Joueur cpt = new Joueur();
         cpt.setNotification(b);
     }
 
-    public boolean selectionnerPartie(String pPseudo, int pChoixPartie, JoueurNotification pNotif) throws RemoteException {
-        boolean joueurAjouteOk = false;
-        Mise miseJ = new Mise(0, 2);
-        int choixPartie = pChoixPartie;
-
-        if (listePartie.get(pChoixPartie).nbrJoueurPret < listePartie.get(pChoixPartie).nbrJoueurMax) {
-            listePartie.get(pChoixPartie).listeJoueurs.put(pPseudo, listePartie.get(pChoixPartie).listeJoueurs.get(pPseudo));
-            listePartie.get(pChoixPartie).indexPseudoJoueurs.add(pPseudo);
-            listePartie.get(pChoixPartie).listeCoJoueurs.put(pPseudo, pNotif);
-            listePartie.get(pChoixPartie).nbrJoueurPret = listePartie.get(pChoixPartie).nbrJoueurPret + 1;
-            System.out.println("Joueur " + pPseudo + " ajouter à la partie " + listePartie.get(pChoixPartie).nomPartie);
-        } else {
-            pNotif.notifTropDeJoueur(listePartie.get(pChoixPartie).nomPartie);
-            System.out.println("Joueur " + pPseudo + " a tenté de rejoindre une partie complete");
-        }
-
-        return joueurAjouteOk;
-    }
-
+    /**
+     *
+     * @param pPseudo
+     * @param pNotif
+     * @param ppChoixPartie
+     * @return
+     * @throws RemoteException
+     */
+    @Override
     public boolean rejoindrePartie(String pPseudo, JoueurNotification pNotif, int ppChoixPartie) throws RemoteException {
         boolean joueurAjouteOk = false;
         Mise miseJ = new Mise(0, 2);
@@ -103,6 +92,15 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         return joueurAjouteOk;
     }
 
+    /**
+     *
+     * @param pPseudo
+     * @param pNotif
+     * @param ppChoixPartie
+     * @return
+     * @throws RemoteException
+     */
+    @Override
     public boolean JoueurPret(String pPseudo, JoueurNotification pNotif, int ppChoixPartie) throws RemoteException {
         boolean JoueurPretOk = false;
         int i;
@@ -123,7 +121,6 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
             k = 1;
         }
         for (i = k; i < listePartie.get(pChoixPartie).nbrJoueurMax; i++) {
-
             if (listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(i)).JoueurPret == true) {
                 listePartie.get(pChoixPartie).nbrJoueurPret = listePartie.get(pChoixPartie).nbrJoueurPret + 1;
                 System.out.println("Partie " + pChoixPartie + " nbrJoueurPret=" + listePartie.get(pChoixPartie).nbrJoueurPret + "listeJoueurs.size()=" + listePartie.get(pChoixPartie).listeJoueurs.size());
@@ -131,8 +128,8 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     break;
                 }
             }
+}
 
-        }
 
         if (listePartie.get(pChoixPartie).nbrJoueurPret == listePartie.get(pChoixPartie).nbrJoueurMax) {
 
@@ -165,6 +162,14 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         return JoueurPretOk;
     }
 
+    /**
+     *
+     * @param pChoixJoueur
+     * @param pPseudo
+     * @param ppChoixPartie
+     * @throws RemoteException
+     */
+    @Override
     public void actionJoueur(int pChoixJoueur, String pPseudo, int ppChoixPartie) throws RemoteException {
         int i;
         System.out.println("Action Joueur :");
@@ -348,6 +353,14 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         }
     }
 
+    /**
+     *
+     * @param chiffre
+     * @param quantite
+     * @param ppChoixPartie
+     * @throws RemoteException
+     */
+    @Override
     public void surencherJoueur(int chiffre, int quantite, int ppChoixPartie) throws RemoteException {
         int i;
         String miseRenvoyer;

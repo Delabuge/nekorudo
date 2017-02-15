@@ -27,8 +27,7 @@ public interface Nekoperudo extends java.rmi.Remote {
 
     public void surencherJoueur(int chiffre, int quantite, int pChoixPartie) throws java.rmi.RemoteException;
     
-    public boolean selectionnerPartie(String pPseudo, int pChoixPartie, JoueurNotification pNotif)  throws java.rmi.RemoteException;
-
+ 
     public interface JoueurNotification extends Remote {
 
         public String initialiserPartie(String pAtoiDeJouer) throws RemoteException;

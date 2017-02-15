@@ -4,7 +4,7 @@ package nekoperudo.Joueur;
 import javax.swing.SwingUtilities;
 
 //Lance un nouveau joueur
-public class AaRun {
+public class RunClient {
     
 	public static void main(String[] args){
 		SwingUtilities.invokeLater(new Runnable(){
