@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import nekoperudo.Interface.Nekoperudo;
 
 public class FileAttente extends javax.swing.JDialog {
@@ -14,6 +15,7 @@ public class FileAttente extends javax.swing.JDialog {
     String serveur;
     Nekoperudo proxy;
     JoueurNotificationImpl notif;
+    int choixPartie;
 
     public FileAttente(String pseudo, String serveur, Nekoperudo pProxy, JoueurNotificationImpl pNotif) {
 
@@ -38,8 +40,11 @@ public class FileAttente extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListPartie = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jButtonPret.setText("Pret");
         jButtonPret.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -61,44 +66,52 @@ public class FileAttente extends javax.swing.JDialog {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
         jLabel2.setFocusable(false);
 
+        jListPartie.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Partie 2j", "Partie 3j", "Partie 4j", "Partie 5j", "Partie 6j" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jListPartie);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(225, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(349, 349, 349)
-                                .addComponent(jLabel7))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(460, 460, 460)
-                                .addComponent(jButtonPret)))
-                        .addGap(0, 363, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(160, 160, 160)
-                        .addComponent(jLabel2)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(32, 32, 32)))
+                        .addGap(10, 10, 10))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonPret)
+                        .addGap(155, 155, 155)))
+                .addGap(39, 39, 39)
+                .addComponent(jLabel2)
+                .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(138, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(54, 54, 54))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jLabel7)
-                .addGap(42, 42, 42)
-                .addComponent(jButtonPret)
-                .addGap(285, 285, 285))
+                        .addGap(403, 403, 403))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(49, 49, 49)
+                        .addComponent(jLabel7)
+                        .addGap(39, 39, 39)
+                        .addComponent(jButtonPret)
+                        .addGap(50, 50, 50)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100))))
         );
 
         pack();
@@ -106,14 +119,16 @@ public class FileAttente extends javax.swing.JDialog {
 
     /*Bouton permettant de faire pret*/
     private void jButtonPretActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretActionPerformed
-
+        choixPartie = jListPartie.getSelectedIndex() + 2;
+        System.out.println("Choix partie = " + choixPartie);
+        System.out.println("Choix partie s'apelle " + jListPartie.getSelectedValue());
         try {
-            proxy.JoueurPret(pseudo, notif);
+            //Ajoute le joueur à la liste de participants sur le serveur
+            proxy.rejoindrePartie(this.getPseudo(), notif, choixPartie);
+            proxy.JoueurPret(pseudo, notif, choixPartie);
         } catch (RemoteException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_jButtonPretActionPerformed
 
     private void jButtonPretMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonPretMouseClicked
@@ -122,6 +137,7 @@ public class FileAttente extends javax.swing.JDialog {
 
     /**
      * Initialise la partie
+     *
      * @param pAToiDeJouer
      * @return
      * @throws RemoteException
@@ -135,7 +151,7 @@ public class FileAttente extends javax.swing.JDialog {
             sleep(250);
         } catch (InterruptedException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
-        }                      
+        }
 
         String[] stringDecoupepAToiDeJouer = pAToiDeJouer.split(",");
         boolean baToiDeJouer = Boolean.parseBoolean(stringDecoupepAToiDeJouer[1]);
@@ -149,7 +165,7 @@ public class FileAttente extends javax.swing.JDialog {
             intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
         }
 
-        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, baToiDeJouer, intDecoupeGobelet);
+        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, baToiDeJouer, intDecoupeGobelet, choixPartie);
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
         c1.setVisible(true);
@@ -158,10 +174,20 @@ public class FileAttente extends javax.swing.JDialog {
         return "";
     }
 
+    public void frameTropDeJoueur(String pTropDeJoueur) {
+        JOptionPane.showMessageDialog(this, "Cette partie est complète.", "Erreur", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jButtonPret;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JList<String> jListPartie;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,29 +17,33 @@ import java.rmi.RemoteException;
  */
 public interface Nekoperudo extends java.rmi.Remote {
 
-    public boolean rejoindrePartie(String pseudo, JoueurNotification b) throws java.rmi.RemoteException;
+    public boolean rejoindrePartie(String pseudo, JoueurNotification b, int pChoixPartie) throws java.rmi.RemoteException;
 
-    public boolean JoueurPret(String pseudo, JoueurNotification b) throws java.rmi.RemoteException;
+    public boolean JoueurPret(String pseudo, JoueurNotification b, int pChoixPartie) throws java.rmi.RemoteException;
 
     public void enregistrerNotification(String id, JoueurNotification b) throws java.rmi.RemoteException;
 
-    public void actionJoueur(int choix, String pseudo) throws java.rmi.RemoteException;
+    public void actionJoueur(int choix, String pseudo, int pChoixPartie) throws java.rmi.RemoteException;
 
-    public void surencherJoueur(int chiffre, int quantite) throws java.rmi.RemoteException;
+    public void surencherJoueur(int chiffre, int quantite, int pChoixPartie) throws java.rmi.RemoteException;
+    
+    public boolean selectionnerPartie(String pPseudo, int pChoixPartie, JoueurNotification pNotif)  throws java.rmi.RemoteException;
 
     public interface JoueurNotification extends Remote {
 
         public String initialiserPartie(String pAtoiDeJouer) throws RemoteException;
 
-        public String notifVictoire(String dsg) throws RemoteException;
+        public String notifVictoire(String pVictoire) throws RemoteException;
         
-        public String notifLoose(String dsg) throws RemoteException;
+        public String notifLoose(String pLoose) throws RemoteException;
 
         public String prochainTour(String pAtoiDeJouer) throws RemoteException;
 
         public String nouveauTour(boolean pAtoiDeJouer) throws RemoteException;
 
         public String notifSurencherNbr(String nbrDice) throws RemoteException;
+        
+         public String notifTropDeJoueur(String pTropJoueur) throws RemoteException;
 
         //  public String notifSurencherVal(int valDice) throws RemoteException;
         public String nouvelleManche(String pAtoiDeJouer) throws RemoteException;       

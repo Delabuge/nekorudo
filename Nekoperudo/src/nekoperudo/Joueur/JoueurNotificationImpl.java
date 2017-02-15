@@ -82,9 +82,8 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
     public void setaToiDeJouer(boolean b) {
         chAction.setaToiDeJouer(b);
     }
-
+        
     public String notifSurencherNbr(String nbrDice) throws RemoteException {
-
         try {
             chAction.frameNotifSurencherNbr(nbrDice);
 
@@ -105,6 +104,11 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
     public String notifLoose(String dsg) throws RemoteException {
         chAction.frameNotifLoose(dsg);
 
+        return "";
+    }
+
+    public String notifTropDeJoueur(String pTropJoueur) throws RemoteException {
+        fAttente.frameTropDeJoueur(pTropJoueur);
         return "";
     }
 

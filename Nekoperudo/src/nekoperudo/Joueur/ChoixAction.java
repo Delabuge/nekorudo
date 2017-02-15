@@ -17,13 +17,14 @@ public class ChoixAction extends javax.swing.JDialog {
     Nekoperudo proxy;
     JoueurNotificationImpl notif;
     boolean aToiDeJouer;
-    boolean premierTour = true;
+    //   boolean premierTour = true;
 
     public int nbDiceParier = 0;
 
     public int valDice = 2;
 
     public int[] gobeletJoueur;
+    int choixPartie;
 
     /**
      * Constructeur, initialise et appelle mainDuJoueur()
@@ -37,7 +38,7 @@ public class ChoixAction extends javax.swing.JDialog {
      * @throws RemoteException
      * @throws InterruptedException
      */
-    public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif, boolean pAToiDeJouer, int[] pGobeletJoueur) throws RemoteException, InterruptedException {
+    public ChoixAction(String pPseudo, String pServeur, Nekoperudo pProxy, JoueurNotificationImpl pNotif, boolean pAToiDeJouer, int[] pGobeletJoueur, int pChoixPartie) throws RemoteException, InterruptedException {
 
         initComponents();
 
@@ -47,6 +48,7 @@ public class ChoixAction extends javax.swing.JDialog {
         this.notif = pNotif;
         this.aToiDeJouer = pAToiDeJouer;
         this.gobeletJoueur = pGobeletJoueur;
+        this.choixPartie = pChoixPartie;
 
         lblPartieDe.setText("Partie de " + serveur);//initialise le titre
 
@@ -65,7 +67,7 @@ public class ChoixAction extends javax.swing.JDialog {
     public void mainDuJoueur() {
         actualiserMise();
         actualiserNosDes();
-        
+
         pnlJouer.setVisible(true);
         lblAVotreTour.setVisible(true);
         btnSurencherir.setVisible(true);
@@ -73,6 +75,7 @@ public class ChoixAction extends javax.swing.JDialog {
         btnToutPile.setVisible(true);
 
         if (aToiDeJouer == false) {
+            imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/attenteTour.png")));
             lblAVotreTour.setText("Un autre joueur joue...");
 
             btnSurencherir.setEnabled(false);
@@ -80,14 +83,14 @@ public class ChoixAction extends javax.swing.JDialog {
             btnToutPile.setEnabled(false);
         }
         if (aToiDeJouer == true) {
-
+            imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png")));
             lblAVotreTour.setText("A toi de jouer!");
 
             btnSurencherir.setEnabled(true);
             btnMenteur.setEnabled(true);
             btnToutPile.setEnabled(true);
 
-            if (premierTour == true) {
+            if (nbDiceParier == 0) {
                 btnSurencherir.setEnabled(true);
                 btnMenteur.setEnabled(false);
                 btnToutPile.setEnabled(false);
@@ -112,7 +115,7 @@ public class ChoixAction extends javax.swing.JDialog {
      */
     public void setaToiDeJouer(boolean paToiDeJouer) {
         this.aToiDeJouer = paToiDeJouer;
-        premierTour = false;
+        //   premierTour = false;
         mainDuJoueur();
     }
 
@@ -122,7 +125,7 @@ public class ChoixAction extends javax.swing.JDialog {
      * @param ppremierTour
      */
     public void setpremierTour(boolean ppremierTour) {
-        this.premierTour = ppremierTour;
+        //    this.premierTour = ppremierTour;
     }
 
     /**
@@ -131,11 +134,21 @@ public class ChoixAction extends javax.swing.JDialog {
     public void actualiserNosDes() {
         mesDice = "";
         int i;
+        int stock = gobeletJoueur[0];
+        int[] gobeletDuJoueur = new int[5];
 
         //Met chaque dé du gobelet dans un String pour affichage
-        for (i = 0; i < gobeletJoueur.length; i++) {
-            mesDice = mesDice + gobeletJoueur[i] + " ";
+        gobeletDuJoueur[0] = (stock / 10000) % 10;
+        gobeletDuJoueur[1] = (stock / 1000) % 10;
+        gobeletDuJoueur[2] = (stock / 100) % 10;
+        gobeletDuJoueur[3] = (stock / 10) % 10;
+        gobeletDuJoueur[4] = stock % 10;
+
+        for (i = 0; i < gobeletDuJoueur.length; i++) {
+            mesDice = mesDice + gobeletDuJoueur[i] + " ";
+            affichageDe(i, gobeletDuJoueur[i]);
         }
+
         mesDice = mesDice.substring(0, mesDice.length() - 1);////////////////////////////////////////////////////////////////////////////////
         txaNosDes.setText(mesDice);
     }
@@ -156,7 +169,7 @@ public class ChoixAction extends javax.swing.JDialog {
      */
     public void annoncer(int choix) throws RemoteException {
         //pnlJouer.setVisible(false);//Masque le panel jouer
-        proxy.actionJoueur(choix, pseudo);        
+        proxy.actionJoueur(choix, pseudo, choixPartie);
     }
 
     /**
@@ -184,9 +197,16 @@ public class ChoixAction extends javax.swing.JDialog {
         lblNosDes = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txaEnchereEnCours = new javax.swing.JTextArea();
+        imageChat = new javax.swing.JLabel();
+        nomPartie = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         lblPartieDe.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         lblPartieDe.setText("Partie de ---------");
@@ -299,34 +319,63 @@ public class ChoixAction extends javax.swing.JDialog {
         txaEnchereEnCours.setRows(5);
         jScrollPane2.setViewportView(txaEnchereEnCours);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
-        jLabel1.setFocusable(false);
+        imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
+        imageChat.setFocusable(false);
+
+        nomPartie.setText("Vous êtes dans la partie :");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nomPartie)
+                    .addComponent(lblPartieDe))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(223, 223, 223)
-                        .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(247, 247, 247)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(247, 247, 247)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblEnchere))
-                                .addGap(45, 45, 45)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblNosDes)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblPartieDe)
-                                .addGap(126, 126, 126)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblEnchere)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(442, 442, 442)
                         .addComponent(jLabel1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNosDes))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(imageChat)
+                        .addGap(282, 282, 282))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(223, 223, 223)
+                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -341,16 +390,23 @@ public class ChoixAction extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(nomPartie)
+                                .addGap(96, 96, 96)
                                 .addComponent(lblNosDes)
-                                .addGap(18, 18, 18))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(36, 36, 36)))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(imageChat, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addGap(39, 39, 39)
                 .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(73, 73, 73))
         );
@@ -383,17 +439,17 @@ public class ChoixAction extends javax.swing.JDialog {
                 throw new PetiteMiseException();
             }
 
-            if (premierTour == true) {////////////////////////////////////////////////////////////////////////////////// Je ne vois la la différence entre le true et le false                
+            if (nbDiceParier == 0) {////////////////////////////////////////////////////////////////////////////////// Je ne vois la la différence entre le true et le false                
                 try {
-                    proxy.surencherJoueur(chiffre, quantite);
+                    proxy.surencherJoueur(chiffre, quantite, choixPartie);
                 } catch (RemoteException ex) {
                     Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
-            if (premierTour == false) {
+            if (nbDiceParier != 0) {
                 try {
-                    proxy.surencherJoueur(chiffre, quantite);
+                    proxy.surencherJoueur(chiffre, quantite, choixPartie);
                 } catch (RemoteException ex) {
                     Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -401,7 +457,7 @@ public class ChoixAction extends javax.swing.JDialog {
             System.out.println("chiffre " + chiffre);
             System.out.println("quantite " + quantite);
             try {
-                proxy.actionJoueur(3, pseudo);
+                proxy.actionJoueur(3, pseudo, choixPartie);
             } catch (RemoteException ex) {
                 Logger.getLogger(ChoixAction.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -418,7 +474,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
     /*  Annoncer menteur    */
     private void btnMenteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenteurActionPerformed
-   
+
         try {
             annoncer(1);
         } catch (RemoteException ex) {
@@ -456,7 +512,12 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JButton btnSurencherir;
     private javax.swing.JButton btnToutPile;
     private javax.swing.JComboBox<String> cbxChiffreMise;
+    private javax.swing.JLabel imageChat;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblAVotreTour;
@@ -465,6 +526,7 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JLabel lblNosDes;
     private javax.swing.JLabel lblPartieDe;
     private javax.swing.JLabel lvlChiffre;
+    private javax.swing.JLabel nomPartie;
     private javax.swing.JPanel pnlJouer;
     private javax.swing.JTextArea txaEnchereEnCours;
     private javax.swing.JTextArea txaNosDes;
@@ -481,8 +543,7 @@ public class ChoixAction extends javax.swing.JDialog {
         int i;
 
         nbDiceParier = 0;
-        valDice = 2;   
-        
+        valDice = 2;
 
         actualiserMise();
 
@@ -504,9 +565,18 @@ public class ChoixAction extends javax.swing.JDialog {
             intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
         }
 
+        System.out.println("intDecoupeGobelet.length " + intDecoupeGobelet.length + " gobeletJoueur.length " + gobeletJoueur.length);
+        if (intDecoupeGobelet.length < gobeletJoueur.length) {
+            imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PerdDe.png")));
+            JOptionPane.showConfirmDialog(this, "Vous avez perdu un dé", "Echec", JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (intDecoupeGobelet.length > gobeletJoueur.length) {
+            imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/GagneDe.png")));
+            JOptionPane.showConfirmDialog(this, "Vous avez gagné un dé", "Réussite", JOptionPane.ERROR_MESSAGE);
+        }
+
         gobeletJoueur = intDecoupeGobelet;
-        
-        premierTour = true;
 
         mainDuJoueur();
 
@@ -528,6 +598,141 @@ public class ChoixAction extends javax.swing.JDialog {
      * @param dsg Paramètre "fictif" pour RMI
      */
     public void frameNotifLoose(String dsg) {
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
         lblPartieDe.setText("Vous avez PERDU");
+    }
+
+    public void affichageDe(int pNumDe, int pValDe) {
+        int numDe = pNumDe + 1;
+        switch (numDe) {
+            case 1:
+                switch (pValDe) {
+                    case 0:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
+                        break;
+                    case 1:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png")));
+                        break;
+                    case 2:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2.png")));
+                        break;
+                    case 3:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3.png")));
+                        break;
+                    case 4:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/4.png")));
+                        break;
+                    case 5:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png")));
+                        break;
+                    case 6:
+                        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/6.png")));
+                        break;
+                }
+                break;
+            case 2:
+                switch (pValDe) {
+                    case 0:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
+                        break;
+                    case 1:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png")));
+                        break;
+                    case 2:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2.png")));
+                        break;
+                    case 3:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3.png")));
+                        break;
+                    case 4:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/4.png")));
+                        break;
+                    case 5:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png")));
+                        break;
+                    case 6:
+                        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/6.png")));
+                        break;
+                }
+                break;
+
+            case 3:
+                switch (pValDe) {
+                    case 0:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
+                        break;
+                    case 1:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png")));
+                        break;
+                    case 2:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2.png")));
+                        break;
+                    case 3:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3.png")));
+                        break;
+                    case 4:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/4.png")));
+                        break;
+                    case 5:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png")));
+                        break;
+                    case 6:
+                        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/6.png")));
+                        break;
+                }
+                break;
+
+            case 4:
+                switch (pValDe) {
+                    case 0:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
+                        break;
+                    case 1:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png")));
+                        break;
+                    case 2:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2.png")));
+                        break;
+                    case 3:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3.png")));
+                        break;
+                    case 4:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/4.png")));
+                        break;
+                    case 5:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png")));
+                        break;
+                    case 6:
+                        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/6.png")));
+                        break;
+                }
+                break;
+
+            case 5:
+                switch (pValDe) {
+                    case 0:
+                        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
+                        break;
+                    case 1:
+                        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png")));
+                        break;
+                    case 2:
+                        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/2.png")));
+                        break;
+                    case 3:
+                        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3.png")));
+                        break;
+                    case 4:
+                        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/4.png")));
+                        break;
+                    case 5:
+                        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/5.png")));
+                        break;
+                    case 6:
+                        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/6.png")));
+                        break;
+                }
+                break;
+        }
     }
 }
