@@ -73,7 +73,7 @@ public class Bienvenue extends javax.swing.JDialog {
 
         btnCreerPartie.setText("Créer une partie ( non dispo)");
 
-        btnRejoindre.setText("Rejoindre une partie");
+        btnRejoindre.setText("Connexion serveur");
         btnRejoindre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRejoindreActionPerformed(evt);

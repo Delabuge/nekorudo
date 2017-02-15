@@ -107,6 +107,7 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         boolean JoueurPretOk = false;
         int i;
         int j;
+        int k;
         String notifAtoiJouerGobelet;
         String pChoixPartie = Integer.toString(ppChoixPartie);
 
@@ -116,17 +117,24 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
             JoueurPretOk = true;
         }
 
-        for (i = 1; i < listePartie.get(pChoixPartie).listeJoueurs.size(); i++) {
+        if (listePartie.get(pChoixPartie).nbrJoueurMax == 2) {
+            k = 0;
+        } else {
+            k = 1;
+        }
+        for (i = k; i < listePartie.get(pChoixPartie).nbrJoueurMax; i++) {
+
             if (listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(i)).JoueurPret == true) {
                 listePartie.get(pChoixPartie).nbrJoueurPret = listePartie.get(pChoixPartie).nbrJoueurPret + 1;
                 System.out.println("Partie " + pChoixPartie + " nbrJoueurPret=" + listePartie.get(pChoixPartie).nbrJoueurPret + "listeJoueurs.size()=" + listePartie.get(pChoixPartie).listeJoueurs.size());
-                if (listePartie.get(pChoixPartie).nbrJoueurPret == listePartie.get(pChoixPartie).listeJoueurs.size()) {
+                if (listePartie.get(pChoixPartie).nbrJoueurPret == listePartie.get(pChoixPartie).nbrJoueurMax) {
                     break;
                 }
             }
+
         }
 
-        if (listePartie.get(pChoixPartie).nbrJoueurPret == listePartie.get(pChoixPartie).listeJoueurs.size()) {
+        if (listePartie.get(pChoixPartie).nbrJoueurPret == listePartie.get(pChoixPartie).nbrJoueurMax) {
 
             Random joueurRandom = new Random();
             int num1erJoueurRandom = joueurRandom.nextInt(listePartie.get(pChoixPartie).listeJoueurs.size());
@@ -158,10 +166,13 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
     }
 
     public void actionJoueur(int pChoixJoueur, String pPseudo, int ppChoixPartie) throws RemoteException {
+        int i;
         System.out.println("Action Joueur :");
         int actionReussit = 0;
         int numprecedent = 0;
+        String retourResultat = " ";
         String pChoixPartie = Integer.toString(ppChoixPartie);
+
         switch (pChoixJoueur) {
 
             // Annonce Menteur
@@ -177,13 +188,16 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                         numprecedent = listePartie.get(pChoixPartie).numAToiDeJouer - 1;
                     }
                     System.out.println("numAToiDeJouer " + listePartie.get(pChoixPartie).numAToiDeJouer);
-                    System.out.println("A cause de " + listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).pseudo + ", " + listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(numprecedent)).pseudo + " perd 1d");
+                    retourResultat = "A cause de " + listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).pseudo + ", " + listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(numprecedent)).pseudo + " perd 1d";
                     listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(numprecedent)).nbDice = listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(numprecedent)).nbDice - 1;
                 } else {
-                    System.out.println(listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
                     listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).nbDice = listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).nbDice - 1;
+                    retourResultat = listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d";
                 }
 
+                for (i = 0; i < listePartie.get(pChoixPartie).listeJoueurs.size(); i++) {
+                    listePartie.get(pChoixPartie).listeCoJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(i)).resultatManche(retourResultat);
+                }
                 finManche(ppChoixPartie);
                 finTour(ppChoixPartie);
 
@@ -196,12 +210,16 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
                 if (actionReussit == 1) {
                     if (listePartie.get(pChoixPartie).listeJoueurs.get(pPseudo).nbDice < 5) {
-                        //     listeJoueurs.get(pPseudo).nbDice = listeJoueurs.get(pPseudo).nbDice + 1;
                         listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).nbDice = listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).nbDice + 1;
                     }
                 } else {
                     listePartie.get(pChoixPartie).listeJoueurs.get(pPseudo).nbDice = listePartie.get(pChoixPartie).listeJoueurs.get(pPseudo).nbDice - 1;
-                    System.out.println(listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).pseudo + " s'est trompé! il perd 1d");
+                    retourResultat = listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(listePartie.get(pChoixPartie).numAToiDeJouer)).pseudo + " s'est trompé en annoncant tout pile! il perd 1d";
+                }
+
+            
+                for (i = 0; i < listePartie.get(pChoixPartie).listeJoueurs.size(); i++) {
+                    listePartie.get(pChoixPartie).listeCoJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(i)).resultatManche(retourResultat);
                 }
 
                 finManche(ppChoixPartie);
@@ -435,4 +453,5 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
         }
         System.out.println("FinManche out");
     }
+
 }

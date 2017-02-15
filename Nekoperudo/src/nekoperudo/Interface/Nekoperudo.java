@@ -46,6 +46,8 @@ public interface Nekoperudo extends java.rmi.Remote {
          public String notifTropDeJoueur(String pTropJoueur) throws RemoteException;
 
         //  public String notifSurencherVal(int valDice) throws RemoteException;
-        public String nouvelleManche(String pAtoiDeJouer) throws RemoteException;       
+        public String nouvelleManche(String pAtoiDeJouer) throws RemoteException;
+        
+        public String resultatManche(String pNotifResultatManche) throws RemoteException;
     }
 }

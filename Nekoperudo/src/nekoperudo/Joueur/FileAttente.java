@@ -45,13 +45,8 @@ public class FileAttente extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
 
-        jButtonPret.setText("Rejoindre");
+        jButtonPret.setText("Rejoindre partie");
         jButtonPret.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonPretMouseClicked(evt);
@@ -117,6 +112,7 @@ public class FileAttente extends javax.swing.JDialog {
 
     /*Bouton permettant de faire pret*/
     private void jButtonPretActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretActionPerformed
+        
         choixPartie = jListPartie.getSelectedIndex() + 2;
         System.out.println("Choix partie = " + choixPartie);
         System.out.println("Choix partie s'apelle " + jListPartie.getSelectedValue());
@@ -127,15 +123,13 @@ public class FileAttente extends javax.swing.JDialog {
         } catch (RemoteException ex) {
             Logger.getLogger(FileAttente.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
     }//GEN-LAST:event_jButtonPretActionPerformed
 
     private void jButtonPretMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonPretMouseClicked
-        //   jButtonPret.setEnabled(false);
+                jButtonPret.setEnabled(false);
     }//GEN-LAST:event_jButtonPretMouseClicked
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        System.exit(0);
-    }//GEN-LAST:event_formWindowClosed
 
     /**
      * Initialise la partie
@@ -167,7 +161,7 @@ public class FileAttente extends javax.swing.JDialog {
             intDecoupeGobelet[i] = Integer.parseInt(stringDecoupeGobelet[i]);
         }
 
-        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, baToiDeJouer, intDecoupeGobelet, choixPartie);
+        ChoixAction c1 = new ChoixAction(pseudo, serveur, proxy, notif, baToiDeJouer, intDecoupeGobelet, choixPartie,jListPartie.getSelectedValue());
         c1.setTitle("Nekorudo : " + pseudo);
         c1.setLocationRelativeTo(null);
         c1.setVisible(true);
