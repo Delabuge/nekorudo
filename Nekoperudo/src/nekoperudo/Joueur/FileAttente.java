@@ -68,6 +68,8 @@ public class FileAttente extends javax.swing.JDialog {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        jListPartie.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListPartie.setAutoscrolls(false);
         jScrollPane1.setViewportView(jListPartie);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

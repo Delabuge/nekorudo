@@ -218,24 +218,22 @@ public class ChoixAction extends javax.swing.JDialog {
                 formWindowClosed(evt);
             }
         });
-        getContentPane().setLayout(null);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        txtRetourManche.setFocusable(false);
+        txtRetourManche.setWheelScrollingEnabled(false);
+
+        jTextArea1.setColumns(15);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(3);
+        jTextArea1.setWrapStyleWord(true);
         jTextArea1.setAutoscrolls(false);
+        jTextArea1.setFocusable(false);
         txtRetourManche.setViewportView(jTextArea1);
 
-        getContentPane().add(txtRetourManche);
-        txtRetourManche.setBounds(390, 90, 166, 96);
-
         jLabelNomDePartie.setText("Vous êtes dans la partie : ");
-        getContentPane().add(jLabelNomDePartie);
-        jLabelNomDePartie.setBounds(272, 60, 125, 14);
 
         lblPartieDe.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         lblPartieDe.setText("Partie de ---------");
-        getContentPane().add(lblPartieDe);
-        lblPartieDe.setBounds(270, 11, 269, 44);
 
         pnlJouer.setBackground(new java.awt.Color(255, 255, 255));
         pnlJouer.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
@@ -328,23 +326,14 @@ public class ChoixAction extends javax.swing.JDialog {
                 .addGap(20, 20, 20))
         );
 
-        getContentPane().add(pnlJouer);
-        pnlJouer.setBounds(30, 360, 735, 190);
-
         lblEnchere.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblEnchere.setText("Enchère en cours :");
-        getContentPane().add(lblEnchere);
-        lblEnchere.setBounds(60, 120, 147, 22);
 
         lblNosDes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblNosDes.setText("Vos dés :");
-        getContentPane().add(lblNosDes);
-        lblNosDes.setBounds(60, 160, 74, 22);
 
         imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
         imageChat.setFocusable(false);
-        getContentPane().add(imageChat);
-        imageChat.setBounds(550, 60, 150, 150);
 
         jPanelDice.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDice.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
@@ -390,16 +379,67 @@ public class ChoixAction extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanelDice);
-        jPanelDice.setBounds(110, 200, 618, 140);
-
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background-game.jpg"))); // NOI18N
         jLabel6.setText("jLabel6");
         jLabel6.setMaximumSize(new java.awt.Dimension(800, 600));
         jLabel6.setMinimumSize(new java.awt.Dimension(800, 600));
         jLabel6.setPreferredSize(new java.awt.Dimension(800, 600));
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(0, 0, 1050, 670);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(270, 270, 270)
+                .addComponent(lblPartieDe))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblNosDes)
+                        .addGap(416, 416, 416)
+                        .addComponent(imageChat))
+                    .addComponent(lblEnchere)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jPanelDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(330, 330, 330)
+                        .addComponent(txtRetourManche, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(272, 272, 272)
+                .addComponent(jLabelNomDePartie))
+            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(lblPartieDe)
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(lblNosDes))
+                    .addComponent(imageChat)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(lblEnchere))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jPanelDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
+                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(jLabelNomDePartie)
+                .addGap(51, 51, 51)
+                .addComponent(txtRetourManche, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -584,6 +624,7 @@ public class ChoixAction extends javax.swing.JDialog {
      */
     public void frameNotifVictoire(String fddds) {
         lblPartieDe.setText("VICTOIRE!!!!");
+        imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/GagneDe.png")));
     }
 
     /**
@@ -596,6 +637,7 @@ public class ChoixAction extends javax.swing.JDialog {
         imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
         lblAVotreTour.setText("Partie perdu");
         lblPartieDe.setText("DEFAITE");
+        imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PerdDe.png")));
     }
 
     public void affichageDe(int pNumDe, int pValDe) {
