@@ -39,14 +39,19 @@ public class FileAttente extends javax.swing.JDialog {
         jButtonPret = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListPartie = new javax.swing.JList<>();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
-        jButtonPret.setText("Pret");
+        jButtonPret.setText("Rejoindre");
         jButtonPret.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonPretMouseClicked(evt);
@@ -59,12 +64,9 @@ public class FileAttente extends javax.swing.JDialog {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("Attente de joueurs ....");
+        jLabel1.setText("Attente de joueurs ...");
 
         jLabel7.setText("La partie commencera quand tout les joueurs seront prêts");
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
-        jLabel2.setFocusable(false);
 
         jListPartie.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Partie 2j", "Partie 3j", "Partie 4j", "Partie 5j", "Partie 6j" };
@@ -73,45 +75,41 @@ public class FileAttente extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jListPartie);
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("SELECTIONNER UNE PARTIE :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(225, Short.MAX_VALUE)
+                .addContainerGap(233, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(32, 32, 32)))
-                        .addGap(10, 10, 10))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButtonPret)
-                        .addGap(155, 155, 155)))
-                .addGap(39, 39, 39)
-                .addComponent(jLabel2)
-                .addGap(26, 26, 26))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jLabel3)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonPret, javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.CENTER))
+                        .addGap(6, 6, 6)))
+                .addGap(217, 217, 217))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(47, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(403, 403, 403))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel7)
-                        .addGap(39, 39, 39)
-                        .addComponent(jButtonPret)
-                        .addGap(50, 50, 50)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100))))
+                .addContainerGap(148, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(70, 70, 70)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonPret)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addGap(107, 107, 107))
         );
 
         pack();
@@ -134,6 +132,10 @@ public class FileAttente extends javax.swing.JDialog {
     private void jButtonPretMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonPretMouseClicked
         //   jButtonPret.setEnabled(false);
     }//GEN-LAST:event_jButtonPretMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * Initialise la partie
@@ -185,7 +187,7 @@ public class FileAttente extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton jButtonPret;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JList<String> jListPartie;
     private javax.swing.JScrollPane jScrollPane1;

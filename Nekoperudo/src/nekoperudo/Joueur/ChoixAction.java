@@ -1,10 +1,15 @@
 package nekoperudo.Joueur;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import nekoperudo.Interface.Nekoperudo;
@@ -25,6 +30,7 @@ public class ChoixAction extends javax.swing.JDialog {
 
     public int[] gobeletJoueur;
     int choixPartie;
+    boolean miseEnPageOk = false;
 
     /**
      * Constructeur, initialise et appelle mainDuJoueur()
@@ -58,6 +64,12 @@ public class ChoixAction extends javax.swing.JDialog {
         btnMenteur.setVisible(true);
         btnToutPile.setVisible(true);
 
+        //   if (miseEnPageOk = false) {
+        pnlJouer.setBackground(new Color(255, 255, 255, 125));
+        jPanelDice.setBackground(new Color(255, 255, 255, 125));
+        miseEnPageOk = true;
+        //   }
+
         mainDuJoueur();
     }
 
@@ -65,6 +77,7 @@ public class ChoixAction extends javax.swing.JDialog {
      * Permet à un joueur de jouer (ou non) et actualise la mise et les nos dés
      */
     public void mainDuJoueur() {
+
         actualiserMise();
         actualiserNosDes();
 
@@ -132,7 +145,6 @@ public class ChoixAction extends javax.swing.JDialog {
      * Actualise le champ nos dés
      */
     public void actualiserNosDes() {
-        mesDice = "";
         int i;
         int stock = gobeletJoueur[0];
         int[] gobeletDuJoueur = new int[5];
@@ -145,12 +157,8 @@ public class ChoixAction extends javax.swing.JDialog {
         gobeletDuJoueur[4] = stock % 10;
 
         for (i = 0; i < gobeletDuJoueur.length; i++) {
-            mesDice = mesDice + gobeletDuJoueur[i] + " ";
             affichageDe(i, gobeletDuJoueur[i]);
         }
-
-        mesDice = mesDice.substring(0, mesDice.length() - 1);////////////////////////////////////////////////////////////////////////////////
-        txaNosDes.setText(mesDice);
     }
 
     /**
@@ -182,8 +190,6 @@ public class ChoixAction extends javax.swing.JDialog {
     private void initComponents() {
 
         lblPartieDe = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txaNosDes = new javax.swing.JTextArea();
         pnlJouer = new javax.swing.JPanel();
         btnSurencherir = new javax.swing.JButton();
         btnMenteur = new javax.swing.JButton();
@@ -195,28 +201,28 @@ public class ChoixAction extends javax.swing.JDialog {
         cbxChiffreMise = new javax.swing.JComboBox<>();
         lblEnchere = new javax.swing.JLabel();
         lblNosDes = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txaEnchereEnCours = new javax.swing.JTextArea();
         imageChat = new javax.swing.JLabel();
         nomPartie = new javax.swing.JLabel();
+        jPanelDice = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(null);
+        setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lblPartieDe.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         lblPartieDe.setText("Partie de ---------");
-
-        txaNosDes.setEditable(false);
-        txaNosDes.setColumns(20);
-        txaNosDes.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
-        txaNosDes.setRows(15);
-        txaNosDes.setTabSize(15);
-        jScrollPane3.setViewportView(txaNosDes);
 
         pnlJouer.setForeground(new java.awt.Color(153, 153, 153));
 
@@ -313,12 +319,6 @@ public class ChoixAction extends javax.swing.JDialog {
         lblNosDes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblNosDes.setText("Vos dés :");
 
-        txaEnchereEnCours.setEditable(false);
-        txaEnchereEnCours.setColumns(20);
-        txaEnchereEnCours.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
-        txaEnchereEnCours.setRows(5);
-        jScrollPane2.setViewportView(txaEnchereEnCours);
-
         imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png"))); // NOI18N
         imageChat.setFocusable(false);
 
@@ -334,81 +334,93 @@ public class ChoixAction extends javax.swing.JDialog {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/1.png"))); // NOI18N
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelDiceLayout = new javax.swing.GroupLayout(jPanelDice);
+        jPanelDice.setLayout(jPanelDiceLayout);
+        jPanelDiceLayout.setHorizontalGroup(
+            jPanelDiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDiceLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomPartie)
-                    .addComponent(lblPartieDe))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(247, 247, 247)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblEnchere)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(442, 442, 442)
-                        .addComponent(jLabel1)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNosDes))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(imageChat)
-                        .addGap(282, 282, 282))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(223, 223, 223)
-                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(lblPartieDe)
-                        .addGap(123, 123, 123)
-                        .addComponent(lblEnchere)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(nomPartie)
-                                .addGap(96, 96, 96)
-                                .addComponent(lblNosDes)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(imageChat, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanelDiceLayout.setVerticalGroup(
+            jPanelDiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDiceLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelDiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
-                .addGap(39, 39, 39)
-                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(73, 73, 73))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background-game.jpg"))); // NOI18N
+        jLabel6.setText("jLabel6");
+        jLabel6.setMaximumSize(new java.awt.Dimension(800, 600));
+        jLabel6.setMinimumSize(new java.awt.Dimension(800, 600));
+        jLabel6.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(334, 334, 334)
+                .addComponent(nomPartie))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(lblNosDes))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(600, 600, 600)
+                .addComponent(imageChat))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(lblEnchere))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jPanelDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(270, 270, 270)
+                .addComponent(lblPartieDe))
+            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 1050, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(nomPartie))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(160, 160, 160)
+                .addComponent(lblNosDes))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(imageChat))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addComponent(lblEnchere))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(360, 360, 360)
+                .addComponent(pnlJouer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(200, 200, 200)
+                .addComponent(jPanelDice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(lblPartieDe))
+            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -491,6 +503,10 @@ public class ChoixAction extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnToutPileActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      *
      * @param pmiseNbr
@@ -518,8 +534,8 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanelDice;
     private javax.swing.JLabel lblAVotreTour;
     private javax.swing.JLabel lblEnchere;
     private javax.swing.JLabel lblNombreDes;
@@ -528,8 +544,6 @@ public class ChoixAction extends javax.swing.JDialog {
     private javax.swing.JLabel lvlChiffre;
     private javax.swing.JLabel nomPartie;
     private javax.swing.JPanel pnlJouer;
-    private javax.swing.JTextArea txaEnchereEnCours;
-    private javax.swing.JTextArea txaNosDes;
     private javax.swing.JTextField txfNombreDes;
     // End of variables declaration//GEN-END:variables
 
@@ -599,7 +613,9 @@ public class ChoixAction extends javax.swing.JDialog {
      */
     public void frameNotifLoose(String dsg) {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
-        lblPartieDe.setText("Vous avez PERDU");
+        imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
+        lblAVotreTour.setText("Partie perdu");
+        lblPartieDe.setText("DEFAITE");
     }
 
     public void affichageDe(int pNumDe, int pValDe) {

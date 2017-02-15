@@ -21,6 +21,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -37,69 +40,73 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="66" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
                       <Component id="btnCreerPartie" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace pref="126" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lblNekorudo" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnRejoindre" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="lblNomServeur" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="txfServeur" min="-2" pref="197" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="lblPseudo" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Component id="txfPseudo" min="-2" pref="197" max="-2" attributes="0"/>
-                              </Group>
-                              <Component id="btnRegles" alignment="1" min="-2" pref="131" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="lblNomServeur" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblPseudo" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
+              </Group>
+              <Group type="103" groupAlignment="2" attributes="0">
+                  <Component id="txfPseudo" alignment="2" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="lblNekorudo" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="txfServeur" alignment="2" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="btnRejoindre" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnRegles" alignment="2" min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnQuitter" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                      <Component id="btnQuitter" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="80" max="32767" attributes="0"/>
+              <EmptySpace pref="143" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblNekorudo" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="lblNekorudo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txfPseudo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblPseudo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txfServeur" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="lblNomServeur" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblPseudo" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="txfPseudo" alignment="1" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txfServeur" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="lblNomServeur" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
               <Component id="btnRejoindre" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnCreerPartie" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRegles" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnQuitter" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -134,7 +141,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCreerPartie">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cr&#xe9;er une partie ( non dispo dans la version 1 )"/>
+        <Property name="text" type="java.lang.String" value="Cr&#xe9;er une partie ( non dispo)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnRejoindre">
@@ -147,7 +154,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnQuitter">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Quitter la partie"/>
+        <Property name="text" type="java.lang.String" value="Quitter"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnQuitterMouseClicked"/>
