@@ -34,14 +34,16 @@ public class ChoixAction extends javax.swing.JDialog {
     String nomPartie;
 
     /**
-     * Constructeur, initialise et appelle mainDuJoueur()
+     * Constructeur : initialise la partie et appelle mainDuJoueur()
      *
      * @param pPseudo
-     * @param pServeur
-     * @param pProxy
-     * @param pNotif
-     * @param pAToiDeJouer
-     * @param pGobeletJoueur
+     * @param pServeur 
+     * @param pProxy interface
+     * @param pNotif interface
+     * @param pAToiDeJouer true = c'est notre tour
+     * @param pGobeletJoueur dés du joueur
+     * @param pChoixPartie id de la partie en cours
+     * @param pNomPartie nom de la partie
      * @throws RemoteException
      * @throws InterruptedException
      */
@@ -83,7 +85,7 @@ public class ChoixAction extends javax.swing.JDialog {
         btnMenteur.setVisible(true);
         btnToutPile.setVisible(true);
 
-        if (aToiDeJouer == false) {
+        if (aToiDeJouer == false) { // si c'est pas notre tour
             imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/attenteTour.png")));
             lblAVotreTour.setText("Un autre joueur joue...");
 
@@ -91,7 +93,7 @@ public class ChoixAction extends javax.swing.JDialog {
             btnMenteur.setEnabled(false);
             btnToutPile.setEnabled(false);
         }
-        if (aToiDeJouer == true) {
+        if (aToiDeJouer == true) { // si c'est notre tour
             imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cat-bienvenue.png")));
             lblAVotreTour.setText("A toi de jouer!");
 
@@ -99,7 +101,7 @@ public class ChoixAction extends javax.swing.JDialog {
             btnMenteur.setEnabled(true);
             btnToutPile.setEnabled(true);
 
-            if (nbDiceParier == 0) {
+            if (nbDiceParier == 0) { //si c'est le premier tour on ne peut que surenchérir
                 btnSurencherir.setEnabled(true);
                 btnMenteur.setEnabled(false);
                 btnToutPile.setEnabled(false);
@@ -107,16 +109,7 @@ public class ChoixAction extends javax.swing.JDialog {
         }
     }
 
-    /**
-     * Popup de fin de manche avec résultats A implémenter
-     */
-    public void popFinManche() {
-        PopFinManche pf = new PopFinManche();
-        pf.setTitle("Nekorudo : " + pseudo);
-        pf.setLocationRelativeTo(null);
-        pf.setVisible(true);
-    }
-
+    
     /**
      * Autorise un joueur à jouer son tour
      *
@@ -165,7 +158,7 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     /**
-     * Effectue l'action choisie et masque le pannel
+     * Effectue l'action choisie
      *
      * @param choix choix 1 : annoncer menteur // choix 2 : annoncer tout pile
      * // choix 3 : surenchere
@@ -488,13 +481,14 @@ public class ChoixAction extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnToutPileActionPerformed
 
+    /*  Ferme la fenetre    */
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         System.exit(0);
     }//GEN-LAST:event_formWindowClosed
 
-    /**
-     *
-     * @param pmiseNbr
+    /**     
+     * @param pmiseNbr chaine se surenchère (nombre + face)
+     * 
      * @return String
      * @throws RemoteException
      * @throws InterruptedException
@@ -568,12 +562,12 @@ public class ChoixAction extends javax.swing.JDialog {
         }
 
         System.out.println("intDecoupeGobelet.length " + intDecoupeGobelet.length + " gobeletJoueur.length " + gobeletJoueur.length);
-        if (intDecoupeGobelet.length < gobeletJoueur.length) {
+        if (intDecoupeGobelet.length < gobeletJoueur.length) { //change le chat quand on perd un dé
             imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PerdDe.png")));
             JOptionPane.showConfirmDialog(this, "Vous avez perdu un dé", "Echec", JOptionPane.ERROR_MESSAGE);
         }
 
-        if (intDecoupeGobelet.length > gobeletJoueur.length) {
+        if (intDecoupeGobelet.length > gobeletJoueur.length) { //change le chat quand on gagne un dé
             imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/GagneDe.png")));
             JOptionPane.showConfirmDialog(this, "Vous avez gagné un dé", "Réussite", JOptionPane.ERROR_MESSAGE);
         }
@@ -586,7 +580,7 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     /**
-     * Pas implémenté
+     * Signale que le joueur à gagné
      *
      * @param fddds Paramètre "fictif" pour RMI
      */
@@ -596,7 +590,7 @@ public class ChoixAction extends javax.swing.JDialog {
     }
 
     /**
-     * Pas implémenté
+     * Signale que le joueur à perdu
      *
      * @param dsg Paramètre "fictif" pour RMI
      */
@@ -608,10 +602,16 @@ public class ChoixAction extends javax.swing.JDialog {
         imageChat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PerdDe.png")));
     }
 
+    /**
+     * Affiche les dés de la page
+     * 
+     * @param pNumDe numéro du dé
+     * @param pValDe valeur du dé
+     */
     public void affichageDe(int pNumDe, int pValDe) {
         int numDe = pNumDe + 1;
         switch (numDe) {
-            case 1:
+            case 1: // Premier dé
                 switch (pValDe) {
                     case 0:
                         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/vide.png")));
@@ -742,6 +742,11 @@ public class ChoixAction extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Affiche le résultat de la manche
+     * 
+     * @param pNotifResultatManche texte de la bulle
+     */
     public void frameNotifManche(String pNotifResultatManche) {
         jLabelBulle.setVisible(true);
         txtRetourManche.setVisible(true);

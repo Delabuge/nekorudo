@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package nekoperudo.Joueur;
 
 import java.rmi.RemoteException;
@@ -14,10 +10,6 @@ import nekoperudo.Joueur.FileAttente;
 import nekoperudo.Interface.Nekoperudo.JoueurNotification;
 import nekoperudo.ServeurCentral.Joueur;
 
-/**
- *
- * @author Pascal
- */
 public class JoueurNotificationImpl extends UnicastRemoteObject
         implements JoueurNotification {
 
@@ -37,7 +29,6 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
 
     public String initialiserPartie(String pAToiDeJouer) throws RemoteException {
         try {
-
             fAttente.frameInitialiserPartie(pAToiDeJouer);
         } catch (InterruptedException ex) {
             Logger.getLogger(JoueurNotificationImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,7 +39,6 @@ public class JoueurNotificationImpl extends UnicastRemoteObject
 
     public String prochainTour(String pAToiDeJouer) throws RemoteException {
         try {
-
             fAttente.frameInitialiserPartie(pAToiDeJouer);
         } catch (InterruptedException ex) {
             Logger.getLogger(JoueurNotificationImpl.class.getName()).log(Level.SEVERE, null, ex);

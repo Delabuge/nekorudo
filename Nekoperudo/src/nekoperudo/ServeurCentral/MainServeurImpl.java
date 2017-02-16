@@ -39,7 +39,8 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
     }
 
     /**
-     *
+     * Créé un nouveau joueur
+     * 
      * @param id
      * @param b
      * @throws RemoteException
@@ -93,7 +94,8 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
     }
 
     /**
-     *
+     * Quand un joueur fait pret, s'il est le dernier à faire pret on lance la partie
+     * 
      * @param pPseudo
      * @param pNotif
      * @param ppChoixPartie
@@ -114,13 +116,16 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
 
             JoueurPretOk = true;
         }
-
+        
+        // Traite séparément la partie avec 2 joueurs pour éviter une erreur
         if (listePartie.get(pChoixPartie).nbrJoueurMax == 2) {
             k = 0;
         } else {
             k = 1;
         }
-        for (i = k; i < listePartie.get(pChoixPartie).nbrJoueurMax; i++) {
+        
+        //Attend que les parties soient pleinnes avant de commencer        
+        for (i = k; i < listePartie.get(pChoixPartie).nbrJoueurMax; i++) { 
             if (listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(i)).JoueurPret == true) {
                 listePartie.get(pChoixPartie).nbrJoueurPret = listePartie.get(pChoixPartie).nbrJoueurPret + 1;
                 System.out.println("Partie " + pChoixPartie + " nbrJoueurPret=" + listePartie.get(pChoixPartie).nbrJoueurPret + "listeJoueurs.size()=" + listePartie.get(pChoixPartie).listeJoueurs.size());
@@ -128,17 +133,19 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
                     break;
                 }
             }
-}
+        }
 
-
+        // Si la partie est pleinne on commence à jouer
         if (listePartie.get(pChoixPartie).nbrJoueurPret == listePartie.get(pChoixPartie).nbrJoueurMax) {
 
+            // Choix du 1er joueur
             Random joueurRandom = new Random();
             int num1erJoueurRandom = joueurRandom.nextInt(listePartie.get(pChoixPartie).listeJoueurs.size());
             listePartie.get(pChoixPartie).numAToiDeJouer = num1erJoueurRandom;
 
             listePartie.get(pChoixPartie).listeJoueurs.get(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(num1erJoueurRandom)).AToiDeJouer = true;
             System.out.println(listePartie.get(pChoixPartie).indexPseudoJoueurs.get(num1erJoueurRandom) + " est le premier a jouer");
+            
             //Pour de prochaines parties, on réinitialise la var nbrJoueurPret
             int nbrJoueurPret = 0;
 
@@ -163,10 +170,11 @@ public class MainServeurImpl extends UnicastRemoteObject implements Nekoperudo {
     }
 
     /**
-     *
-     * @param pChoixJoueur
-     * @param pPseudo
-     * @param ppChoixPartie
+     * Tour d'un joueur
+     * 
+     * @param pChoixJoueur action choisie
+     * @param pPseudo joueur courant
+     * @param ppChoixPartie 
      * @throws RemoteException
      */
     @Override
