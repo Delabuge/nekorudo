@@ -40,7 +40,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="66" max="32767" attributes="0"/>
+              <EmptySpace pref="113" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnCreerPartie" min="-2" max="-2" attributes="0"/>
@@ -141,8 +141,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCreerPartie">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cr&#xe9;er une partie ( non dispo)"/>
+        <Property name="text" type="java.lang.String" value="Cr&#xe9;er une partie"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreerPartieActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnRejoindre">
       <Properties>

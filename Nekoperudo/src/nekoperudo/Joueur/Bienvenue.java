@@ -1,6 +1,8 @@
 package nekoperudo.Joueur;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -15,6 +17,7 @@ public class Bienvenue extends javax.swing.JDialog {
 
     String pseudo;
     String serveur;
+    String adresseMachine;
 
     /**
      * Constructeur
@@ -71,7 +74,12 @@ public class Bienvenue extends javax.swing.JDialog {
         lblNekorudo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblNekorudo.setText("NEKORUDO");
 
-        btnCreerPartie.setText("Créer une partie ( non dispo)");
+        btnCreerPartie.setText("Créer une partie");
+        btnCreerPartie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreerPartieActionPerformed(evt);
+            }
+        });
 
         btnRejoindre.setText("Connexion serveur");
         btnRejoindre.addActionListener(new java.awt.event.ActionListener() {
@@ -108,7 +116,7 @@ public class Bienvenue extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
+                .addContainerGap(113, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnCreerPartie)
@@ -180,10 +188,7 @@ public class Bienvenue extends javax.swing.JDialog {
             //Crée un nouveau joueur
             JoueurNotificationImpl notif = new JoueurNotificationImpl("Bob");
             proxy.enregistrerNotification("Bob", notif);
-            if (txfPseudo.getText().isEmpty()) {
-                throw new ChampVideException();
-            }
-
+            
 
 
             //Création et ouverture de la page fileAttente
@@ -203,6 +208,8 @@ public class Bienvenue extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Serveur inexistant.", "Erreur", JOptionPane.ERROR_MESSAGE);
         } catch (ChampVideException ex) {
             JOptionPane.showMessageDialog(this, "Veuillez renseigner le pseudo.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (ChampVideServeurException ex) {
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le serveur.", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRejoindreActionPerformed
 
@@ -227,6 +234,53 @@ public class Bienvenue extends javax.swing.JDialog {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         System.exit(0);
     }//GEN-LAST:event_formWindowClosing
+
+    /*  Créer une partie    */
+    private void btnCreerPartieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreerPartieActionPerformed
+        
+        try {
+            
+            /********useless*****/
+            //Récupère l'adresse de l'hote
+            InetAddress address = InetAddress.getLocalHost(); 
+            adresseMachine = address.getHostAddress();
+            System.out.println(adresseMachine);
+            /*****************/
+            
+            
+            Nekoperudo proxy;
+            
+            
+            //proxy = (Nekoperudo) Naming.lookup("MJ");   //Connexion au serveur central
+            proxy = (Nekoperudo) Naming.lookup("rmi://" + getServeur() + ":1099/MJ");
+
+            //Crée un nouveau joueur
+            JoueurNotificationImpl notif = new JoueurNotificationImpl("Bob");
+            proxy.enregistrerNotification("Bob", notif);
+            
+            
+            //Création et ouverture de la page creer partie
+            CreerPartie cp = new CreerPartie(this.getPseudo(), this.getRMIObject(proxy), this.getNotif(notif));
+            cp.setTitle("Nekorudo : " + getPseudo());
+            cp.setLocationRelativeTo(null);
+            cp.setVisible(true);
+
+            this.setVisible(false);
+            
+        }catch (NotBoundException ex) {
+            JOptionPane.showMessageDialog(this, "Registre incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (MalformedURLException ex) {
+            JOptionPane.showMessageDialog(this, "Format de l'adresse incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(this, "Serveur inexistant.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (ChampVideException ex) {
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le pseudo.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (UnknownHostException ex) {
+            JOptionPane.showMessageDialog(this, "Adresse inconnue", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (ChampVideServeurException ex) {
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le serveur.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCreerPartieActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -263,8 +317,11 @@ public class Bienvenue extends javax.swing.JDialog {
      *
      * @return String serveur
      */
-    public String getServeur() {
+    public String getServeur() throws ChampVideServeurException {
         serveur = txfServeur.getText();
+        if (txfServeur.getText().isEmpty()) { //Si le champ est vide
+            throw new ChampVideServeurException();
+        }
         return serveur;
     }
 
